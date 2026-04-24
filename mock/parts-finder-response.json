@@ -1,0 +1,125 @@
+{
+  "endpoint": "/api/parts-finder",
+  "request": {
+    "method": "GET",
+    "query": {
+      "brand": "volkswagen",
+      "model": "tiguan",
+      "year": "2016",
+      "engine": "20-petrol",
+      "modification": "tsi-14-20",
+      "group": ["water-pumps", "fans"]
+    },
+    "selected": {
+      "brand": { "id": "volkswagen", "label": "Volkswagen" },
+      "model": { "id": "tiguan", "label": "Tiguan" },
+      "year": { "id": "2016", "label": "2016" },
+      "engine": { "id": "20-petrol", "label": "2.0 бензиновый" },
+      "modification": { "id": "tsi-14-20", "label": "бензин TSI 1.4-2.0 л" },
+      "productGroups": [
+        { "id": "water-pumps", "label": "Насосы водяные" },
+        { "id": "fans", "label": "Вентиляторы" }
+      ]
+    }
+  },
+  "title": "Подберите детали для легковых и грузовых автомобилей",
+  "mode": "vehicle",
+  "tabs": [
+    { "id": "vehicle", "label": "Подобрать по авто", "active": true, "disabled": false },
+    { "id": "vin", "label": "Подобрать по VIN и госномеру", "active": false, "disabled": true }
+  ],
+  "controls": [
+    {
+      "id": "brand",
+      "type": "single",
+      "label": "Марка",
+      "placeholder": "Марка",
+      "queryKey": "brand",
+      "disabled": false,
+      "value": { "id": "volkswagen", "label": "Volkswagen" },
+      "options": [
+        { "id": "lada", "label": "Lada" },
+        { "id": "haval", "label": "Haval" },
+        { "id": "volkswagen", "label": "Volkswagen" }
+      ]
+    },
+    {
+      "id": "model",
+      "type": "single",
+      "label": "Модель",
+      "placeholder": "Модель",
+      "queryKey": "model",
+      "disabled": false,
+      "value": { "id": "tiguan", "label": "Tiguan" },
+      "options": [{ "id": "tiguan", "label": "Tiguan" }]
+    },
+    {
+      "id": "year",
+      "type": "single",
+      "label": "Год",
+      "placeholder": "Год",
+      "queryKey": "year",
+      "disabled": false,
+      "value": { "id": "2016", "label": "2016" },
+      "options": [{ "id": "2016", "label": "2016" }]
+    },
+    {
+      "id": "engine",
+      "type": "single",
+      "label": "Объем двигателя",
+      "placeholder": "Объем двигателя",
+      "queryKey": "engine",
+      "disabled": false,
+      "value": { "id": "20-petrol", "label": "2.0 бензиновый" },
+      "options": [{ "id": "20-petrol", "label": "2.0 бензиновый" }]
+    },
+    {
+      "id": "modification",
+      "type": "single",
+      "label": "Модификация",
+      "placeholder": "Модификация",
+      "queryKey": "modification",
+      "disabled": false,
+      "value": { "id": "tsi-14-20", "label": "бензин TSI 1.4-2.0 л" },
+      "options": [{ "id": "tsi-14-20", "label": "бензин TSI 1.4-2.0 л" }]
+    },
+    {
+      "id": "productGroups",
+      "type": "multi",
+      "label": "Группа товаров",
+      "placeholder": "Группа товаров",
+      "queryKey": "group",
+      "disabled": false,
+      "value": [
+        { "id": "water-pumps", "label": "Насосы водяные" },
+        { "id": "fans", "label": "Вентиляторы" }
+      ],
+      "options": [
+        { "id": "radiators", "label": "Радиаторы" },
+        { "id": "water-pumps", "label": "Насосы водяные" },
+        { "id": "fans", "label": "Вентиляторы" }
+      ],
+      "allSelected": false
+    }
+  ],
+  "submit": {
+    "label": "Подобрать",
+    "disabled": false
+  },
+  "history": {
+    "enabled": true,
+    "label": "Мои авто",
+    "items": [
+      {
+        "id": "audi-a4-2015",
+        "brand": { "id": "audi", "label": "Audi" },
+        "model": { "id": "a4-b8", "label": "A4 B8 (08-)" },
+        "year": { "id": "2015", "label": "2015" },
+        "engine": { "id": "20-petrol", "label": "2.0 бензиновый" },
+        "modification": { "id": "a4-tfsi", "label": "A4 2.0 TFSI quattro 190 л.с." },
+        "vin": "1234567890ABCDEFG",
+        "plate": ""
+      }
+    ]
+  }
+}

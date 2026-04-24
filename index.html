@@ -4,17 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
-    <title>LUZAR compatible starter</title>
+    <title>LUZAR - подбор запчастей</title>
     <link rel="stylesheet" href="styles/luzar-base.css">
+    <link rel="stylesheet" href="styles/parts-finder.css">
   </head>
   <body>
     <div class="page">
       <header class="page-header">
         <div class="page__center">
           <div class="header-shell">
-            <a class="logo" href="/" aria-label="LUZAR">
-              LUZAR
-            </a>
+            <a class="logo" href="/" aria-label="LUZAR">LUZAR</a>
 
             <nav class="main-nav" aria-label="Основная навигация">
               <a href="#">Каталог</a>
@@ -29,68 +28,14 @@
       </header>
 
       <main class="page__content">
-        <section class="section section-hero">
-          <div class="page__center">
-            <div class="hero-panel">
-              <div class="hero-panel__content">
-                <p class="eyebrow">Совместимая заготовка</p>
-                <h1 class="page__h1">Базовые стили для страниц в духе LUZAR</h1>
-                <p class="lead">
-                  Шрифты, цвета, контейнер, кнопки, поля и карточки вынесены в легкий CSS-файл.
-                </p>
-                <div class="actions">
-                  <a class="btn btn-filled" href="#">Основное действие</a>
-                  <a class="btn btn-outline" href="#">Вторичное</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="page__center">
-            <div class="section-heading">
-              <p class="l-index__title">Каталог</p>
-              <h2 class="page__h2">Пример карточек</h2>
-            </div>
-
-            <div class="catalog-grid">
-              <a class="catalog-card" href="#">
-                <span class="catalog-card__name">Радиаторы охлаждения</span>
-                <span class="catalog-card__count">1240 товаров</span>
-              </a>
-              <a class="catalog-card" href="#">
-                <span class="catalog-card__name">Вентиляторы</span>
-                <span class="catalog-card__count">340 товаров</span>
-              </a>
-              <a class="catalog-card" href="#">
-                <span class="catalog-card__name">Помпы</span>
-                <span class="catalog-card__count">520 товаров</span>
-              </a>
-              <a class="catalog-card" href="#">
-                <span class="catalog-card__name">Термостаты</span>
-                <span class="catalog-card__count">290 товаров</span>
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section class="section">
-          <div class="page__center">
-            <form class="search-panel" action="#">
-              <div>
-                <p class="l-index__title">Поиск</p>
-                <h2 class="page__h2">Форма подбора</h2>
-              </div>
-              <label class="input-default">
-                <span>Артикул или модель</span>
-                <input type="search" placeholder="Например, LRc 0101">
-              </label>
-              <button class="btn btn-filled" type="submit">Найти</button>
-            </form>
+        <section class="parts-section" aria-labelledby="parts-finder-title">
+          <div class="page__center page__center--wide">
+            <div id="parts-finder" class="parts-finder-shell"></div>
           </div>
         </section>
       </main>
     </div>
+
+    <script src="scripts/parts-finder.js" defer></script>
   </body>
 </html>
