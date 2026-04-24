@@ -1,5 +1,4 @@
 (function () {
-  const STORAGE_KEY = "luzar.partsFinder.history";
   const ENDPOINT = "/api/parts-finder";
   const STEPS = ["brand", "model", "year", "engine", "modification"];
   const CONTROL_WIDTHS = {
@@ -302,11 +301,28 @@
   class MockPartsFinderApi {
     constructor(data) {
       this.data = data;
+      this.history = [...HISTORY_SEED];
     }
 
     async getState(params) {
-      const url = new URL(ENDPOINT, window.location.origin);
-      Object.entries(params.selected).forEach(([key, value]) => {
+      const url = this.buildUrl(params.selected);
+      await wait(140);
+      return this.buildResponse(params, url, "GET");
+    }
+
+    async deleteHistory(id, params) {
+      this.history = this.history.filter((item) => item.id !== id);
+      const url = this.buildUrl(
+        params.selected,
+        `${ENDPOINT}/history/${encodeURIComponent(id)}`,
+      );
+      await wait(140);
+      return this.buildResponse(params, url, "DELETE");
+    }
+
+    buildUrl(selected, endpoint = ENDPOINT) {
+      const url = new URL(endpoint, window.location.origin);
+      Object.entries(selected).forEach(([key, value]) => {
         if (!value) return;
         if (Array.isArray(value)) {
           value.forEach((item) => url.searchParams.append("group", item.id));
@@ -314,11 +330,10 @@
         }
         url.searchParams.set(key, value.id);
       });
-      await wait(140);
-      return this.buildResponse(params, url);
+      return url;
     }
 
-    buildResponse(params, url) {
+    buildResponse(params, url, method) {
       const selected = normalizeSelected(params.selected);
       const options = this.getOptions(selected);
       const controls = this.data.fields.map((field) => {
@@ -344,8 +359,8 @@
       return {
         endpoint: url.pathname,
         request: {
-          method: "GET",
-          query: Object.fromEntries(url.searchParams.entries()),
+          method,
+          query: queryToObject(url.searchParams),
           selected,
         },
         title: this.data.title,
@@ -359,6 +374,7 @@
         history: {
           enabled: true,
           label: "Мои авто",
+          items: this.history,
         },
       };
     }
@@ -402,7 +418,6 @@
       this.openControl = null;
       this.historyOpen = false;
       this.expandedTags = false;
-      this.toastTimer = null;
       this.selected = {
         brand: null,
         model: null,
@@ -411,7 +426,6 @@
         modification: null,
         productGroups: [],
       };
-      this.history = this.loadHistory();
       this.bindEvents();
     }
 
@@ -439,7 +453,6 @@
         if (actionName === "toggle-history") this.toggleHistory();
         if (actionName === "select-history") this.selectHistory(value);
         if (actionName === "delete-history") this.deleteHistory(value);
-        if (actionName === "submit") this.submit();
         if (actionName === "more-tags") this.expandTags();
         if (actionName === "remove-tag") this.removeGroup(value);
         if (actionName === "reset-tags") this.resetGroups();
@@ -484,8 +497,7 @@
           <div class="parts-finder__workspace">
             ${this.tabsTemplate()}
             ${this.inputGroupTemplate()}
-            ${this.historyOpen ? this.historyTemplate() : ""}
-            <div class="pf-toast" aria-live="polite" data-toast></div>
+            ${this.historyOpen && this.response.history?.enabled ? this.historyTemplate() : ""}
           </div>
         </article>
       `;
@@ -505,15 +517,21 @@
       `,
         )
         .join("");
+      const history = this.response.history;
+      const historyToggle = history?.enabled
+        ? `
+          <button class="pf-history-toggle ${this.historyOpen ? "is-open" : ""}" type="button" data-action="toggle-history">
+            ${iconCar()}
+            <span>${escapeHtml(history.label)}</span>
+            <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
+          </button>
+        `
+        : "";
 
       return `
         <div class="pf-tabs" role="tablist" aria-label="Режим подбора">
           <div class="pf-tabs__group">${tabs}</div>
-          <button class="pf-history-toggle ${this.historyOpen ? "is-open" : ""}" type="button" data-action="toggle-history">
-            ${iconCar()}
-            <span>${escapeHtml(this.response.history.label)}</span>
-            <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
-          </button>
+          ${historyToggle}
         </div>
       `;
     }
@@ -522,14 +540,35 @@
       const controls = this.response.controls
         .map((control) => this.controlTemplate(control))
         .join("");
+      const hiddenInputs = this.hiddenInputsTemplate();
+      const action = this.response.endpoint || ENDPOINT;
       return `
-        <div class="pf-input-group">
+        <form class="pf-input-group" action="${escapeAttr(action)}" method="post">
           <div class="pf-controls">${controls}</div>
-          <button class="pf-submit" type="button" data-action="submit" ${this.response.submit.disabled ? "disabled" : ""}>
+          ${hiddenInputs}
+          <button class="pf-submit" type="submit" ${this.response.submit.disabled ? "disabled" : ""}>
             ${escapeHtml(this.response.submit.label)}
           </button>
-        </div>
+        </form>
       `;
+    }
+
+    hiddenInputsTemplate() {
+      return this.response.controls
+        .flatMap((control) => {
+          const queryKey = control.queryKey || control.id;
+          if (control.type === "multi") {
+            return (control.value || []).map(
+              (item) =>
+                `<input type="hidden" name="${escapeAttr(queryKey)}" value="${escapeAttr(item.id)}">`,
+            );
+          }
+          if (!control.value) return [];
+          return [
+            `<input type="hidden" name="${escapeAttr(queryKey)}" value="${escapeAttr(control.value.id)}">`,
+          ];
+        })
+        .join("");
     }
 
     controlTemplate(control) {
@@ -683,7 +722,9 @@
     }
 
     historyTemplate() {
-      if (!this.history.length) {
+      const items = this.response.history?.items || [];
+
+      if (!items.length) {
         return `
           <div class="pf-history pf-history--empty">
             <div class="pf-history-empty" role="status">
@@ -702,7 +743,7 @@
         `;
       }
 
-      const rows = this.history
+      const rows = items
         .map(
           (item) => `
           <div class="pf-history__row">
@@ -765,9 +806,10 @@
     }
 
     async toggleOption(optionId) {
-      const option = MOCK_DATA.productGroups.find(
-        (item) => item.id === optionId,
+      const control = this.response.controls.find(
+        (item) => item.id === "productGroups",
       );
+      const option = control?.options.find((item) => item.id === optionId);
       if (!option) return;
       const selected = this.selected.productGroups;
       const exists = selected.some((item) => item.id === optionId);
@@ -780,11 +822,13 @@
     }
 
     async toggleAllGroups() {
-      const allSelected =
-        this.selected.productGroups.length === MOCK_DATA.productGroups.length;
-      this.selected.productGroups = allSelected
+      const control = this.response.controls.find(
+        (item) => item.id === "productGroups",
+      );
+      if (!control) return;
+      this.selected.productGroups = control.allSelected
         ? []
-        : [...MOCK_DATA.productGroups];
+        : [...control.options];
       this.openControl = null;
       this.expandedTags = false;
       await this.refresh();
@@ -813,13 +857,14 @@
     }
 
     toggleHistory() {
+      if (!this.response.history?.enabled) return;
       this.historyOpen = !this.historyOpen;
       this.openControl = null;
       this.render();
     }
 
     async selectHistory(id) {
-      const item = this.history.find((entry) => entry.id === id);
+      const item = this.response.history?.items.find((entry) => entry.id === id);
       if (!item) return;
       STEPS.forEach((key) => {
         this.selected[key] = item[key];
@@ -830,37 +875,12 @@
       await this.refresh();
     }
 
-    deleteHistory(id) {
-      this.history = this.history.filter((item) => item.id !== id);
-      this.saveHistory();
+    async deleteHistory(id) {
+      this.response = await this.api.deleteHistory(id, {
+        selected: this.selected,
+      });
+      this.openControl = null;
       this.render();
-    }
-
-    async submit() {
-      if (this.response.submit.disabled) {
-        const next = this.response.controls.find(
-          (control) => control.disabled === false && !control.value,
-        );
-        if (next) this.openControl = next.id;
-        this.render();
-        return;
-      }
-      const item = {
-        id: `vehicle-${Date.now()}`,
-        brand: this.selected.brand,
-        model: this.selected.model,
-        year: this.selected.year,
-        engine: this.selected.engine,
-        modification: this.selected.modification,
-        vin: "",
-        plate: "",
-      };
-      this.history = [
-        item,
-        ...this.history.filter((entry) => !sameVehicle(entry, item)),
-      ].slice(0, 8);
-      this.saveHistory();
-      this.showToast("Автомобиль добавлен в Мои авто");
     }
 
     expandTags() {
@@ -884,29 +904,6 @@
       await this.refresh();
     }
 
-    showToast(message) {
-      const toast = this.root.querySelector("[data-toast]");
-      if (!toast) return;
-      window.clearTimeout(this.toastTimer);
-      toast.textContent = message;
-      toast.classList.add("is-visible");
-      this.toastTimer = window.setTimeout(() => {
-        toast.classList.remove("is-visible");
-      }, 2200);
-    }
-
-    loadHistory() {
-      try {
-        const saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
-        return Array.isArray(saved) ? saved : HISTORY_SEED;
-      } catch (error) {
-        return HISTORY_SEED;
-      }
-    }
-
-    saveHistory() {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(this.history));
-    }
   }
 
   function normalizeSelected(selected) {
@@ -930,8 +927,12 @@
     return new Promise((resolve) => window.setTimeout(resolve, ms));
   }
 
-  function sameVehicle(a, b) {
-    return STEPS.every((key) => a[key]?.id === b[key]?.id);
+  function queryToObject(searchParams) {
+    return Array.from(searchParams.keys()).reduce((result, key) => {
+      const values = searchParams.getAll(key);
+      result[key] = values.length > 1 ? values : values[0];
+      return result;
+    }, {});
   }
 
   function emptyTemplate() {

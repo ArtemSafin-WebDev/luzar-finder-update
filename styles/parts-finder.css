@@ -711,30 +711,6 @@
   color: #00205c;
 }
 
-.pf-toast {
-  position: absolute;
-  right: 1.6rem;
-  bottom: -4.2rem;
-  z-index: 45;
-  border-radius: 0.8rem;
-  padding: 1rem 1.2rem;
-  background: #00205c;
-  color: #ffffff;
-  font-size: 1.3rem;
-  line-height: 1.6rem;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-0.6rem);
-  transition:
-    opacity 0.2s,
-    transform 0.2s;
-}
-
-.pf-toast.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @media (max-width: 1299.98px) {
   .page__center--wide {
     --container-width: 100%;

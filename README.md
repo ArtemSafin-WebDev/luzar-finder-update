@@ -38,7 +38,7 @@ python3 -m http.server 8080
 
 `productGroups` работает как мультиселект. В открытом состоянии показывает теги выбранных групп, кнопку `Еще` после трех тегов, раскрытие всех тегов и `Сбросить`. `Выбрать все` выбирает все группы и закрывает список; при повторном открытии эта же кнопка снимает выбор всех групп.
 
-`Мои авто` хранится в `localStorage`. Кнопка `Выбрать` заполняет поля строки, кнопка удаления убирает строку из истории.
+`Мои авто` приходит в JSON-ответе сервера в `history.items`. Фронт не сохраняет историю в `localStorage` и сам не добавляет авто в список: UI просто рендерит историю из очередного ответа сервера. Кнопка `Выбрать` заполняет поля строки, кнопка удаления отправляет запрос на удаление авто на бэке и перерисовывает историю из JSON, который вернулся в ответ.
 
 ## Endpoint
 
@@ -53,6 +53,20 @@ GET /api/parts-finder
 ```http
 /api/parts-finder?brand=volkswagen&model=tiguan&year=2016&engine=20-petrol&modification=tsi-14-20&group=water-pumps&group=fans
 ```
+
+Кнопка `Подобрать` отправляет обычную форму на этот же endpoint без AJAX:
+
+```http
+POST /api/parts-finder
+```
+
+Удаление авто из `Мои авто`:
+
+```http
+DELETE /api/parts-finder/history/{id}
+```
+
+Ответ на удаление также должен быть JSON того же формата, уже без удаленной строки в `history.items`.
 
 Фронт не вычисляет доступность полей самостоятельно для production-сценария: он использует `controls[].disabled`, `controls[].options`, `controls[].value` из ответа. В моковом API эта логика реализована внутри `MockPartsFinderApi`.
 
@@ -96,13 +110,13 @@ GET /api/parts-finder
 - `controls[].queryKey` - имя search-параметра для backend.
 - `controls[].allSelected` - только для `productGroups`, true если выбраны все группы.
 - `submit.disabled` - доступность кнопки подбора.
-- `history.items[]` - опционально, если историю хранит backend. В демо история хранится локально.
+- `history.items[]` - список авто из backend. Фронт только рендерит эти данные и не сохраняет историю сам.
 
 Полный пример лежит в `mock/parts-finder-response.json`.
 
 ## Интеграция с реальным API
 
-В `scripts/parts-finder.js` нужно заменить `MockPartsFinderApi.getState()` на реальный `fetch`:
+В `scripts/parts-finder.js` нужно заменить методы получения состояния и удаления истории на реальные `fetch`:
 
 ```js
 async getState(params) {
@@ -118,6 +132,15 @@ async getState(params) {
   });
 
   const response = await fetch(url);
+  return response.json();
+}
+
+async deleteHistory(id, params) {
+  const response = await fetch(`/api/parts-finder/history/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
   return response.json();
 }
 ```
