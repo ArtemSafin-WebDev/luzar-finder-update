@@ -615,7 +615,7 @@
             ${this.tagsTemplate(control)}
             <div class="pf-options">
               <button class="pf-option pf-option--all ${control.allSelected ? "is-selected" : ""}" type="button" data-action="toggle-all">
-                <span class="pf-checkbox" aria-hidden="true"></span>
+                <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
                 <span class="pf-option__label">${control.allSelected ? "Отменить все" : "Выбрать все"}</span>
               </button>
               ${options.length ? options.map((option) => this.multiOptionTemplate(option, control.value)).join("") : emptyTemplate()}
@@ -652,7 +652,7 @@
         .join("");
       const more =
         !this.expandedTags && moreCount > 0
-          ? `<button class="pf-more-tags" type="button" data-action="more-tags">Еще ${moreCount}</button>`
+          ? `<button class="pf-more-tags" type="button" data-action="more-tags"><span>Еще ${moreCount}</span>${iconArrow()}</button>`
           : "";
       const reset =
         this.expandedTags && groups.length > 1
@@ -666,7 +666,7 @@
       const selected = value.some((item) => item.id === option.id);
       return `
         <button class="pf-option ${selected ? "is-selected" : ""}" type="button" role="option" aria-selected="${selected}" data-action="toggle-option" data-value="${escapeAttr(option.id)}">
-          <span class="pf-checkbox" aria-hidden="true"></span>
+          <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
           <span class="pf-option__label">${escapeHtml(option.label)}</span>
         </button>
       `;
@@ -957,7 +957,7 @@
   }
 
   function iconReset() {
-    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.5 5.2A5 5 0 1 0 13 9M12.5 5.2V2.8M12.5 5.2h-2.4"/></svg>`;
+    return `<svg class="pf-reset-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M6.27441 1.56098C7.6919 1.18121 9.19598 1.2787 10.5518 1.84027C11.3452 2.16897 12.0617 2.64706 12.667 3.24066V1.66645H14L13.999 5.00043L13.333 5.66645H10V4.33344H11.8711C11.3592 3.793 10.7373 3.36113 10.041 3.0727C8.95656 2.62354 7.75394 2.54442 6.62012 2.84809C5.48612 3.15194 4.48326 3.82198 3.76855 4.75336C3.05393 5.68474 2.66701 6.82648 2.66699 8.00043C2.66706 9.17419 3.05411 10.3152 3.76855 11.2465C4.48326 12.1779 5.4861 12.8479 6.62012 13.1518C7.75402 13.4555 8.95649 13.3764 10.041 12.9272C11.1256 12.4779 12.0312 11.6831 12.6182 10.6664L13.7734 11.3334C13.0397 12.6043 11.9074 13.598 10.5518 14.1596C9.19596 14.7212 7.69192 14.8197 6.27441 14.4399C4.85708 14.0601 3.60427 13.2231 2.71094 12.059C1.81763 10.8948 1.33308 9.46786 1.33301 8.00043C1.33303 6.53298 1.81766 5.10607 2.71094 3.94184C3.60424 2.77773 4.85708 1.94084 6.27441 1.56098Z"/></svg>`;
   }
 
   function iconCheck() {

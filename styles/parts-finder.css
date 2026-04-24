@@ -121,14 +121,7 @@
 .pf-reset-tags svg {
   width: 1.6rem;
   height: 1.6rem;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.7;
-}
-
-.pf-reset-tags svg {
-  fill: none;
+  fill: currentColor;
 }
 
 .pf-cross-icon {
@@ -414,9 +407,13 @@
 
 .pf-checkbox {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   width: 1.6rem;
   height: 1.6rem;
+  color: #ffffff;
 }
 
 .pf-checkbox::before {
@@ -436,16 +433,16 @@
   background: #3a8dde;
 }
 
-.pf-option.is-selected .pf-checkbox::after {
-  position: absolute;
-  left: 0.5rem;
-  top: 0.3rem;
-  width: 0.5rem;
-  height: 0.8rem;
-  border-right: 1.5px solid #ffffff;
-  border-bottom: 1.5px solid #ffffff;
-  content: "";
-  transform: rotate(45deg);
+.pf-checkbox svg {
+  position: relative;
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+  opacity: 0;
+}
+
+.pf-option.is-selected .pf-checkbox svg {
+  opacity: 1;
 }
 
 .pf-empty {
@@ -504,13 +501,24 @@
   height: 1.2rem;
 }
 
-.pf-more-tags {
-  border-radius: 0.6rem;
-  padding: 0.8rem;
-  background: #e4eaf1;
+.parts-finder .pf-more-tags {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0 0.6rem 0.4rem;
+  background: transparent;
   color: #00205c;
   font-size: 1.4rem;
+  font-weight: 500;
   line-height: 1.6rem;
+}
+
+.pf-more-tags .pf-arrow {
+  color: inherit;
+}
+
+.pf-control.is-open .pf-more-tags .pf-arrow {
+  transform: none;
 }
 
 .pf-reset-tags {
