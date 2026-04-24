@@ -1,13 +1,14 @@
 # LUZAR parts finder
 
-Статичная демо-верстка подборщика запчастей по Figma. Подбор работает на обычном JavaScript: UI рендерится из JSON-ответа, а данные и `disabled`-состояния селектов приходят из мокового API-слоя.
+Статичная демо-верстка подборщика запчастей по Figma. Подбор работает на обычном JavaScript: UI рендерится из JSON-ответа, а данные и `disabled`-состояния селектов приходят из API-слоя. В демо по умолчанию используется моковый API, для production можно подключить реальные endpoint'ы через конфиг.
 
 ## Файлы
 
 - `index.html` - страница с подключенным подборщиком.
 - `styles/luzar-base.css` - базовые стили проекта, без стилей подборщика.
 - `styles/parts-finder.css` - стили компонента подборщика.
-- `scripts/parts-finder.js` - логика UI, моковый API, рендеринг селектов и истории.
+- `scripts/parts-finder.js` - логика UI, fetch-адаптер, рендеринг селектов и истории.
+- `scripts/parts-finder-mock-api.js` - моковый API для демо-сайта.
 - `mock/parts-finder-response.json` - пример JSON-контракта для бэкенда.
 - `images/parts-finder/desktop-bg.webp` - фон блока из Figma.
 
@@ -42,7 +43,7 @@ python3 -m http.server 8080
 
 ## Endpoint
 
-Ожидаемый endpoint один:
+По умолчанию демо использует такие адреса:
 
 ```http
 GET /api/parts-finder
@@ -116,33 +117,35 @@ DELETE /api/parts-finder/history/{id}
 
 ## Интеграция с реальным API
 
-В `scripts/parts-finder.js` нужно заменить методы получения состояния и удаления истории на реальные `fetch`:
+Менять код подборщика не нужно. Перед подключением `scripts/parts-finder.js` задайте `window.PartsFinderConfig`:
 
-```js
-async getState(params) {
-  const url = new URL("/api/parts-finder", window.location.origin);
-
-  Object.entries(params.selected).forEach(([key, value]) => {
-    if (!value) return;
-    if (Array.isArray(value)) {
-      value.forEach((item) => url.searchParams.append("group", item.id));
-    } else {
-      url.searchParams.set(key, value.id);
+```html
+<script>
+  window.PartsFinderConfig = {
+    api: "fetch",
+    endpoints: {
+      state: "https://example.com/api/parts-finder",
+      submit: "https://example.com/catalog/search",
+      deleteHistory: "https://example.com/api/parts-finder/history/:id"
+    },
+    fetchOptions: {
+      credentials: "include"
     }
-  });
-
-  const response = await fetch(url);
-  return response.json();
-}
-
-async deleteHistory(id, params) {
-  const response = await fetch(`/api/parts-finder/history/${encodeURIComponent(id)}`, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(params),
-  });
-  return response.json();
-}
+  };
+</script>
+<script src="scripts/parts-finder.js" defer></script>
 ```
+
+`api: "mock"` можно не указывать: это режим по умолчанию для демо-сайта. Для него нужно подключить `scripts/parts-finder-mock-api.js` перед `scripts/parts-finder.js`, как в `index.html`. В production моковый файл можно не подключать; используйте `api: "fetch"` или `api: "production"`.
+
+Назначение endpoint'ов:
+
+- `state` - `GET`-запрос состояния селектов и истории. Выбранные значения уходят search-параметрами: `brand`, `model`, `year`, `engine`, `modification`, `group`.
+- `submit` - `action` формы для кнопки `Подобрать`. Отправка остается обычным `POST` без AJAX.
+- `deleteHistory` - `DELETE`-запрос удаления авто из истории. Поддерживаются шаблоны `:id` и `{id}`.
+
+`fetchOptions` прокидывается во все AJAX-запросы к `state` и `deleteHistory`; можно использовать для `credentials`, заголовков и других стандартных настроек `fetch`.
+
+Если нужен не `fetch`, а свой транспорт, в `api` можно передать объект с методами `getState(params)` и `deleteHistory(id, params)`.
 
 Стили компонента изолированы в `styles/parts-finder.css`, поэтому на другом проекте можно оставить JS-контроллер и заменить CSS/шаблоны под нужный дизайн.
