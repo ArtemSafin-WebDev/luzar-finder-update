@@ -573,6 +573,65 @@
     0 0 24px rgba(31, 44, 71, 0.1);
 }
 
+.pf-history--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 17.2rem;
+  padding: 3.2rem 1.6rem;
+  overflow: hidden;
+}
+
+.pf-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  text-align: center;
+}
+
+.pf-history-empty__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 0.8rem;
+  background: #f7f7f8;
+  color: #afb2b7;
+}
+
+.pf-sleep-icon {
+  width: 4.8rem;
+  height: 4.8rem;
+  fill: currentColor;
+}
+
+.pf-history-empty__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.pf-history-empty__title {
+  margin: 0;
+  color: #303236;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.pf-history-empty__text {
+  margin: 0;
+  color: #797d86;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6rem;
+}
+
 .pf-history__scroller {
   overflow-x: auto;
 }

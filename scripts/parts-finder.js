@@ -683,10 +683,28 @@
     }
 
     historyTemplate() {
-      const rows = this.history.length
-        ? this.history
-            .map(
-              (item) => `
+      if (!this.history.length) {
+        return `
+          <div class="pf-history pf-history--empty">
+            <div class="pf-history-empty" role="status">
+              <div class="pf-history-empty__icon" aria-hidden="true">
+                ${iconSleep()}
+              </div>
+              <div class="pf-history-empty__content">
+                <h2 class="pf-history-empty__title">Здесь пусто</h2>
+                <p class="pf-history-empty__text">
+                  Данные о ваших авто сохранятся автоматически,<br>
+                  после подбора запчастей
+                </p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const rows = this.history
+        .map(
+          (item) => `
           <div class="pf-history__row">
             <span class="pf-history__cell">${escapeHtml(item.brand.label)}</span>
             <span class="pf-history__cell">${escapeHtml(item.model.label)}</span>
@@ -701,9 +719,8 @@
             </span>
           </div>
         `,
-            )
-            .join("")
-        : `<div class="pf-empty">Сохраненных автомобилей пока нет</div>`;
+        )
+        .join("");
 
       return `
         <div class="pf-history">
@@ -948,6 +965,12 @@
 
   function iconHistoryClose() {
     return `<svg class="pf-history-close-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
+  }
+
+  function iconSleep() {
+    return `<svg class="pf-sleep-icon" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M33.4141 33.4141L28.8281 38H34V42H24L22.5859 38.5859L27.1719 34H22V30H32L33.4141 33.4141ZM19.4141 19.4141L12.8281 26H20V30H8L6.58594 26.5859L13.1719 20H6V16H18L19.4141 19.4141ZM41.4141 9.41406L30.8281 20H42V24H26L24.5859 20.5859L35.1719 10H24V6H40L41.4141 9.41406Z"/>
+    </svg>`;
   }
 
   function iconTrash() {
