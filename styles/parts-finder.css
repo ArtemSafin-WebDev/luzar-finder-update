@@ -402,7 +402,14 @@
 }
 
 .pf-option--all {
+  font-size: 1.6rem;
+  font-style: normal;
   font-weight: 500;
+  line-height: 100%;
+}
+
+.pf-option--all .pf-option__label {
+  line-height: 100%;
 }
 
 .pf-checkbox {

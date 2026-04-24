@@ -245,7 +245,9 @@
       const selectedCount = control.type === "multi" ? control.value.length : 0;
       const allGroups = control.type === "multi" && control.allSelected;
       const label =
-        control.type === "multi"
+        allGroups
+          ? "Все группы товаров"
+          : control.type === "multi"
           ? control.placeholder
           : control.value?.label || control.placeholder;
       const searchValue = this.search[control.id] || "";
@@ -302,7 +304,7 @@
             <div class="pf-options">
               <button class="pf-option pf-option--all ${control.allSelected ? "is-selected" : ""}" type="button" data-action="toggle-all">
                 <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
-                <span class="pf-option__label">${control.allSelected ? "Отменить все" : "Выбрать все"}</span>
+                <span class="pf-option__label">Выбрать все</span>
               </button>
               ${options.length ? options.map((option) => this.multiOptionTemplate(option, control.value)).join("") : emptyTemplate()}
             </div>
