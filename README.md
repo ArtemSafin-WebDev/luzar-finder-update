@@ -11,7 +11,7 @@
 - `scripts/parts-finder-request-modal.js` - отдельный компонент модалки заявки на индивидуальный подбор.
 - `scripts/parts-finder-mock-api.js` - моковый API для демо-сайта.
 - `mock/parts-finder-response.json` - пример JSON-контракта для бэкенда.
-- `images/parts-finder/desktop-bg.webp` - фон блока из Figma.
+- `images/parts-finder/modal-bg.png` - фон модалки заявки.
 
 ## Как запустить
 
@@ -36,11 +36,11 @@ python3 -m http.server 8080
 5. `modification` - Модификация, после выбора двигателя.
 6. `productGroups` - Группа товаров, после полного выбора автомобиля.
 
-Одиночные селекты открываются как searchable dropdown: ввод фильтрует текущий список на фронте. При выборе значения все зависимые поля ниже очищаются, затем выполняется новый запрос к API.
+Одиночные селекты открываются как searchable dropdown: ввод фильтрует текущий список на фронте. При выборе значения все зависимые поля ниже очищаются, затем выполняется точечный запрос за новым набором `controls`, без перерендера всего подборщика.
 
 `productGroups` работает как мультиселект. В открытом состоянии показывает теги выбранных групп, кнопку `Еще` после трех тегов, раскрытие всех тегов и `Сбросить`. `Выбрать все` выбирает все группы и закрывает список; при повторном открытии эта же кнопка снимает выбор всех групп.
 
-`Мои авто` приходит в JSON-ответе сервера в `history.items`. Фронт не сохраняет историю в `localStorage` и сам не добавляет авто в список: UI просто рендерит историю из очередного ответа сервера. Кнопка `Выбрать` заполняет поля строки, кнопка удаления отправляет запрос на удаление авто на бэке и перерисовывает историю из JSON, который вернулся в ответ.
+`Мои авто` приходит отдельным мини-контрактом `history`. Фронт не сохраняет историю в `localStorage` и сам не добавляет авто в список: UI просто рендерит историю из backend. Кнопка `Выбрать` заполняет нужные поля точечно, кнопка удаления отправляет запрос на удаление авто и обновляет только кнопки/панель истории.
 
 Во вкладке `Подобрать по VIN и госномеру` верхнее поле отправляется обычной формой (`POST`) без AJAX. Если сервер вернул `vinSearch.state: "found"`, под формой показывается найденное авто и кнопка `Не мое авто`, которая открывает отдельную модалку заявки. Если сервер вернул `vinSearch.state: "not-found"`, во вкладке показывается форма заявки: `Марка` и `Модель` работают как селекты из JSON, `Мои авто` заполняют бренд, модель, VIN и госномер, а кнопка `Отправить запрос` становится активной после заполнения обязательных полей.
 
@@ -52,7 +52,16 @@ python3 -m http.server 8080
 GET /api/parts-finder
 ```
 
-Выбранные параметры передаются как search params:
+Этот endpoint нужен для первичной загрузки экрана и смены режима. Дальше UI использует маленькие endpoint'ы:
+
+```http
+GET /api/parts-finder/controls
+GET /api/parts-finder/history
+GET /api/parts-finder/vin-request/options
+DELETE /api/parts-finder/history/{id}
+```
+
+Выбранные параметры для `state` и `controls` передаются как search params:
 
 ```http
 /api/parts-finder?brand=volkswagen&model=tiguan&year=2016&engine=20-petrol&modification=tsi-14-20&group=water-pumps&group=fans
@@ -64,13 +73,33 @@ GET /api/parts-finder
 POST /api/parts-finder
 ```
 
+Получение текущей истории:
+
+```http
+GET /api/parts-finder/history
+```
+
 Удаление авто из `Мои авто`:
 
 ```http
 DELETE /api/parts-finder/history/{id}
 ```
 
-Ответ на удаление также должен быть JSON того же формата, уже без удаленной строки в `history.items`.
+Ответ на получение/удаление истории должен быть только мини-контрактом истории:
+
+```json
+{
+  "enabled": true,
+  "label": "Мои авто",
+  "items": []
+}
+```
+
+Получение марок/моделей для формы заявки:
+
+```http
+GET /api/parts-finder/vin-request/options?brand=volkswagen
+```
 
 Поиск по VIN/госномеру:
 
@@ -84,11 +113,11 @@ POST /api/parts-finder/vin
 POST /api/parts-finder/vin-request
 ```
 
-Фронт не вычисляет доступность полей самостоятельно для production-сценария: он использует `controls[].disabled`, `controls[].options`, `controls[].value` из ответа. В моковом API эта логика реализована внутри `MockPartsFinderApi`.
+Фронт не вычисляет доступность полей самостоятельно для production-сценария: он использует `controls[].disabled`, `controls[].options`, `controls[].value` из ответа. В моковом API эта логика реализована внутри `MockPartsFinderApi`. Пользовательские действия обновляют только нужный DOM-фрагмент: controls, историю, VIN request controls или disabled-состояние кнопки.
 
-## JSON-контракт
+## JSON-контракты
 
-Минимальная форма ответа:
+Первичный `state` всё ещё может вернуть полный экран:
 
 ```json
 {
@@ -154,6 +183,42 @@ POST /api/parts-finder/vin-request
 
 Полный пример лежит в `mock/parts-finder-response.json`.
 
+Мини-контракт `controls`:
+
+```json
+{
+  "controls": [],
+  "submit": {
+    "label": "Подобрать",
+    "disabled": true
+  }
+}
+```
+
+Мини-контракт `vinRequestOptions`:
+
+```json
+{
+  "controls": [],
+  "brandOptions": [],
+  "modelOptions": {},
+  "submit": {
+    "label": "Отправить запрос",
+    "disabled": true
+  }
+}
+```
+
+Мини-контракт `history`:
+
+```json
+{
+  "enabled": true,
+  "label": "Мои авто",
+  "items": []
+}
+```
+
 ## Интеграция с реальным API
 
 Менять код подборщика не нужно. Перед подключением `scripts/parts-finder.js` задайте `window.PartsFinderConfig`:
@@ -164,9 +229,12 @@ POST /api/parts-finder/vin-request
     api: "fetch",
     endpoints: {
       state: "https://example.com/api/parts-finder",
+      controls: "https://example.com/api/parts-finder/controls",
+      history: "https://example.com/api/parts-finder/history",
       submit: "https://example.com/catalog/search",
       vinSubmit: "https://example.com/api/parts-finder/vin",
       vinRequest: "https://example.com/api/parts-finder/vin-request",
+      vinRequestOptions: "https://example.com/api/parts-finder/vin-request/options",
       deleteHistory: "https://example.com/api/parts-finder/history/:id"
     },
     initialMode: "vin",
@@ -182,14 +250,17 @@ POST /api/parts-finder/vin-request
 
 Назначение endpoint'ов:
 
-- `state` - `GET`-запрос состояния селектов и истории. Выбранные значения уходят search-параметрами: `brand`, `model`, `year`, `engine`, `modification`, `group`.
+- `state` - `GET`-запрос первичного состояния экрана.
+- `controls` - `GET`-запрос состояния селектов после выбора/очистки. Выбранные значения уходят search-параметрами: `brand`, `model`, `year`, `engine`, `modification`, `group`.
+- `history` - `GET`-запрос списка сохраненных авто.
 - `submit` - `action` формы для кнопки `Подобрать`. Отправка остается обычным `POST` без AJAX.
 - `vinSubmit` - `action` формы поиска по VIN/госномеру. Отправка остается обычным `POST` без AJAX.
 - `vinRequest` - `action` формы заявки на индивидуальный подбор. Отправка остается обычным `POST` без AJAX.
-- `deleteHistory` - `DELETE`-запрос удаления авто из истории. Поддерживаются шаблоны `:id` и `{id}`.
+- `vinRequestOptions` - `GET`-запрос марок/моделей для формы заявки, например `?brand=volkswagen`.
+- `deleteHistory` - `DELETE`-запрос удаления авто из истории. Поддерживаются шаблоны `:id` и `{id}`. Ответ возвращает мини-контракт `history`.
 
-`fetchOptions` прокидывается во все AJAX-запросы к `state` и `deleteHistory`; можно использовать для `credentials`, заголовков и других стандартных настроек `fetch`.
+`fetchOptions` прокидывается во все AJAX-запросы; можно использовать для `credentials`, заголовков и других стандартных настроек `fetch`.
 
-Если нужен не `fetch`, а свой транспорт, в `api` можно передать объект с методами `getState(params)` и `deleteHistory(id, params)`.
+Если нужен не `fetch`, а свой транспорт, в `api` можно передать объект с методами `getState(params)`, `getControls(params)`, `getHistory()`, `getVinRequestOptions(params)` и `deleteHistory(id)`.
 
 Стили компонента изолированы в `styles/parts-finder.css`, поэтому на другом проекте можно оставить JS-контроллер и заменить CSS/шаблоны под нужный дизайн.

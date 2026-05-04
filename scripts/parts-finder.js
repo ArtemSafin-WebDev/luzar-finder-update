@@ -1,9 +1,12 @@
 (function () {
   const DEFAULT_ENDPOINTS = {
     state: "/api/parts-finder",
+    controls: "/api/parts-finder/controls",
+    history: "/api/parts-finder/history",
     submit: "/api/parts-finder",
     vinSubmit: "/api/parts-finder/vin",
     vinRequest: "/api/parts-finder/vin-request",
+    vinRequestOptions: "/api/parts-finder/vin-request/options",
     deleteHistory: "/api/parts-finder/history/:id",
   };
   const STEPS = ["brand", "model", "year", "engine", "modification"];
@@ -45,13 +48,28 @@
       return this.request(url, { method: "GET" });
     }
 
-    async deleteHistory(id, params) {
+    async getControls(params) {
+      const url = new URL(this.endpoints.controls, window.location.origin);
+      appendSelectedParams(url, params.selected);
+      return this.request(url, { method: "GET" });
+    }
+
+    async getHistory() {
+      const url = new URL(this.endpoints.history, window.location.origin);
+      return this.request(url, { method: "GET" });
+    }
+
+    async getVinRequestOptions(params) {
+      const url = new URL(this.endpoints.vinRequestOptions, window.location.origin);
+      appendVinRequestParams(url, params.vinRequest);
+      return this.request(url, { method: "GET" });
+    }
+
+    async deleteHistory(id) {
       const endpoint = resolveEndpoint(this.endpoints.deleteHistory, { id });
       const url = new URL(endpoint, window.location.origin);
       return this.request(url, {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params),
       });
     }
 
@@ -145,17 +163,17 @@
       this.root.addEventListener("input", (event) => {
         if (event.target.matches("[data-search]")) {
           this.search[event.target.dataset.search] = event.target.value;
-          this.render();
+          this.updateOpenDropdownOptions(event.target.dataset.search);
           return;
         }
         if (event.target.matches("[data-vin-search]")) {
           this.updateVinSearchValue(event.target.value);
-          this.render({ focusVinSearch: true });
+          this.updateVinSearchClearButton();
           return;
         }
         if (event.target.matches("[data-vin-request-field]")) {
           this.updateVinRequestField(event.target);
-          this.render({ focusVinRequestField: event.target.dataset.vinRequestField });
+          this.updateVinRequestSubmitState();
           return;
         }
       });
@@ -163,15 +181,13 @@
       this.root.addEventListener("change", (event) => {
         if (!event.target.matches("[data-vin-request-field]")) return;
         this.updateVinRequestField(event.target);
-        this.render();
+        this.updateVinRequestSubmitState();
       });
 
       document.addEventListener("click", (event) => {
         if (this.root.contains(event.target)) return;
         if (!this.openControl && !this.historyOpen) return;
-        this.openControl = null;
-        this.historyOpen = null;
-        this.render();
+        this.closeFloatingLayers();
       });
     }
 
@@ -209,6 +225,172 @@
         this.restoreProductGroupsScrollTop(options.productGroupsScrollTop);
       }
       this.positionVinRequestHistory();
+    }
+
+    replaceNode(selector, html) {
+      const node = this.root.querySelector(selector);
+      if (!node) return;
+      node.outerHTML = html;
+    }
+
+    updateControlsView(options = {}) {
+      const ids =
+        options.ids || this.response.controls.map((control) => control.id);
+      ids.forEach((id) => {
+        const control = this.response.controls.find((item) => item.id === id);
+        const node = this.root.querySelector(
+          `[data-control="${selectorEscape(id)}"]`,
+        );
+        if (control && node) node.outerHTML = this.controlTemplate(control);
+      });
+      const hiddenInputs = this.root.querySelector("[data-hidden-inputs]");
+      if (hiddenInputs) hiddenInputs.innerHTML = this.hiddenInputsTemplate();
+      const submit = this.root.querySelector(".pf-input-group .pf-submit");
+      if (submit && this.response.submit) {
+        submit.disabled = Boolean(this.response.submit.disabled);
+        submit.textContent = this.response.submit.label || "Подобрать";
+      }
+      if (options.productGroupsScrollTop !== undefined) {
+        this.restoreProductGroupsScrollTop(options.productGroupsScrollTop);
+      }
+    }
+
+    updateVinRequestControlsView() {
+      const row = this.root.querySelector(".pf-vin-request__vehicle-row");
+      if (!row) return;
+      row.classList.toggle("has-history", this.hasHistoryItems());
+      row.classList.toggle("no-history", !this.hasHistoryItems());
+      const historyAnchor = row.querySelector(".pf-vin-request__history-anchor");
+      if (this.hasHistoryItems() && historyAnchor) {
+        historyAnchor.outerHTML = this.vinRequestHistoryToggleTemplate();
+      } else if (this.hasHistoryItems()) {
+        row.insertAdjacentHTML("afterbegin", this.vinRequestHistoryToggleTemplate());
+      } else {
+        historyAnchor?.remove();
+      }
+      this.getVinRequestControls().forEach((control) => {
+        const node = row.querySelector(
+          `[data-control="${selectorEscape(`vinRequest:${control.id}`)}"]`,
+        );
+        if (node) node.outerHTML = this.requestControlTemplate(control);
+      });
+      ["vin", "plate"].forEach((id) => {
+        const field = row.querySelector(`[data-vin-request-field="${id}"]`);
+        if (field && field.value !== this.vinRequest[id]) {
+          field.value = this.vinRequest[id] || "";
+        }
+      });
+      this.positionVinRequestHistory();
+    }
+
+    updateVinRequestSubmitState() {
+      const submit = this.root.querySelector(".pf-vin-request__form .pf-submit");
+      if (submit) submit.disabled = !this.isVinRequestComplete();
+    }
+
+    updateVinSearchClearButton() {
+      const field = this.root.querySelector(".pf-vin-search__field");
+      if (!field) return;
+      const clear = field.querySelector(".pf-vin-search__clear");
+      if (this.vinSearch.value && !clear) {
+        field.insertAdjacentHTML(
+          "beforeend",
+          `<button class="pf-vin-search__clear" type="button" aria-label="Очистить VIN или госномер" data-action="clear-vin-search">${iconCross()}</button>`,
+        );
+      }
+      if (!this.vinSearch.value && clear) clear.remove();
+    }
+
+    updateOpenDropdownOptions(controlId) {
+      const id = controlId.startsWith("vinRequest:")
+        ? controlId.slice("vinRequest:".length)
+        : controlId;
+      const control = controlId.startsWith("vinRequest:")
+        ? this.getVinRequestControls().find((item) => item.id === id)
+        : this.response.controls.find((item) => item.id === id);
+      const dropdown = this.root.querySelector(
+        `[data-control="${selectorEscape(controlId)}"] .pf-options`,
+      );
+      if (!control || !dropdown) return;
+      const query = (this.search[controlId] || this.search[id] || "")
+        .trim()
+        .toLowerCase();
+      const options = control.options.filter((option) =>
+        option.label.toLowerCase().includes(query),
+      );
+      dropdown.innerHTML = options.length
+        ? options
+            .map((option) =>
+              controlId.startsWith("vinRequest:")
+                ? this.requestOptionTemplate(option, control)
+                : control.type === "multi"
+                ? this.multiOptionTemplate(option, control.value)
+                : this.singleOptionTemplate(option, control),
+            )
+            .join("")
+        : emptyTemplate();
+    }
+
+    closeFloatingLayers() {
+      const openControl = this.openControl;
+      const openHistory = this.historyOpen;
+      this.openControl = null;
+      this.historyOpen = null;
+      if (openControl) {
+        const selector = `[data-control="${selectorEscape(openControl)}"]`;
+        const control =
+          openControl.startsWith("vinRequest:")
+            ? this.getVinRequestControls().find(
+                (item) => `vinRequest:${item.id}` === openControl,
+              )
+            : this.response.controls.find((item) => item.id === openControl);
+        if (control) {
+          const html = openControl.startsWith("vinRequest:")
+            ? this.requestControlTemplate(control)
+            : this.controlTemplate(control);
+          this.replaceNode(selector, html);
+        }
+      }
+      if (openHistory) {
+        this.updateHistoryButtons();
+        this.updateHistoryView(openHistory, false);
+        this.root
+          .querySelector(".pf-vin-request__car-icon")
+          ?.classList.remove("is-open");
+      }
+    }
+
+    updateHistoryButtons() {
+      const tabs = this.root.querySelector(".pf-tabs");
+      const oldButton = tabs?.querySelector(".pf-history-toggle");
+      if (!tabs) return;
+      oldButton?.remove();
+      if (!this.hasHistoryItems()) return;
+      tabs.insertAdjacentHTML(
+        "beforeend",
+        `
+          <button class="pf-history-toggle ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" data-action="toggle-history" data-placement="tabs">
+            ${iconCar()}
+            <span>${escapeHtml(this.response.history.label)}</span>
+            <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
+          </button>
+        `,
+      );
+    }
+
+    updateHistoryView(placement, shouldOpen = this.historyOpen === placement) {
+      const placementClass = placement === "vinRequest" ? "vin-request" : placement;
+      this.root.querySelector(`.pf-history--${placementClass}`)?.remove();
+      if (!shouldOpen || !this.hasHistoryItems()) return;
+      const html = this.historyTemplate(placement);
+      if (placement === "vinRequest") {
+        this.root.querySelector(".pf-vin-panel")?.insertAdjacentHTML("beforeend", html);
+        this.positionVinRequestHistory();
+        return;
+      }
+      this.root
+        .querySelector(".parts-finder__workspace")
+        ?.insertAdjacentHTML("beforeend", html);
     }
 
     template() {
@@ -505,7 +687,7 @@
       return `
         <form class="pf-input-group" action="${escapeAttr(action)}" method="post">
           <div class="pf-controls">${controls}</div>
-          ${hiddenInputs}
+          <div class="pf-hidden-inputs" data-hidden-inputs>${hiddenInputs}</div>
           <button class="pf-submit" type="submit" ${this.response.submit.disabled ? "disabled" : ""}>
             ${escapeHtml(this.response.submit.label)}
           </button>
@@ -781,11 +963,28 @@
     toggleControl(id) {
       const control = this.response.controls.find((item) => item.id === id);
       if (!control || control.disabled) return;
+      const previousControl = this.openControl;
+      const previousHistory = this.historyOpen;
       this.historyOpen = null;
       this.openControl = this.openControl === id ? null : id;
       this.search[id] = "";
       if (id !== "productGroups") this.expandedTags = false;
-      this.render();
+      if (previousHistory) this.updateHistoryView(previousHistory, false);
+      if (previousControl && previousControl !== id) {
+        const previous = this.response.controls.find(
+          (item) => item.id === previousControl,
+        );
+        if (previous) {
+          this.replaceNode(
+            `[data-control="${selectorEscape(previousControl)}"]`,
+            this.controlTemplate(previous),
+          );
+        }
+      }
+      this.replaceNode(
+        `[data-control="${selectorEscape(id)}"]`,
+        this.controlTemplate(control),
+      );
     }
 
     async selectOption(id, optionId) {
@@ -796,7 +995,10 @@
       this.clearAfter(id);
       this.openControl = null;
       this.search[id] = "";
-      await this.refresh();
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView();
     }
 
     async switchMode(mode) {
@@ -814,10 +1016,28 @@
       const control = this.getVinRequestControls().find((item) => item.id === id);
       if (!control || control.disabled) return;
       const key = `vinRequest:${id}`;
+      const previousControl = this.openControl;
+      const previousHistory = this.historyOpen;
       this.historyOpen = null;
       this.openControl = this.openControl === key ? null : key;
       this.search[key] = "";
-      this.render();
+      if (previousHistory) this.updateHistoryView(previousHistory, false);
+      if (previousControl && previousControl !== key) {
+        const previousId = previousControl.replace("vinRequest:", "");
+        const previous = this.getVinRequestControls().find(
+          (item) => item.id === previousId,
+        );
+        if (previous) {
+          this.replaceNode(
+            `[data-control="${selectorEscape(previousControl)}"]`,
+            this.requestControlTemplate(previous),
+          );
+        }
+      }
+      this.replaceNode(
+        `[data-control="${selectorEscape(key)}"]`,
+        this.requestControlTemplate(control),
+      );
     }
 
     async selectRequestOption(id, optionId) {
@@ -827,19 +1047,28 @@
       this.vinRequest[id] = option;
       if (id === "brand") this.vinRequest.model = null;
       this.openControl = null;
-      await this.refresh();
+      await this.refreshVinRequestOptions();
+      this.updateVinRequestControlsView();
+      this.updateVinRequestSubmitState();
     }
 
     async clearRequestControl(id) {
       this.vinRequest[id] = null;
       if (id === "brand") this.vinRequest.model = null;
       this.openControl = null;
-      await this.refresh();
+      await this.refreshVinRequestOptions();
+      this.updateVinRequestControlsView();
+      this.updateVinRequestSubmitState();
     }
 
     clearVinSearch() {
       this.updateVinSearchValue("");
-      this.render({ focusVinSearch: true });
+      const input = this.root.querySelector("[data-vin-search]");
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
+      this.updateVinSearchClearButton();
     }
 
     async toggleOption(optionId) {
@@ -855,7 +1084,10 @@
         ? selected.filter((item) => item.id !== optionId)
         : [...selected, option];
       this.openControl = "productGroups";
-      await this.refresh({ productGroupsScrollTop: scrollTop });
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView({ productGroupsScrollTop: scrollTop });
     }
 
     async toggleAllGroups() {
@@ -868,7 +1100,10 @@
         : [...control.options];
       this.openControl = null;
       this.expandedTags = false;
-      await this.refresh();
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView();
     }
 
     async clearControl(id) {
@@ -879,7 +1114,10 @@
         this.clearAfter(id);
       }
       this.openControl = null;
-      await this.refresh();
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView();
     }
 
     clearAfter(id) {
@@ -895,9 +1133,32 @@
 
     toggleHistory(placement = "tabs") {
       if (!this.hasHistoryItems()) return;
+      const previousControl = this.openControl;
+      if (previousControl) {
+        const selector = `[data-control="${selectorEscape(previousControl)}"]`;
+        const control =
+          previousControl.startsWith("vinRequest:")
+            ? this.getVinRequestControls().find(
+                (item) => `vinRequest:${item.id}` === previousControl,
+              )
+            : this.response.controls.find((item) => item.id === previousControl);
+        if (control) {
+          this.replaceNode(
+            selector,
+            previousControl.startsWith("vinRequest:")
+              ? this.requestControlTemplate(control)
+              : this.controlTemplate(control),
+          );
+        }
+      }
       this.historyOpen = this.historyOpen === placement ? null : placement;
+      const open = this.historyOpen === placement;
       this.openControl = null;
-      this.render();
+      this.updateHistoryButtons();
+      this.root
+        .querySelector(".pf-vin-request__car-icon")
+        ?.classList.toggle("is-open", open && placement === "vinRequest");
+      this.updateHistoryView(placement, open);
     }
 
     async selectHistory(id) {
@@ -913,7 +1174,10 @@
         };
         this.historyOpen = null;
         this.openControl = null;
-        await this.refresh();
+        await this.refreshVinRequestOptions();
+        this.updateVinRequestControlsView();
+        this.updateVinRequestSubmitState();
+        this.updateHistoryView("vinRequest", false);
         return;
       }
       if (this.mode === "vin") {
@@ -930,7 +1194,11 @@
         }
         this.historyOpen = null;
         this.openControl = null;
-        this.render();
+        const input = this.root.querySelector("[data-vin-search]");
+        if (input) input.value = value;
+        this.updateVinSearchClearButton();
+        this.updateHistoryButtons();
+        this.updateHistoryView("tabs", false);
         return;
       }
       STEPS.forEach((key) => {
@@ -939,7 +1207,12 @@
       this.selected.productGroups = [];
       this.historyOpen = null;
       this.openControl = null;
-      await this.refresh();
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView();
+      this.updateHistoryButtons();
+      this.updateHistoryView("tabs", false);
     }
 
     updateVinRequestField(field) {
@@ -1052,6 +1325,16 @@
       return this.response.vinRequest?.modelOptions?.[brandId] || [];
     }
 
+    async refreshVinRequestOptions() {
+      const payload = await this.api.getVinRequestOptions({
+        vinRequest: this.vinRequest,
+      });
+      this.response.vinRequest = {
+        ...this.response.vinRequest,
+        ...payload,
+      };
+    }
+
     isVinRequestComplete() {
       return Boolean(
         this.vinRequest.name.trim() &&
@@ -1062,18 +1345,24 @@
     }
 
     async deleteHistory(id) {
-      this.response = await this.api.deleteHistory(id, {
-        selected: this.selected,
-      });
+      const history = await this.api.deleteHistory(id);
+      this.response.history = history;
       this.openControl = null;
-      this.render();
+      if (!this.hasHistoryItems()) this.historyOpen = null;
+      this.updateHistoryButtons();
+      this.updateHistoryView("tabs", this.historyOpen === "tabs");
+      this.updateHistoryView("vinRequest", this.historyOpen === "vinRequest");
+      this.updateVinRequestControlsView();
     }
 
     expandTags() {
       const scrollTop = this.getProductGroupsScrollTop();
       this.expandedTags = true;
       this.openControl = "productGroups";
-      this.render({ productGroupsScrollTop: scrollTop });
+      const control = this.response.controls.find((item) => item.id === "productGroups");
+      if (!control) return;
+      this.replaceNode('[data-control="productGroups"]', this.controlTemplate(control));
+      this.restoreProductGroupsScrollTop(scrollTop);
     }
 
     async removeGroup(id) {
@@ -1082,7 +1371,10 @@
         (item) => item.id !== id,
       );
       this.openControl = "productGroups";
-      await this.refresh({ productGroupsScrollTop: scrollTop });
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView({ productGroupsScrollTop: scrollTop });
     }
 
     async resetGroups() {
@@ -1090,7 +1382,10 @@
       this.selected.productGroups = [];
       this.expandedTags = false;
       this.openControl = "productGroups";
-      await this.refresh({ productGroupsScrollTop: scrollTop });
+      const payload = await this.api.getControls({ selected: this.selected });
+      this.response.controls = payload.controls;
+      this.response.submit = payload.submit;
+      this.updateControlsView({ productGroupsScrollTop: scrollTop });
     }
 
     getProductGroupsScrollTop() {
@@ -1206,6 +1501,11 @@
     if (request.model) url.searchParams.set("requestModel", request.model.id);
   }
 
+  function appendVinRequestParams(url, request = {}) {
+    if (request.brand) url.searchParams.set("brand", request.brand.id);
+    if (request.model) url.searchParams.set("model", request.model.id);
+  }
+
   function getInitialState(config = {}) {
     const query = new URLSearchParams(window.location.search);
     const initialMode =
@@ -1251,6 +1551,11 @@
 
   function emptyTemplate() {
     return `<div class="pf-empty">Ничего не найдено</div>`;
+  }
+
+  function selectorEscape(value) {
+    if (window.CSS?.escape) return CSS.escape(value);
+    return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
   }
 
   function escapeHtml(value) {

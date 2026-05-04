@@ -34,6 +34,7 @@
         modelOptionsMap: options.modelOptionsMap || {},
         history: options.history || null,
         historyOpen: false,
+        openControl: null,
       };
       this.render();
     }
@@ -62,10 +63,65 @@
       }, 240);
     }
 
-    rerender() {
-      const host = document.querySelector(".pf-modal");
-      if (!host) return;
-      host.innerHTML = this.template();
+    updateSubmitState() {
+      const submit = document.querySelector(".pf-modal__submit");
+      if (submit) submit.disabled = !this.isComplete();
+    }
+
+    replaceControl(id) {
+      const control = document.querySelector(
+        `[data-modal-control="${selectorEscape(id)}"]`,
+      );
+      if (control) control.outerHTML = this.controlTemplate(this.getControl(id));
+    }
+
+    vehicleRowTemplate() {
+      const hasHistory = this.hasHistoryItems();
+
+      return `
+        <div class="pf-modal__vehicle-row ${hasHistory ? "has-history" : ""}">
+          ${this.historyToggleTemplate()}
+          ${this.controlTemplate(this.getControl("brand"))}
+          ${this.controlTemplate(this.getControl("model"))}
+        </div>
+      `;
+    }
+
+    updateVehicleRow() {
+      const row = document.querySelector(".pf-modal__vehicle-row");
+      if (row) row.outerHTML = this.vehicleRowTemplate();
+    }
+
+    updateVehicleControls(ids = ["brand", "model"]) {
+      ids.forEach((id) => this.replaceControl(id));
+    }
+
+    updateHistoryPopover() {
+      const history = document.querySelector(".pf-modal-history");
+      if (!history) return;
+      const toggle = history.querySelector(".pf-modal-history__toggle");
+      history.querySelector(".pf-modal-history__list")?.remove();
+      toggle?.classList.toggle("is-open", this.state.historyOpen);
+      toggle?.setAttribute("aria-expanded", String(this.state.historyOpen));
+      if (this.state.historyOpen) {
+        history.insertAdjacentHTML("beforeend", this.historyListTemplate());
+      }
+    }
+
+    updateVehicleFields() {
+      ["vin", "plate"].forEach((key) => {
+        const field = document.querySelector(`[name="${selectorEscape(key)}"]`);
+        if (field) field.value = this.state.values[key] || "";
+      });
+    }
+
+    collapseOpenControl() {
+      if (!this.state.openControl) return;
+      this.state.openControl = null;
+      const control = document.querySelector(".pf-control--modal.is-open");
+      control?.classList.remove("is-open");
+      control?.querySelector(".pf-field")?.setAttribute("aria-expanded", "false");
+      control?.querySelector(".pf-dropdown")?.remove();
     }
 
     hasHistoryItems() {
@@ -90,7 +146,6 @@
     template() {
       const values = this.state.values;
       const disabled = !this.isComplete();
-      const hasHistory = this.hasHistoryItems();
 
       return `
         <section class="pf-modal__dialog">
@@ -101,11 +156,7 @@
           <form class="pf-modal__form" action="${escapeAttr(this.state.endpoint)}" method="post">
             <input type="hidden" name="mode" value="vin-request">
             <div class="pf-modal__grid">
-              <div class="pf-modal__vehicle-row ${hasHistory ? "has-history" : ""}">
-                ${this.historyToggleTemplate()}
-                ${this.selectTemplate("brand", "Марка", this.state.brandOptions, values.brand)}
-                ${this.selectTemplate("model", "Модель", this.state.modelOptions, values.model)}
-              </div>
+              ${this.vehicleRowTemplate()}
               ${this.inputTemplate("vin", "VIN", values.vin, "text", false, "pf-modal-field--wide")}
               ${this.inputTemplate("plate", "Госномер", values.plate, "text", false, "pf-modal-field--wide")}
               ${this.inputTemplate("name", "ФИО*", values.name, "text", true, "pf-modal-field--wide")}
@@ -169,6 +220,73 @@
       return `<div class="pf-modal-history__list" role="listbox">${rows}</div>`;
     }
 
+    getControl(id) {
+      const isBrand = id === "brand";
+
+      return {
+        id,
+        label: isBrand ? "Марка" : "Модель",
+        placeholder: isBrand ? "Марка" : "Модель",
+        queryKey: id,
+        disabled: !isBrand && !this.state.values.brand,
+        value: this.state.values[id],
+        options: isBrand ? this.state.brandOptions : this.state.modelOptions,
+      };
+    }
+
+    controlTemplate(control) {
+      const isOpen = this.state.openControl === control.id;
+      const hasValue = Boolean(control.value);
+      const label = control.value?.label || control.placeholder;
+
+      return `
+        <div class="pf-control pf-control--request pf-control--modal ${isOpen ? "is-open" : ""}" data-modal-control="${escapeAttr(control.id)}">
+          <div
+            class="pf-field ${hasValue ? "has-value" : ""}"
+            role="button"
+            tabindex="${control.disabled ? "-1" : "0"}"
+            aria-haspopup="listbox"
+            aria-expanded="${isOpen}"
+            aria-disabled="${control.disabled}"
+            data-modal-action="toggle-control"
+            data-id="${escapeAttr(control.id)}"
+          >
+            <span class="pf-field__text">${escapeHtml(label)}</span>
+            ${
+              hasValue
+                ? `<button class="pf-clear" type="button" aria-label="Очистить ${escapeAttr(control.label)}" data-modal-action="clear-control" data-id="${escapeAttr(control.id)}">${iconCross()}</button>`
+                : ""
+            }
+            ${iconArrow()}
+          </div>
+          ${control.value ? `<input type="hidden" name="${escapeAttr(control.queryKey)}" value="${escapeAttr(control.value.id)}">` : ""}
+          ${isOpen && !control.disabled ? this.dropdownTemplate(control) : ""}
+        </div>
+      `;
+    }
+
+    dropdownTemplate(control) {
+      const options = control.options || [];
+
+      return `
+        <div class="pf-dropdown" role="listbox">
+          <div class="pf-options">
+            ${options.length ? options.map((option) => this.optionTemplate(option, control)).join("") : emptyTemplate()}
+          </div>
+        </div>
+      `;
+    }
+
+    optionTemplate(option, control) {
+      const selected = control.value?.id === option.id;
+      return `
+        <button class="pf-option ${selected ? "is-selected" : ""}" type="button" role="option" aria-selected="${selected}" data-modal-action="select-option" data-id="${escapeAttr(control.id)}" data-value="${escapeAttr(option.id)}">
+          <span class="pf-option__label">${escapeHtml(option.label)}</span>
+          ${selected ? `<span class="pf-option__check" aria-hidden="true">${iconCheck()}</span>` : ""}
+        </button>
+      `;
+    }
+
     selectHistory(id) {
       const item = this.state.history?.items?.find((entry) => entry.id === id);
       if (!item) return;
@@ -180,35 +298,12 @@
         plate: item.plate || "",
       };
       this.state.historyOpen = false;
+      this.updateHistoryPopover();
       if (item.brand?.id) {
         this.state.modelOptions = this.state.modelOptionsMap[item.brand.id] || this.state.modelOptions;
       }
-      this.rerender();
-    }
-
-    selectTemplate(id, placeholder, options, value) {
-      const selectedId = value?.id || "";
-      const selectedOption =
-        value && !options.some((option) => option.id === value.id)
-          ? `<option value="${escapeAttr(value.id)}" selected>${escapeHtml(value.label)}</option>`
-          : "";
-      const items = options
-        .map(
-          (option) =>
-            `<option value="${escapeAttr(option.id)}" ${option.id === selectedId ? "selected" : ""}>${escapeHtml(option.label)}</option>`,
-        )
-        .join("");
-
-      return `
-        <label class="pf-modal-field">
-          <span class="visually-hidden">${escapeHtml(placeholder)}</span>
-          <select name="${escapeAttr(id)}" data-modal-field="${escapeAttr(id)}">
-            <option value="">${escapeHtml(placeholder)}</option>
-            ${selectedOption}
-            ${items}
-          </select>
-        </label>
-      `;
+      this.updateVehicleControls();
+      this.updateVehicleFields();
     }
 
     inputTemplate(id, placeholder, value, type = "text", required = false, className = "") {
@@ -239,7 +334,7 @@
       if (event.target.closest("[data-modal-history-toggle]")) {
         event.preventDefault();
         this.state.historyOpen = !this.state.historyOpen;
-        this.rerender();
+        this.updateHistoryPopover();
         return;
       }
 
@@ -247,7 +342,75 @@
       if (historyItem) {
         event.preventDefault();
         this.selectHistory(historyItem.dataset.modalHistory);
+        return;
       }
+
+      const controlAction = event.target.closest("[data-modal-action]");
+      if (controlAction) {
+        event.preventDefault();
+        this.handleControlAction(controlAction);
+        return;
+      }
+
+      if (this.state.openControl && !event.target.closest("[data-modal-control]")) {
+        if (event.target.closest("[data-modal-field], .pf-agreement")) {
+          this.collapseOpenControl();
+          return;
+        }
+        const openControl = this.state.openControl;
+        this.state.openControl = null;
+        this.replaceControl(openControl);
+      }
+    }
+
+    handleControlAction(action) {
+      const id = action.dataset.id;
+      if (action.dataset.modalAction === "toggle-control") {
+        this.toggleControl(id);
+        return;
+      }
+      if (action.dataset.modalAction === "clear-control") {
+        this.clearControl(id);
+        return;
+      }
+      if (action.dataset.modalAction === "select-option") {
+        this.selectOption(id, action.dataset.value);
+      }
+    }
+
+    toggleControl(id) {
+      const control = this.getControl(id);
+      if (!control || control.disabled) return;
+      this.state.historyOpen = false;
+      this.updateHistoryPopover();
+      const previousControl = this.state.openControl;
+      this.state.openControl = this.state.openControl === id ? null : id;
+      if (previousControl && previousControl !== id) this.replaceControl(previousControl);
+      this.replaceControl(id);
+    }
+
+    clearControl(id) {
+      this.state.values[id] = null;
+      if (id === "brand") {
+        this.state.values.model = null;
+        this.state.modelOptions = [];
+      }
+      this.state.openControl = null;
+      this.updateVehicleControls(id === "brand" ? ["brand", "model"] : [id]);
+    }
+
+    selectOption(id, optionId) {
+      const control = this.getControl(id);
+      const option = control.options.find((item) => item.id === optionId);
+      if (!option) return;
+
+      this.state.values[id] = option;
+      if (id === "brand") {
+        this.state.values.model = null;
+        this.state.modelOptions = this.state.modelOptionsMap[option.id] || [];
+      }
+      this.state.openControl = null;
+      this.updateVehicleControls(id === "brand" ? ["brand", "model"] : [id]);
     }
 
     handleCancel(event) {
@@ -260,25 +423,9 @@
       if (!field) return;
       const key = field.dataset.modalField;
 
-      if (field.tagName === "SELECT") {
-        const options =
-          key === "brand" ? this.state.brandOptions : this.state.modelOptions;
-        this.state.values[key] =
-          options.find((option) => option.id === field.value) || null;
-        if (key === "brand") {
-          this.state.values.model = null;
-          this.state.modelOptions = this.state.modelOptionsMap[field.value] || [];
-        }
-      } else {
-        this.state.values[key] =
-          field.type === "checkbox" ? field.checked : field.value;
-      }
-
-      const activeName = field.name;
-      this.rerender();
-      const host = document.querySelector(".pf-modal");
-      const active = host.querySelector(`[name="${CSS.escape(activeName)}"]`);
-      active?.focus();
+      this.state.values[key] =
+        field.type === "checkbox" ? field.checked : field.value;
+      this.updateSubmitState();
     }
 
     isComplete() {
@@ -305,8 +452,21 @@
     return escapeHtml(value);
   }
 
+  function emptyTemplate() {
+    return `<div class="pf-empty">Ничего не найдено</div>`;
+  }
+
+  function selectorEscape(value) {
+    if (window.CSS?.escape) return CSS.escape(value);
+    return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
+  }
+
   function iconCross() {
     return `<svg class="pf-cross-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
+  }
+
+  function iconArrow() {
+    return `<svg class="pf-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.8047 5.80469L8.47168 11.1377H7.52832L2.19531 5.80469L3.1377 4.8623L8 9.72363L12.8623 4.8623L13.8047 5.80469Z"/></svg>`;
   }
 
   function iconCar() {

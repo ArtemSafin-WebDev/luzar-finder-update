@@ -1284,6 +1284,10 @@ button.pf-vin-request__car-icon.is-open {
   grid-template-columns: 4rem repeat(2, minmax(0, 1fr));
 }
 
+.pf-control--modal {
+  width: 100%;
+}
+
 .pf-modal-field {
   display: flex;
   min-width: 0;

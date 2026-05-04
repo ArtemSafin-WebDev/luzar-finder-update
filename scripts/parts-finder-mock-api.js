@@ -1,9 +1,12 @@
 (function () {
   const DEFAULT_ENDPOINTS = {
     state: "/api/parts-finder",
+    controls: "/api/parts-finder/controls",
+    history: "/api/parts-finder/history",
     submit: "/api/parts-finder",
     vinSubmit: "/api/parts-finder/vin",
     vinRequest: "/api/parts-finder/vin-request",
+    vinRequestOptions: "/api/parts-finder/vin-request/options",
     deleteHistory: "/api/parts-finder/history/:id",
   };
   const STEPS = ["brand", "model", "year", "engine", "modification"];
@@ -321,15 +324,27 @@
       return this.buildResponse(params, url, "GET");
     }
 
-    async deleteHistory(id, params) {
-      this.history = this.history.filter((item) => item.id !== id);
-      const url = this.buildUrl(
-        params.selected,
-        resolveEndpoint(this.endpoints.deleteHistory, { id }),
-        params,
+    async getControls(params) {
+      await wait(90);
+      return this.buildControlsPayload(normalizeSelected(params.selected));
+    }
+
+    async getHistory() {
+      await wait(90);
+      return this.buildHistoryPayload();
+    }
+
+    async getVinRequestOptions(params) {
+      await wait(90);
+      return this.buildVinRequestOptionsPayload(
+        normalizeVinRequest(params.vinRequest),
       );
-      await wait(140);
-      return this.buildResponse(params, url, "DELETE");
+    }
+
+    async deleteHistory(id) {
+      this.history = this.history.filter((item) => item.id !== id);
+      await wait(90);
+      return this.buildHistoryPayload();
     }
 
     buildUrl(selected, endpoint = this.endpoints.state, params = {}) {
@@ -345,26 +360,7 @@
       if (mode === "vin") {
         return this.buildVinResponse(params, url, method);
       }
-      const options = this.getOptions(selected);
-      const controls = this.data.fields.map((field) => {
-        const previousComplete = this.isPreviousComplete(field.id, selected);
-        const value =
-          field.type === "multi" ? selected.productGroups : selected[field.id];
-        const fieldOptions =
-          field.id === "productGroups"
-            ? this.data.productGroups
-            : options[field.id];
-
-        return {
-          ...field,
-          disabled: field.id === "brand" ? false : !previousComplete,
-          value,
-          options: fieldOptions,
-          allSelected:
-            field.id === "productGroups" &&
-            value.length === this.data.productGroups.length,
-        };
-      });
+      const controlsPayload = this.buildControlsPayload(selected);
 
       return {
         endpoint: this.endpoints.submit,
@@ -376,23 +372,15 @@
         title: this.data.title,
         mode: "vehicle",
         tabs: this.getTabs("vehicle"),
-        controls,
-        submit: {
-          label: "Подобрать",
-          disabled: !STEPS.every((key) => selected[key]),
-        },
-        history: {
-          enabled: true,
-          label: "Мои авто",
-          items: this.history,
-        },
+        ...controlsPayload,
+        history: this.buildHistoryPayload(),
       };
     }
 
     buildVinResponse(params, url, method) {
       const vinSearch = normalizeVinSearch(params.vinSearch);
       const vinRequest = normalizeVinRequest(params.vinRequest);
-      const requestOptions = this.getVinRequestOptions(vinRequest);
+      const requestOptionsPayload = this.buildVinRequestOptionsPayload(vinRequest);
       const foundVehicle = HISTORY_SEED[0];
       const state = normalizeVinResult(vinSearch.result);
 
@@ -428,42 +416,85 @@
         vinRequest: {
           endpoint: this.endpoints.vinRequest,
           value: vinRequest,
-          controls: [
-            {
-              id: "brand",
-              type: "single",
-              label: "Марка",
-              placeholder: "Марка",
-              queryKey: "brand",
-              disabled: false,
-              value: vinRequest.brand,
-              options: requestOptions.brand,
-            },
-            {
-              id: "model",
-              type: "single",
-              label: "Модель",
-              placeholder: "Модель",
-              queryKey: "model",
-              disabled: !vinRequest.brand,
-              value: vinRequest.model,
-              options: requestOptions.model,
-            },
-          ],
-          brandOptions: this.data.vehicles.map(toOption),
-          modelOptions: this.data.vehicles.reduce((result, brand) => {
-            result[brand.id] = brand.models.map(toOption);
-            return result;
-          }, {}),
-          submit: {
-            label: "Отправить запрос",
-            disabled: !isVinRequestComplete(vinRequest),
-          },
+          ...requestOptionsPayload,
         },
-        history: {
-          enabled: true,
-          label: "Мои авто",
-          items: this.history,
+        history: this.buildHistoryPayload(),
+      };
+    }
+
+    buildControlsPayload(selected) {
+      const options = this.getOptions(selected);
+      const controls = this.data.fields.map((field) => {
+        const previousComplete = this.isPreviousComplete(field.id, selected);
+        const value =
+          field.type === "multi" ? selected.productGroups : selected[field.id];
+        const fieldOptions =
+          field.id === "productGroups"
+            ? this.data.productGroups
+            : options[field.id];
+
+        return {
+          ...field,
+          disabled: field.id === "brand" ? false : !previousComplete,
+          value,
+          options: fieldOptions,
+          allSelected:
+            field.id === "productGroups" &&
+            value.length === this.data.productGroups.length,
+        };
+      });
+
+      return {
+        controls,
+        submit: {
+          label: "Подобрать",
+          disabled: !STEPS.every((key) => selected[key]),
+        },
+      };
+    }
+
+    buildHistoryPayload() {
+      return {
+        enabled: true,
+        label: "Мои авто",
+        items: this.history,
+      };
+    }
+
+    buildVinRequestOptionsPayload(vinRequest) {
+      const requestOptions = this.getVinRequestOptions(vinRequest);
+
+      return {
+        controls: [
+          {
+            id: "brand",
+            type: "single",
+            label: "Марка",
+            placeholder: "Марка",
+            queryKey: "brand",
+            disabled: false,
+            value: vinRequest.brand,
+            options: requestOptions.brand,
+          },
+          {
+            id: "model",
+            type: "single",
+            label: "Модель",
+            placeholder: "Модель",
+            queryKey: "model",
+            disabled: !vinRequest.brand,
+            value: vinRequest.model,
+            options: requestOptions.model,
+          },
+        ],
+        brandOptions: this.data.vehicles.map(toOption),
+        modelOptions: this.data.vehicles.reduce((result, brand) => {
+          result[brand.id] = brand.models.map(toOption);
+          return result;
+        }, {}),
+        submit: {
+          label: "Отправить запрос",
+          disabled: !isVinRequestComplete(vinRequest),
         },
       };
     }
