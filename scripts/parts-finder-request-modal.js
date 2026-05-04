@@ -177,9 +177,7 @@
     isComplete() {
       const values = this.state.values;
       return Boolean(
-        values.brand &&
-          values.model &&
-          values.name.trim() &&
+        values.name.trim() &&
           values.phone.trim() &&
           values.parts.trim() &&
           values.agreement,

@@ -556,9 +556,7 @@
 
   function isVinRequestComplete(request) {
     return Boolean(
-      request.brand &&
-        request.model &&
-        request.name?.trim() &&
+      request.name?.trim() &&
         request.phone?.trim() &&
         request.parts?.trim() &&
         request.agreement,

@@ -604,6 +604,12 @@
     0 0 24px rgba(31, 44, 71, 0.1);
 }
 
+.pf-history--vin-request {
+  left: var(--pf-history-left, 0);
+  top: var(--pf-history-top, calc(100% + 0.4rem));
+  width: var(--pf-history-width, 100%);
+}
+
 .pf-history--empty {
   display: flex;
   align-items: center;
@@ -895,6 +901,21 @@
   width: 4rem;
   height: 4rem;
   border-radius: 0.8rem;
+  border: 0;
+  padding: 0;
+}
+
+button.pf-vin-request__car-icon {
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+button.pf-vin-request__car-icon:hover,
+button.pf-vin-request__car-icon.is-open {
+  background: #00205c;
+  color: #ffffff;
 }
 
 .pf-vin-icon {
@@ -1009,6 +1030,12 @@
   display: grid;
   grid-template-columns: 4rem minmax(16rem, 20.9rem) minmax(13rem, 1fr) minmax(16rem, 1fr) minmax(14rem, 1fr);
   gap: 0.8rem;
+  min-width: 0;
+}
+
+.pf-vin-request__history-anchor {
+  position: relative;
+  display: flex;
   min-width: 0;
 }
 
@@ -1341,6 +1368,7 @@
     max-width: none;
   }
 
+  .pf-vin-request__history-anchor,
   .pf-vin-request__car-icon {
     display: none;
   }

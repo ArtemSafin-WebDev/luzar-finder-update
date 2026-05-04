@@ -79,7 +79,7 @@
       this.mode = normalizeMode(options.initialMode);
       this.search = {};
       this.openControl = null;
-      this.historyOpen = false;
+      this.historyOpen = null;
       this.expandedTags = false;
       this.vinSearch = {
         value: options.initialVin || "",
@@ -131,7 +131,8 @@
           this.openVinRequestModal();
         if (actionName === "toggle-option") this.toggleOption(value);
         if (actionName === "toggle-all") this.toggleAllGroups();
-        if (actionName === "toggle-history") this.toggleHistory();
+        if (actionName === "toggle-history")
+          this.toggleHistory(action.dataset.placement);
         if (actionName === "select-history") this.selectHistory(value);
         if (actionName === "delete-history") this.deleteHistory(value);
         if (actionName === "more-tags") this.expandTags();
@@ -169,7 +170,7 @@
         if (this.root.contains(event.target)) return;
         if (!this.openControl && !this.historyOpen) return;
         this.openControl = null;
-        this.historyOpen = false;
+        this.historyOpen = null;
         this.render();
       });
     }
@@ -207,6 +208,7 @@
       if (options.productGroupsScrollTop !== undefined) {
         this.restoreProductGroupsScrollTop(options.productGroupsScrollTop);
       }
+      this.positionVinRequestHistory();
     }
 
     template() {
@@ -216,7 +218,7 @@
           <div class="parts-finder__workspace">
             ${this.tabsTemplate()}
             ${this.mode === "vin" ? this.vinTemplate() : this.inputGroupTemplate()}
-            ${this.historyOpen && this.response.history?.enabled ? this.historyTemplate() : ""}
+            ${this.historyOpen === "tabs" && this.response.history?.enabled ? this.historyTemplate("tabs") : ""}
           </div>
         </article>
       `;
@@ -241,7 +243,7 @@
       const history = this.response.history;
       const historyToggle = history?.enabled
         ? `
-          <button class="pf-history-toggle ${this.historyOpen ? "is-open" : ""}" type="button" data-action="toggle-history">
+          <button class="pf-history-toggle ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" data-action="toggle-history" data-placement="tabs">
             ${iconCar()}
             <span>${escapeHtml(history.label)}</span>
             <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
@@ -263,6 +265,7 @@
         <div class="pf-vin-panel">
           ${this.vinSearchTemplate()}
           ${state === "not-found" ? this.vinRequestTemplate() : ""}
+          ${state === "not-found" && this.historyOpen === "vinRequest" ? this.historyTemplate("vinRequest") : ""}
         </div>
         ${state === "found" ? this.vinFoundTemplate() : ""}
       `;
@@ -354,7 +357,7 @@
             <div class="pf-vin-request__fields">
               <div class="pf-vin-request__main-fields">
                 <div class="pf-vin-request__vehicle-row">
-                  <div class="pf-vin-request__car-icon" aria-hidden="true">${iconCar()}</div>
+                  ${this.vinRequestHistoryToggleTemplate()}
                   ${controls.map((control) => this.requestControlTemplate(control)).join("")}
                   ${this.requestInputTemplate("vin", "VIN", false)}
                   ${this.requestInputTemplate("plate", "Госномер", false)}
@@ -680,12 +683,42 @@
       `;
     }
 
-    historyTemplate() {
+    vinRequestHistoryToggleTemplate() {
+      const history = this.response.history;
+      if (!history?.enabled) {
+        return `<div class="pf-vin-request__car-icon" aria-hidden="true">${iconCar()}</div>`;
+      }
+      const isOpen = this.historyOpen === "vinRequest";
+
+      return `
+        <div class="pf-vin-request__history-anchor">
+          <button
+            class="pf-vin-request__car-icon ${isOpen ? "is-open" : ""}"
+            type="button"
+            aria-label="${escapeAttr(history.label)}"
+            aria-haspopup="dialog"
+            aria-expanded="${isOpen}"
+            data-action="toggle-history"
+            data-placement="vinRequest"
+          >${iconCar()}</button>
+        </div>
+      `;
+    }
+
+    historyTemplate(placement = "tabs") {
       const items = this.response.history?.items || [];
+      const placementClass = placement === "vinRequest" ? "vin-request" : placement;
+      const className = [
+        "pf-history",
+        `pf-history--${placementClass}`,
+        !items.length ? "pf-history--empty" : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
 
       if (!items.length) {
         return `
-          <div class="pf-history pf-history--empty">
+          <div class="${className}">
             <div class="pf-history-empty" role="status">
               <div class="pf-history-empty__icon" aria-hidden="true">
                 ${iconSleep()}
@@ -723,7 +756,7 @@
         .join("");
 
       return `
-        <div class="pf-history">
+        <div class="${className}">
           <div class="pf-history__scroller">
             <div class="pf-history__table">
               <div class="pf-history__row pf-history__row--head" aria-hidden="true">
@@ -746,7 +779,7 @@
     toggleControl(id) {
       const control = this.response.controls.find((item) => item.id === id);
       if (!control || control.disabled) return;
-      this.historyOpen = false;
+      this.historyOpen = null;
       this.openControl = this.openControl === id ? null : id;
       this.search[id] = "";
       if (id !== "productGroups") this.expandedTags = false;
@@ -769,7 +802,7 @@
       const tab = this.response.tabs.find((item) => item.id === normalizedMode);
       if (!tab || tab.disabled || this.mode === normalizedMode) return;
       this.mode = normalizedMode;
-      this.historyOpen = false;
+      this.historyOpen = null;
       this.openControl = null;
       this.expandedTags = false;
       await this.refresh();
@@ -779,7 +812,7 @@
       const control = this.getVinRequestControls().find((item) => item.id === id);
       if (!control || control.disabled) return;
       const key = `vinRequest:${id}`;
-      this.historyOpen = false;
+      this.historyOpen = null;
       this.openControl = this.openControl === key ? null : key;
       this.search[key] = "";
       this.render();
@@ -858,9 +891,9 @@
       }
     }
 
-    toggleHistory() {
+    toggleHistory(placement = "tabs") {
       if (!this.response.history?.enabled) return;
-      this.historyOpen = !this.historyOpen;
+      this.historyOpen = this.historyOpen === placement ? null : placement;
       this.openControl = null;
       this.render();
     }
@@ -868,6 +901,19 @@
     async selectHistory(id) {
       const item = this.response.history?.items.find((entry) => entry.id === id);
       if (!item) return;
+      if (this.mode === "vin" && this.historyOpen === "vinRequest") {
+        this.vinRequest = {
+          ...this.vinRequest,
+          brand: item.brand || null,
+          model: item.model || null,
+          vin: item.vin || "",
+          plate: item.plate || "",
+        };
+        this.historyOpen = null;
+        this.openControl = null;
+        await this.refresh();
+        return;
+      }
       if (this.mode === "vin") {
         const value = item.vin || item.plate || "";
         this.vinSearch.value = value;
@@ -880,7 +926,7 @@
             foundVehicle: null,
           };
         }
-        this.historyOpen = false;
+        this.historyOpen = null;
         this.openControl = null;
         this.render();
         return;
@@ -889,7 +935,7 @@
         this.selected[key] = item[key];
       });
       this.selected.productGroups = [];
-      this.historyOpen = false;
+      this.historyOpen = null;
       this.openControl = null;
       await this.refresh();
     }
@@ -1004,9 +1050,7 @@
 
     isVinRequestComplete() {
       return Boolean(
-        this.vinRequest.brand &&
-          this.vinRequest.model &&
-          this.vinRequest.name.trim() &&
+        this.vinRequest.name.trim() &&
           this.vinRequest.phone.trim() &&
           this.vinRequest.parts.trim() &&
           this.vinRequest.agreement,
@@ -1059,6 +1103,32 @@
       );
       if (!dropdown) return;
       dropdown.scrollTop = scrollTop;
+    }
+
+    positionVinRequestHistory() {
+      const panel = this.root.querySelector(".pf-history--vin-request");
+      if (!panel) return;
+      const icon = this.root.querySelector(
+        ".pf-vin-request__history-anchor .pf-vin-request__car-icon",
+      );
+      const fields = this.root.querySelector(".pf-vin-request__fields");
+      const context = this.root.querySelector(".pf-vin-panel");
+      if (!icon || !fields || !context) return;
+      const iconRect = icon.getBoundingClientRect();
+      const fieldsRect = fields.getBoundingClientRect();
+      const contextRect = context.getBoundingClientRect();
+      panel.style.setProperty(
+        "--pf-history-left",
+        `${iconRect.left - contextRect.left}px`,
+      );
+      panel.style.setProperty(
+        "--pf-history-top",
+        `${iconRect.bottom - contextRect.top + 4}px`,
+      );
+      panel.style.setProperty(
+        "--pf-history-width",
+        `${fieldsRect.right - iconRect.left}px`,
+      );
     }
 
   }
