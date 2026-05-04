@@ -7,23 +7,103 @@
     <title>LUZAR - подбор запчастей</title>
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="styles/luzar-base.css">
+    <link rel="stylesheet" href="styles/luzar-header.css">
     <link rel="stylesheet" href="styles/parts-finder.css">
   </head>
   <body>
     <div class="page">
-      <header class="page-header">
+      <header class="luzar-header" data-luzar-header>
         <div class="page__center">
-          <div class="header-shell">
-            <a class="logo" href="/" aria-label="LUZAR">LUZAR</a>
-
-            <nav class="main-nav" aria-label="Основная навигация">
-              <a href="#">Каталог</a>
-              <a href="#">Где купить</a>
-              <a href="#">Материалы</a>
-              <a href="#">Контакты</a>
+          <div class="luzar-header__top">
+            <nav class="luzar-header__nav" aria-label="Верхняя навигация">
+              <a class="luzar-header__nav-link" href="/about/">О компании</a>
+              <a class="luzar-header__nav-link" href="/where-buy/">Точки продаж</a>
+              <a class="luzar-header__nav-link" href="/about/garantiynye-obyazatelstva/">Гарантия</a>
+              <a class="luzar-header__nav-link" href="/materials/">Материалы</a>
+              <a class="luzar-header__nav-link" href="/news/">Новости</a>
+              <a class="luzar-header__nav-link" href="/contacts/">Контакты</a>
+              <a class="luzar-header__nav-link" href="/faqs/">Вопрос-ответ</a>
             </nav>
 
-            <a class="btn btn-filled" href="#">Подбор по VIN</a>
+            <div class="luzar-header__academy">
+              <a class="luzar-header__academy-link" href="/academy/" aria-haspopup="true">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M12.6667 8.18813V9.33346C12.6667 10.5711 12.175 11.7581 11.2998 12.6333C10.4247 13.5085 9.23769 14.0001 8.00001 14.0001C6.76233 14.0001 5.57535 13.5085 4.70018 12.6333C3.82501 11.7581 3.33334 10.5711 3.33334 9.33346V8.18813L7.57268 10.1928C7.70629 10.2559 7.85223 10.2887 8.00001 10.2887C8.14779 10.2887 8.29374 10.2559 8.42734 10.1928L12.6667 8.18813ZM8.42734 1.80813L14.4807 4.6708C14.97 4.90146 15.032 5.5388 14.6667 5.8728V8.6668C14.6667 8.84361 14.5964 9.01318 14.4714 9.1382C14.3464 9.26323 14.1768 9.33346 14 9.33346C13.8232 9.33346 13.6536 9.26323 13.5286 9.1382C13.4036 9.01318 13.3333 8.84361 13.3333 8.6668V6.54013L8.42734 8.86013C8.29374 8.92328 8.14779 8.95604 8.00001 8.95604C7.85223 8.95604 7.70629 8.92328 7.57268 8.86013L1.51934 5.9968C1.39391 5.93734 1.28793 5.84351 1.21371 5.72621C1.13949 5.6089 1.1001 5.47294 1.1001 5.33413C1.1001 5.19532 1.13949 5.05936 1.21371 4.94205C1.28793 4.82475 1.39391 4.73092 1.51934 4.67146L7.57268 1.8088C7.70629 1.74564 7.85223 1.71289 8.00001 1.71289C8.14779 1.71289 8.29374 1.74564 8.42734 1.8088V1.80813Z" />
+                </svg>
+                Академия ЛУЗАР
+              </a>
+              <div class="luzar-header__academy-menu" role="menu">
+                <a href="/academy/" role="menuitem">Академия LUZAR</a>
+                <a href="/academy/library/" role="menuitem">Обучающая библиотека</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="luzar-header__bottom">
+            <a class="luzar-header__logo" href="/" aria-label="LUZAR">
+              <img src="images/logo.svg" width="162" height="48" alt="">
+            </a>
+
+            <a class="luzar-header__catalog" href="/catalogue/">
+              <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M14.667 12.667H1.33301V11.333H14.667V12.667ZM14.667 8.66699H1.33301V7.33301H14.667V8.66699ZM14.667 4.66699H1.33301V3.33301H14.667V4.66699Z" />
+              </svg>
+              Каталог
+            </a>
+
+            <form class="luzar-header__search" action="/catalogue/" method="get" role="search">
+              <label class="visually-hidden" for="luzar-header-search">Поиск по каталогу</label>
+              <input id="luzar-header-search" type="search" name="q" placeholder="Искать на сайте по наименованию или артикулу" autocomplete="off">
+              <button class="luzar-header__search-submit" type="submit" aria-label="Найти">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M7.3335 1.33301C10.6472 1.33301 13.3335 4.0193 13.3335 7.33301C13.3335 8.74965 12.8411 10.0507 12.02 11.0771L15.1382 14.1953L14.1958 15.1377L11.0776 12.0195C10.0512 12.8406 8.75014 13.333 7.3335 13.333C4.01979 13.333 1.3335 10.6467 1.3335 7.33301C1.3335 4.0193 4.01979 1.33301 7.3335 1.33301ZM7.3335 2.66602C4.75617 2.66602 2.6665 4.75568 2.6665 7.33301C2.6665 9.91034 4.75617 12 7.3335 12C9.91083 12 12.0005 9.91034 12.0005 7.33301C12.0005 4.75568 9.91083 2.66602 7.3335 2.66602Z" />
+                </svg>
+              </button>
+            </form>
+
+            <div class="luzar-header__actions" aria-label="Действия пользователя">
+              <a class="luzar-header__action" href="/favorites/" aria-label="Избранное">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z" />
+                </svg>
+              </a>
+              <a class="luzar-header__action luzar-header__action--cart" href="/cart/" aria-label="Корзина">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M5 12.667C5.26522 12.667 5.51949 12.7724 5.70703 12.96C5.89447 13.1475 6 13.4019 6 13.667C5.99991 13.9321 5.89449 14.1866 5.70703 14.374C5.51951 14.5615 5.26514 14.667 5 14.667C4.73486 14.667 4.48049 14.5615 4.29297 14.374C4.10551 14.1866 4.00009 13.9321 4 13.667C4 13.4019 4.10553 13.1475 4.29297 12.96C4.48051 12.7724 4.73478 12.667 5 12.667ZM11.667 12.667C11.9321 12.6671 12.1866 12.7725 12.374 12.96C12.5614 13.1475 12.667 13.4019 12.667 13.667C12.6669 13.9321 12.5615 14.1866 12.374 14.374C12.1866 14.5615 11.9321 14.6669 11.667 14.667C11.4019 14.667 11.1475 14.5614 10.96 14.374C10.7725 14.1866 10.6671 13.9321 10.667 13.667C10.667 13.4018 10.7724 13.1475 10.96 12.96C11.1475 12.7724 11.4018 12.667 11.667 12.667ZM3.63184 2.07031L3.99805 2.61523L4.05371 3.33301H14L14.6553 4.11914L13.3223 11.4521L12.667 12H4L3.33496 11.3848L2.69727 3.09375L1.10547 2.29785L1.70215 1.10547L3.63184 2.07031ZM4.61719 10.667H12.1104L13.2021 4.66699H4.15625L4.61719 10.667Z" />
+                </svg>
+                <span class="luzar-header__cart-count">3</span>
+              </a>
+            </div>
+
+            <button class="luzar-header__mobile-search-trigger" type="button" aria-label="Открыть поиск" aria-controls="luzar-header-mobile-search" aria-expanded="false" data-luzar-header-search-toggle>
+              <svg class="luzar-header__icon" width="24" height="24" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M7.3335 1.33301C10.6472 1.33301 13.3335 4.0193 13.3335 7.33301C13.3335 8.74965 12.8411 10.0507 12.02 11.0771L15.1382 14.1953L14.1958 15.1377L11.0776 12.0195C10.0512 12.8406 8.75014 13.333 7.3335 13.333C4.01979 13.333 1.3335 10.6467 1.3335 7.33301C1.3335 4.0193 4.01979 1.33301 7.3335 1.33301ZM7.3335 2.66602C4.75617 2.66602 2.6665 4.75568 2.6665 7.33301C2.6665 9.91034 4.75617 12 7.3335 12C9.91083 12 12.0005 9.91034 12.0005 7.33301C12.0005 4.75568 9.91083 2.66602 7.3335 2.66602Z" />
+              </svg>
+            </button>
+
+            <button class="luzar-header__burger" type="button" aria-label="Открыть меню" aria-controls="luzar-header-menu" aria-expanded="false" data-luzar-header-menu-toggle>
+              <svg class="luzar-header__icon" width="24" height="24" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M14.667 12.667H1.33301V11.333H14.667V12.667ZM14.667 8.66699H1.33301V7.33301H14.667V8.66699ZM14.667 4.66699H1.33301V3.33301H14.667V4.66699Z" />
+              </svg>
+            </button>
+          </div>
+
+          <form class="luzar-header__mobile-search" id="luzar-header-mobile-search" action="/catalogue/" method="get" role="search" aria-hidden="true" data-luzar-header-mobile-search>
+            <label class="visually-hidden" for="luzar-header-mobile-search-input">Поиск по каталогу</label>
+            <input id="luzar-header-mobile-search-input" type="search" name="q" placeholder="Поиск по каталогу" autocomplete="off">
+            <button type="submit">Найти</button>
+            <button type="button" data-luzar-header-search-close>Отмена</button>
+          </form>
+
+          <div class="luzar-header__mobile-panel" id="luzar-header-menu" aria-hidden="true" data-luzar-header-menu>
+            <a href="/catalogue/">Каталог</a>
+            <button type="button" data-luzar-header-scroll-target="#parts-finder">Подобрать по авто или VIN</button>
+            <a href="/academy/">Обучение LUZAR</a>
+            <a href="/where-buy/">Точки продаж</a>
+            <a href="/materials/">Материалы</a>
+            <a href="/contacts/">Контакты</a>
+            <a href="/favorites/">Избранное</a>
+            <a href="/cart/">Корзина</a>
           </div>
         </div>
       </header>
@@ -40,5 +120,6 @@
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js" defer></script>
     <script src="scripts/parts-finder.js" defer></script>
+    <script src="scripts/luzar-header.js" defer></script>
   </body>
 </html>
