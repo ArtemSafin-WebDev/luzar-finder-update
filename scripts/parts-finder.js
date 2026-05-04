@@ -347,19 +347,25 @@
         <section class="pf-vin-request" aria-label="Заявка на подбор деталей">
           <div class="pf-vin-request__intro">
             <h2>Авто не найдено. Отправьте запрос на подбор запчастей для вашего авто</h2>
-            <p>Возможно, данные в реестре еще не обновились</p>
+            <p>Возможно, данные в реестре ещё не обновились</p>
           </div>
           <form class="pf-vin-request__form" action="${escapeAttr(action)}" method="post">
             <input type="hidden" name="mode" value="vin-request">
             <div class="pf-vin-request__fields">
-              <div class="pf-vin-request__car-icon" aria-hidden="true">${iconCar()}</div>
-              ${controls.map((control) => this.requestControlTemplate(control)).join("")}
-              ${this.requestInputTemplate("vin", "VIN", false)}
-              ${this.requestInputTemplate("plate", "Госномер", false)}
+              <div class="pf-vin-request__main-fields">
+                <div class="pf-vin-request__vehicle-row">
+                  <div class="pf-vin-request__car-icon" aria-hidden="true">${iconCar()}</div>
+                  ${controls.map((control) => this.requestControlTemplate(control)).join("")}
+                  ${this.requestInputTemplate("vin", "VIN", false)}
+                  ${this.requestInputTemplate("plate", "Госномер", false)}
+                </div>
+                <div class="pf-vin-request__contact-row">
+                  ${this.requestInputTemplate("name", "ФИО*", true)}
+                  ${this.requestInputTemplate("phone", "Телефон*", true, "tel")}
+                  ${this.requestInputTemplate("email", "Email", false, "email")}
+                </div>
+              </div>
               ${this.requestInputTemplate("parts", "Интересующие запчасти*", true)}
-              ${this.requestInputTemplate("name", "ФИО*", true)}
-              ${this.requestInputTemplate("phone", "Телефон*", true, "tel")}
-              ${this.requestInputTemplate("email", "Email", false, "email")}
             </div>
             ${this.agreementTemplate("inline")}
             <button class="pf-submit pf-submit--with-icon" type="submit" ${disabled ? "disabled" : ""}>
@@ -373,6 +379,20 @@
 
     requestInputTemplate(id, placeholder, required, type = "text") {
       const value = this.vinRequest[id] || "";
+      if (id === "parts") {
+        return `
+          <label class="pf-request-input pf-request-input--parts">
+            <span class="visually-hidden">${escapeHtml(placeholder)}</span>
+            <textarea
+              name="${escapeAttr(id)}"
+              placeholder="${escapeAttr(placeholder)}"
+              ${required ? "required" : ""}
+              data-vin-request-field="${escapeAttr(id)}"
+            >${escapeHtml(value)}</textarea>
+          </label>
+        `;
+      }
+
       return `
         <label class="pf-request-input ${id === "parts" ? "pf-request-input--parts" : ""}">
           <span class="visually-hidden">${escapeHtml(placeholder)}</span>
@@ -392,7 +412,8 @@
       return `
         <label class="pf-agreement pf-agreement--${escapeAttr(scope)}">
           <input type="checkbox" name="agreement" value="1" ${this.vinRequest.agreement ? "checked" : ""} data-vin-request-field="agreement">
-          <span>
+          <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
+          <span class="pf-agreement__text">
             Я принимаю <a href="#">Пользовательское соглашение</a> и
             <a href="#">Политику обработки персональных данных</a>
           </span>
@@ -1216,7 +1237,7 @@
   }
 
   function iconSent() {
-    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.4424 1.55762L12.4424 14.2246L11.418 14.5811L7.54199 10.7051L5.33301 12.333L4.52051 11.4961L5.98145 8.9502L1.41895 4.38672L1.77539 3.3623L14.4424 1.55762ZM6.77051 8.14941L11.3594 3.56152L3.32812 4.70703L6.77051 8.14941ZM11.293 12.6719L12.6094 4.33789L8.4834 8.46289L11.293 12.6719ZM7.30469 9.6416L7.4834 9.46289L8.42969 10.4092L7.2998 9.65723L7.30469 9.6416Z"/></svg>`;
+    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.9619 2.88867L9.96191 14.2217L8.75488 14.3311L6.17773 9.82129L1.66895 7.24512L1.77832 6.03809L13.1113 2.03809L13.9619 2.88867ZM7.49805 9.44434L9.18848 12.4033L11.7256 5.21582L7.49805 9.44434ZM3.5957 6.81055L6.55566 8.50195L10.7832 4.27344L3.5957 6.81055Z"/></svg>`;
   }
 
   const root = document.getElementById("parts-finder");

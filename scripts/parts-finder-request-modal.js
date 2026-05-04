@@ -79,7 +79,8 @@
             </div>
             <label class="pf-agreement pf-agreement--modal">
               <input type="checkbox" name="agreement" value="1" ${values.agreement ? "checked" : ""} data-modal-field="agreement">
-              <span>
+              <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
+              <span class="pf-agreement__text">
                 Я принимаю <a href="#">Пользовательское соглашение</a> и
                 <a href="#">Политику обработки персональных данных</a>
               </span>
@@ -201,6 +202,10 @@
 
   function iconCross() {
     return `<svg class="pf-cross-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
+  }
+
+  function iconCheck() {
+    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.4717 4.27637L6.47168 12.2764H5.52832L1.52832 8.27637L2.47168 7.33301L6 10.8623L13.5283 3.33301L14.4717 4.27637Z"/></svg>`;
   }
 
   function iconSent() {

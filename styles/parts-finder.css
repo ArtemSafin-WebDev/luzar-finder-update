@@ -780,6 +780,7 @@
 
 .pf-vin-search__input,
 .pf-request-input input,
+.pf-request-input textarea,
 .pf-modal-field input,
 .pf-modal-field select,
 .pf-modal-field textarea {
@@ -820,6 +821,7 @@
 
 .pf-vin-search__input::placeholder,
 .pf-request-input input::placeholder,
+.pf-request-input textarea::placeholder,
 .pf-modal-field input::placeholder,
 .pf-modal-field textarea::placeholder {
   color: #afb2b7;
@@ -829,6 +831,8 @@
 .pf-vin-search__input:focus,
 .pf-request-input input:hover,
 .pf-request-input input:focus,
+.pf-request-input textarea:hover,
+.pf-request-input textarea:focus,
 .pf-modal-field input:hover,
 .pf-modal-field input:focus,
 .pf-modal-field select:hover,
@@ -956,7 +960,6 @@
 .pf-vin-request {
   display: grid;
   gap: 1.6rem;
-  border-top: 1px solid #e5e6e7;
   padding: 1.6rem;
 }
 
@@ -983,40 +986,70 @@
 .pf-vin-request__form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 1.2rem;
+  gap: 1.2rem 1.6rem;
   align-items: end;
 }
 
 .pf-vin-request__fields {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1fr) 34rem;
+  gap: 0.8rem;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.pf-vin-request__main-fields {
+  display: grid;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.pf-vin-request__vehicle-row {
+  display: grid;
+  grid-template-columns: 4rem minmax(16rem, 20.9rem) minmax(13rem, 1fr) minmax(16rem, 1fr) minmax(14rem, 1fr);
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.pf-vin-request__contact-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
   min-width: 0;
 }
 
 .pf-control--request {
-  flex: 1 1 var(--pf-control-width, 18rem);
-  max-width: 22rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .pf-request-input {
   display: flex;
-  flex: 1 1 18rem;
-  min-width: 16rem;
+  min-width: 0;
 }
 
 .pf-request-input--parts {
-  flex-basis: 24rem;
+  align-self: stretch;
 }
 
-.pf-request-input input {
+.pf-request-input input,
+.pf-request-input textarea {
   height: 4rem;
   padding: 1.1rem 1.2rem;
 }
 
+.pf-request-input textarea {
+  display: block;
+  height: 100%;
+  min-height: 8.8rem;
+  resize: none;
+}
+
 .pf-agreement {
+  position: relative;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.8rem;
   min-width: 0;
   color: #797d86;
@@ -1029,20 +1062,45 @@
 }
 
 .pf-agreement input {
-  width: 1.6rem;
-  height: 1.6rem;
+  position: absolute;
+  width: 1px;
+  height: 1px;
   margin: 0;
-  accent-color: #00205c;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pf-agreement .pf-checkbox {
+  margin-top: 0;
+}
+
+.pf-agreement input:checked + .pf-checkbox::before {
+  border-color: #3a8dde;
+  background: #3a8dde;
+}
+
+.pf-agreement input:checked + .pf-checkbox svg {
+  opacity: 1;
+}
+
+.pf-agreement input:focus-visible + .pf-checkbox::before {
+  border-color: #3a8dde;
+  box-shadow: 0 0 0 0.2rem rgba(58, 141, 222, 0.24);
+}
+
+.pf-agreement__text {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .pf-agreement a {
-  color: #3a8dde;
+  color: #00205c;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .pf-agreement a:hover {
-  color: #00205c;
+  color: #3a8dde;
 }
 
 .pf-submit--with-icon {
@@ -1196,14 +1254,6 @@
     flex-wrap: wrap;
   }
 
-  .pf-vin-request__form {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .pf-agreement--inline {
-    grid-column: auto;
-  }
-
   .pf-control {
     flex: 1 1 16rem;
   }
@@ -1276,12 +1326,27 @@
     grid-template-columns: 1fr;
   }
 
+  .pf-vin-request__form,
+  .pf-vin-request__fields,
+  .pf-vin-request__vehicle-row,
+  .pf-vin-request__contact-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pf-agreement--inline {
+    grid-column: auto;
+  }
+
   .pf-control--request {
     max-width: none;
   }
 
   .pf-vin-request__car-icon {
     display: none;
+  }
+
+  .pf-request-input textarea {
+    min-height: 8rem;
   }
 
   .pf-modal {
