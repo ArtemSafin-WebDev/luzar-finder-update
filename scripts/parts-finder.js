@@ -218,7 +218,7 @@
           <div class="parts-finder__workspace">
             ${this.tabsTemplate()}
             ${this.mode === "vin" ? this.vinTemplate() : this.inputGroupTemplate()}
-            ${this.historyOpen === "tabs" && this.response.history?.enabled ? this.historyTemplate("tabs") : ""}
+            ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
           </div>
         </article>
       `;
@@ -241,7 +241,7 @@
         )
         .join("");
       const history = this.response.history;
-      const historyToggle = history?.enabled
+      const historyToggle = this.hasHistoryItems()
         ? `
           <button class="pf-history-toggle ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" data-action="toggle-history" data-placement="tabs">
             ${iconCar()}
@@ -265,7 +265,7 @@
         <div class="pf-vin-panel">
           ${this.vinSearchTemplate()}
           ${state === "not-found" ? this.vinRequestTemplate() : ""}
-          ${state === "not-found" && this.historyOpen === "vinRequest" ? this.historyTemplate("vinRequest") : ""}
+          ${state === "not-found" && this.historyOpen === "vinRequest" && this.hasHistoryItems() ? this.historyTemplate("vinRequest") : ""}
         </div>
         ${state === "found" ? this.vinFoundTemplate() : ""}
       `;
@@ -356,7 +356,7 @@
             <input type="hidden" name="mode" value="vin-request">
             <div class="pf-vin-request__fields">
               <div class="pf-vin-request__main-fields">
-                <div class="pf-vin-request__vehicle-row">
+                <div class="pf-vin-request__vehicle-row ${this.hasHistoryItems() ? "has-history" : "no-history"}">
                   ${this.vinRequestHistoryToggleTemplate()}
                   ${controls.map((control) => this.requestControlTemplate(control)).join("")}
                   ${this.requestInputTemplate("vin", "VIN", false)}
@@ -685,9 +685,7 @@
 
     vinRequestHistoryToggleTemplate() {
       const history = this.response.history;
-      if (!history?.enabled) {
-        return `<div class="pf-vin-request__car-icon" aria-hidden="true">${iconCar()}</div>`;
-      }
+      if (!this.hasHistoryItems()) return "";
       const isOpen = this.historyOpen === "vinRequest";
 
       return `
@@ -703,6 +701,10 @@
           >${iconCar()}</button>
         </div>
       `;
+    }
+
+    hasHistoryItems() {
+      return Boolean(this.response.history?.enabled && this.response.history.items?.length);
     }
 
     historyTemplate(placement = "tabs") {
@@ -892,7 +894,7 @@
     }
 
     toggleHistory(placement = "tabs") {
-      if (!this.response.history?.enabled) return;
+      if (!this.hasHistoryItems()) return;
       this.historyOpen = this.historyOpen === placement ? null : placement;
       this.openControl = null;
       this.render();
@@ -979,6 +981,7 @@
         brandOptions: this.getVinBrandOptions(),
         modelOptions: this.getVinModelOptions(vehicle.brand || this.vinRequest.brand),
         modelOptionsMap: this.response.vinRequest?.modelOptions || {},
+        history: this.response.history,
       });
     }
 
@@ -999,6 +1002,7 @@
           ...this.response.vinRequest.value,
         };
       }
+      if (!this.hasHistoryItems()) this.historyOpen = null;
     }
 
     getFoundVehicle() {
