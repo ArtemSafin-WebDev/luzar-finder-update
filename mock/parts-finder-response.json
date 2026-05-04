@@ -26,7 +26,7 @@
   "mode": "vehicle",
   "tabs": [
     { "id": "vehicle", "label": "Подобрать по авто", "active": true, "disabled": false },
-    { "id": "vin", "label": "Подобрать по VIN и госномеру", "active": false, "disabled": true }
+    { "id": "vin", "label": "Подобрать по VIN и госномеру", "active": false, "disabled": false }
   ],
   "controls": [
     {
@@ -105,6 +105,60 @@
   "submit": {
     "label": "Подобрать",
     "disabled": false
+  },
+  "vinSearch": {
+    "endpoint": "/api/parts-finder/vin",
+    "queryKey": "vin",
+    "placeholder": "VIN или госномер",
+    "value": "Y6DTF69Y080144158",
+    "state": "found",
+    "vehicle": {
+      "id": "audi-a4-2015",
+      "brand": { "id": "audi", "label": "Audi" },
+      "model": { "id": "a4-b8", "label": "A4 B8 (08-)" },
+      "year": { "id": "2015", "label": "2015" },
+      "engine": { "id": "20-petrol", "label": "2.0 бензиновый" },
+      "modification": { "id": "a4-tfsi", "label": "A4 2.0 TFSI quattro 190 л.с." },
+      "vin": "1234567890ABCDEFG",
+      "plate": ""
+    },
+    "submit": {
+      "label": "Подобрать товары",
+      "disabled": false
+    }
+  },
+  "vinRequest": {
+    "endpoint": "/api/parts-finder/vin-request",
+    "controls": [
+      {
+        "id": "brand",
+        "type": "single",
+        "label": "Марка",
+        "placeholder": "Марка",
+        "queryKey": "brand",
+        "disabled": false,
+        "value": null,
+        "options": [
+          { "id": "lada", "label": "Lada" },
+          { "id": "haval", "label": "Haval" },
+          { "id": "volkswagen", "label": "Volkswagen" }
+        ]
+      },
+      {
+        "id": "model",
+        "type": "single",
+        "label": "Модель",
+        "placeholder": "Модель",
+        "queryKey": "model",
+        "disabled": true,
+        "value": null,
+        "options": []
+      }
+    ],
+    "submit": {
+      "label": "Отправить запрос",
+      "disabled": true
+    }
   },
   "history": {
     "enabled": true,

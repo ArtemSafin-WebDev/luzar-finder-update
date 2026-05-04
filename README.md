@@ -8,6 +8,7 @@
 - `styles/luzar-base.css` - базовые стили проекта, без стилей подборщика.
 - `styles/parts-finder.css` - стили компонента подборщика.
 - `scripts/parts-finder.js` - логика UI, fetch-адаптер, рендеринг селектов и истории.
+- `scripts/parts-finder-request-modal.js` - отдельный компонент модалки заявки на индивидуальный подбор.
 - `scripts/parts-finder-mock-api.js` - моковый API для демо-сайта.
 - `mock/parts-finder-response.json` - пример JSON-контракта для бэкенда.
 - `images/parts-finder/desktop-bg.webp` - фон блока из Figma.
@@ -24,7 +25,7 @@ python3 -m http.server 8080
 
 ## Поведение
 
-Изначально активен режим `Подобрать по авто`. Вкладка `Подобрать по VIN и госномеру` отображается как disabled, логика для нее пока не реализована.
+Изначально активен режим `Подобрать по авто`. Вкладку `Подобрать по VIN и госномеру` можно сделать активной сразу через JSON-ответ (`mode: "vin"` и `tabs[].active`) или через конфиг `initialMode: "vin"`.
 
 Селекты разблокируются последовательно:
 
@@ -40,6 +41,8 @@ python3 -m http.server 8080
 `productGroups` работает как мультиселект. В открытом состоянии показывает теги выбранных групп, кнопку `Еще` после трех тегов, раскрытие всех тегов и `Сбросить`. `Выбрать все` выбирает все группы и закрывает список; при повторном открытии эта же кнопка снимает выбор всех групп.
 
 `Мои авто` приходит в JSON-ответе сервера в `history.items`. Фронт не сохраняет историю в `localStorage` и сам не добавляет авто в список: UI просто рендерит историю из очередного ответа сервера. Кнопка `Выбрать` заполняет поля строки, кнопка удаления отправляет запрос на удаление авто на бэке и перерисовывает историю из JSON, который вернулся в ответ.
+
+Во вкладке `Подобрать по VIN и госномеру` верхнее поле отправляется обычной формой (`POST`) без AJAX. Если сервер вернул `vinSearch.state: "found"`, под формой показывается найденное авто и кнопка `Не мое авто`, которая открывает отдельную модалку заявки. Если сервер вернул `vinSearch.state: "not-found"`, во вкладке показывается форма заявки: `Марка` и `Модель` работают как селекты из JSON, `Мои авто` заполняют бренд, модель, VIN и госномер, а кнопка `Отправить запрос` становится активной после заполнения обязательных полей.
 
 ## Endpoint
 
@@ -69,6 +72,18 @@ DELETE /api/parts-finder/history/{id}
 
 Ответ на удаление также должен быть JSON того же формата, уже без удаленной строки в `history.items`.
 
+Поиск по VIN/госномеру:
+
+```http
+POST /api/parts-finder/vin
+```
+
+Заявка на индивидуальный подбор:
+
+```http
+POST /api/parts-finder/vin-request
+```
+
 Фронт не вычисляет доступность полей самостоятельно для production-сценария: он использует `controls[].disabled`, `controls[].options`, `controls[].value` из ответа. В моковом API эта логика реализована внутри `MockPartsFinderApi`.
 
 ## JSON-контракт
@@ -91,6 +106,25 @@ DELETE /api/parts-finder/history/{id}
     "label": "Подобрать",
     "disabled": true
   },
+  "vinSearch": {
+    "endpoint": "/api/parts-finder/vin",
+    "queryKey": "vin",
+    "value": "",
+    "state": "",
+    "vehicle": null,
+    "submit": {
+      "label": "Подобрать товары",
+      "disabled": true
+    }
+  },
+  "vinRequest": {
+    "endpoint": "/api/parts-finder/vin-request",
+    "controls": [],
+    "submit": {
+      "label": "Отправить запрос",
+      "disabled": true
+    }
+  },
   "history": {
     "enabled": true,
     "label": "Мои авто",
@@ -101,7 +135,8 @@ DELETE /api/parts-finder/history/{id}
 
 Описание ключевых полей:
 
-- `tabs[]` - вкладки режимов. Сейчас `vin` должен приходить с `disabled: true`.
+- `mode` - активный режим: `vehicle` или `vin`.
+- `tabs[]` - вкладки режимов. Активную вкладку можно передать через `tabs[].active`; `vin` теперь доступна.
 - `controls[]` - список селектов в порядке отображения.
 - `controls[].id` - стабильный ключ поля: `brand`, `model`, `year`, `engine`, `modification`, `productGroups`.
 - `controls[].type` - `single` или `multi`.
@@ -111,6 +146,10 @@ DELETE /api/parts-finder/history/{id}
 - `controls[].queryKey` - имя search-параметра для backend.
 - `controls[].allSelected` - только для `productGroups`, true если выбраны все группы.
 - `submit.disabled` - доступность кнопки подбора.
+- `vinSearch` - состояние формы поиска по VIN/госномеру. `state` может быть пустым, `found` или `not-found`.
+- `vinSearch.vehicle` - найденный автомобиль для состояния `found`, структура полей такая же, как у `history.items[]`.
+- `vinRequest.controls[]` - селекты заявки по VIN, сейчас используются `brand` и `model`.
+- `vinRequest.submit.disabled` - серверное значение доступности кнопки заявки; фронт также включает кнопку при заполнении обязательных полей на текущей странице.
 - `history.items[]` - список авто из backend. Фронт только рендерит эти данные и не сохраняет историю сам.
 
 Полный пример лежит в `mock/parts-finder-response.json`.
@@ -126,8 +165,11 @@ DELETE /api/parts-finder/history/{id}
     endpoints: {
       state: "https://example.com/api/parts-finder",
       submit: "https://example.com/catalog/search",
+      vinSubmit: "https://example.com/api/parts-finder/vin",
+      vinRequest: "https://example.com/api/parts-finder/vin-request",
       deleteHistory: "https://example.com/api/parts-finder/history/:id"
     },
+    initialMode: "vin",
     fetchOptions: {
       credentials: "include"
     }
@@ -142,6 +184,8 @@ DELETE /api/parts-finder/history/{id}
 
 - `state` - `GET`-запрос состояния селектов и истории. Выбранные значения уходят search-параметрами: `brand`, `model`, `year`, `engine`, `modification`, `group`.
 - `submit` - `action` формы для кнопки `Подобрать`. Отправка остается обычным `POST` без AJAX.
+- `vinSubmit` - `action` формы поиска по VIN/госномеру. Отправка остается обычным `POST` без AJAX.
+- `vinRequest` - `action` формы заявки на индивидуальный подбор. Отправка остается обычным `POST` без AJAX.
 - `deleteHistory` - `DELETE`-запрос удаления авто из истории. Поддерживаются шаблоны `:id` и `{id}`.
 
 `fetchOptions` прокидывается во все AJAX-запросы к `state` и `deleteHistory`; можно использовать для `credentials`, заголовков и других стандартных настроек `fetch`.

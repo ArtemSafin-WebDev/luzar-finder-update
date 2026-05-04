@@ -2,9 +2,23 @@
   const DEFAULT_ENDPOINTS = {
     state: "/api/parts-finder",
     submit: "/api/parts-finder",
+    vinSubmit: "/api/parts-finder/vin",
+    vinRequest: "/api/parts-finder/vin-request",
     deleteHistory: "/api/parts-finder/history/:id",
   };
   const STEPS = ["brand", "model", "year", "engine", "modification"];
+  const MODES = ["vehicle", "vin"];
+  const EMPTY_VIN_REQUEST = {
+    brand: null,
+    model: null,
+    vin: "",
+    plate: "",
+    name: "",
+    phone: "",
+    email: "",
+    parts: "",
+    agreement: false,
+  };
 
   const MOCK_DATA = {
     title: "Подберите детали для легковых и грузовых автомобилей",
@@ -19,7 +33,7 @@
         id: "vin",
         label: "Подобрать по VIN и госномеру",
         active: false,
-        disabled: true,
+        disabled: false,
       },
     ],
     fields: [
@@ -302,7 +316,7 @@
     }
 
     async getState(params) {
-      const url = this.buildUrl(params.selected);
+      const url = this.buildUrl(params.selected, this.endpoints.state, params);
       await wait(140);
       return this.buildResponse(params, url, "GET");
     }
@@ -312,19 +326,25 @@
       const url = this.buildUrl(
         params.selected,
         resolveEndpoint(this.endpoints.deleteHistory, { id }),
+        params,
       );
       await wait(140);
       return this.buildResponse(params, url, "DELETE");
     }
 
-    buildUrl(selected, endpoint = this.endpoints.state) {
+    buildUrl(selected, endpoint = this.endpoints.state, params = {}) {
       const url = new URL(endpoint, window.location.origin);
       appendSelectedParams(url, selected);
+      appendVinParams(url, params);
       return url;
     }
 
     buildResponse(params, url, method) {
       const selected = normalizeSelected(params.selected);
+      const mode = normalizeMode(params.mode);
+      if (mode === "vin") {
+        return this.buildVinResponse(params, url, method);
+      }
       const options = this.getOptions(selected);
       const controls = this.data.fields.map((field) => {
         const previousComplete = this.isPreviousComplete(field.id, selected);
@@ -355,7 +375,7 @@
         },
         title: this.data.title,
         mode: "vehicle",
-        tabs: this.data.tabs,
+        tabs: this.getTabs("vehicle"),
         controls,
         submit: {
           label: "Подобрать",
@@ -367,6 +387,92 @@
           items: this.history,
         },
       };
+    }
+
+    buildVinResponse(params, url, method) {
+      const vinSearch = normalizeVinSearch(params.vinSearch);
+      const vinRequest = normalizeVinRequest(params.vinRequest);
+      const requestOptions = this.getVinRequestOptions(vinRequest);
+      const foundVehicle = HISTORY_SEED[0];
+      const state = normalizeVinResult(vinSearch.result);
+
+      return {
+        endpoint: this.endpoints.submit,
+        request: {
+          method,
+          query: queryToObject(url.searchParams),
+          selected: normalizeSelected(params.selected),
+          vinSearch,
+          vinRequest,
+        },
+        title: this.data.title,
+        mode: "vin",
+        tabs: this.getTabs("vin"),
+        controls: [],
+        submit: {
+          label: "Подобрать",
+          disabled: true,
+        },
+        vinSearch: {
+          endpoint: this.endpoints.vinSubmit,
+          queryKey: "vin",
+          placeholder: "VIN или госномер",
+          value: vinSearch.value,
+          state,
+          vehicle: state === "found" ? foundVehicle : null,
+          submit: {
+            label: "Подобрать товары",
+            disabled: !vinSearch.value,
+          },
+        },
+        vinRequest: {
+          endpoint: this.endpoints.vinRequest,
+          value: vinRequest,
+          controls: [
+            {
+              id: "brand",
+              type: "single",
+              label: "Марка",
+              placeholder: "Марка",
+              queryKey: "brand",
+              disabled: false,
+              value: vinRequest.brand,
+              options: requestOptions.brand,
+            },
+            {
+              id: "model",
+              type: "single",
+              label: "Модель",
+              placeholder: "Модель",
+              queryKey: "model",
+              disabled: !vinRequest.brand,
+              value: vinRequest.model,
+              options: requestOptions.model,
+            },
+          ],
+          brandOptions: this.data.vehicles.map(toOption),
+          modelOptions: this.data.vehicles.reduce((result, brand) => {
+            result[brand.id] = brand.models.map(toOption);
+            return result;
+          }, {}),
+          submit: {
+            label: "Отправить запрос",
+            disabled: !isVinRequestComplete(vinRequest),
+          },
+        },
+        history: {
+          enabled: true,
+          label: "Мои авто",
+          items: this.history,
+        },
+      };
+    }
+
+    getTabs(mode) {
+      return this.data.tabs.map((tab) => ({
+        ...tab,
+        active: tab.id === mode,
+      }));
     }
 
     isPreviousComplete(fieldId, selected) {
@@ -397,6 +503,17 @@
         modification: (engine?.modifications || []).map(toOption),
       };
     }
+
+    getVinRequestOptions(vinRequest) {
+      const brand = this.data.vehicles.find(
+        (item) => item.id === vinRequest.brand?.id,
+      );
+
+      return {
+        brand: this.data.vehicles.map(toOption),
+        model: (brand?.models || []).map(toOption),
+      };
+    }
   }
 
   function normalizeSelected(selected) {
@@ -410,6 +527,42 @@
         ? selected.productGroups
         : [],
     };
+  }
+
+  function normalizeMode(mode) {
+    return MODES.includes(mode) ? mode : "vehicle";
+  }
+
+  function normalizeVinSearch(search = {}) {
+    return {
+      value: search.value || "",
+      result: search.result || "",
+    };
+  }
+
+  function normalizeVinRequest(request = {}) {
+    return {
+      ...EMPTY_VIN_REQUEST,
+      ...request,
+      agreement: Boolean(request.agreement),
+    };
+  }
+
+  function normalizeVinResult(result) {
+    if (result === "none" || result === "empty") return "not-found";
+    if (result === "found" || result === "not-found") return result;
+    return "";
+  }
+
+  function isVinRequestComplete(request) {
+    return Boolean(
+      request.brand &&
+        request.model &&
+        request.name?.trim() &&
+        request.phone?.trim() &&
+        request.parts?.trim() &&
+        request.agreement,
+    );
   }
 
   function normalizeEndpoints(endpoints = {}) {
@@ -428,6 +581,19 @@
       }
       url.searchParams.set(key, value.id);
     });
+  }
+
+  function appendVinParams(url, params) {
+    const mode = normalizeMode(params.mode);
+    url.searchParams.set("mode", mode);
+    if (mode !== "vin") return;
+    const value = params.vinSearch?.value;
+    if (value) url.searchParams.set("vin", value);
+    const result = params.vinSearch?.result;
+    if (result) url.searchParams.set("vinResult", result);
+    const request = params.vinRequest || {};
+    if (request.brand) url.searchParams.set("requestBrand", request.brand.id);
+    if (request.model) url.searchParams.set("requestModel", request.model.id);
   }
 
   function resolveEndpoint(endpoint, params = {}) {
