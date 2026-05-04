@@ -113,14 +113,14 @@
     "value": "Y6DTF69Y080144158",
     "state": "found",
     "vehicle": {
-      "id": "audi-a4-2015",
-      "brand": { "id": "audi", "label": "Audi" },
-      "model": { "id": "a4-b8", "label": "A4 B8 (08-)" },
-      "year": { "id": "2015", "label": "2015" },
+      "id": "volkswagen-tiguan-2016",
+      "brand": { "id": "volkswagen", "label": "Volkswagen" },
+      "model": { "id": "tiguan", "label": "Tiguan" },
+      "year": { "id": "2016", "label": "2016" },
       "engine": { "id": "20-petrol", "label": "2.0 бензиновый" },
-      "modification": { "id": "a4-tfsi", "label": "A4 2.0 TFSI quattro 190 л.с." },
-      "vin": "1234567890ABCDEFG",
-      "plate": ""
+      "modification": { "id": "tsi-14-20", "label": "бензин TSI 1.4-2.0 л" },
+      "vin": "XW8ZZZ5NZJG000001",
+      "plate": "а123аа198"
     },
     "submit": {
       "label": "Подобрать товары",
@@ -165,14 +165,34 @@
     "label": "Мои авто",
     "items": [
       {
-        "id": "audi-a4-2015",
-        "brand": { "id": "audi", "label": "Audi" },
-        "model": { "id": "a4-b8", "label": "A4 B8 (08-)" },
-        "year": { "id": "2015", "label": "2015" },
+        "id": "volkswagen-tiguan-2016",
+        "brand": { "id": "volkswagen", "label": "Volkswagen" },
+        "model": { "id": "tiguan", "label": "Tiguan" },
+        "year": { "id": "2016", "label": "2016" },
         "engine": { "id": "20-petrol", "label": "2.0 бензиновый" },
-        "modification": { "id": "a4-tfsi", "label": "A4 2.0 TFSI quattro 190 л.с." },
-        "vin": "1234567890ABCDEFG",
-        "plate": ""
+        "modification": { "id": "tsi-14-20", "label": "бензин TSI 1.4-2.0 л" },
+        "vin": "XW8ZZZ5NZJG000001",
+        "plate": "а123аа198"
+      },
+      {
+        "id": "lada-vesta-2021",
+        "brand": { "id": "lada", "label": "Lada" },
+        "model": { "id": "vesta", "label": "Vesta" },
+        "year": { "id": "2021", "label": "2021" },
+        "engine": { "id": "16-petrol", "label": "1.6 бензиновый" },
+        "modification": { "id": "vesta-16", "label": "ВАЗ-21129 106 л.с." },
+        "vin": "XTA845000M0000001",
+        "plate": "м456ор777"
+      },
+      {
+        "id": "haval-f7-2022",
+        "brand": { "id": "haval", "label": "Haval" },
+        "model": { "id": "f7", "label": "F7" },
+        "year": { "id": "2022", "label": "2022" },
+        "engine": { "id": "15-turbo", "label": "1.5 бензиновый" },
+        "modification": { "id": "gw4b15", "label": "GW4B15 150 л.с." },
+        "vin": "LGWEF6A56NH000001",
+        "plate": "с789кх799"
       }
     ]
   }
