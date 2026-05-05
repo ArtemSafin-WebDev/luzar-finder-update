@@ -507,6 +507,7 @@
 .catalog-toggle__text {
   color: #303236;
   font-size: 1.4rem;
+  font-weight: 500;
   line-height: 1.6rem;
 }
 
@@ -518,6 +519,9 @@
   border: 1px solid #c9cbcf;
   border-radius: 1.5rem;
   background: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .catalog-toggle__track::after {
@@ -529,7 +533,9 @@
   height: 1.6rem;
   border-radius: 50%;
   background: #797d86;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .catalog-toggle input:checked + .catalog-toggle__track {
@@ -556,12 +562,20 @@
 .catalog-price__input {
   width: 100%;
   height: 4rem;
+  appearance: textfield;
   border: 1px solid #e5e6e7;
   border-radius: 0.8rem;
   padding: 0 1.2rem;
   outline: 0;
   color: #797d86;
   font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.catalog-price__input::-webkit-outer-spin-button,
+.catalog-price__input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
 }
 
 .catalog-price__slider {
@@ -577,16 +591,15 @@
   top: 1.1rem;
   height: 0.2rem;
   border-radius: 0.2rem;
-  background:
-    linear-gradient(
-      to right,
-      #c9cbcf 0,
-      #c9cbcf var(--range-min, 0%),
-      #00205c var(--range-min, 0%),
-      #00205c var(--range-max, 100%),
-      #c9cbcf var(--range-max, 100%),
-      #c9cbcf 100%
-    );
+  background: linear-gradient(
+    to right,
+    #c9cbcf 0,
+    #c9cbcf var(--range-min, 0%),
+    #00205c var(--range-min, 0%),
+    #00205c var(--range-max, 100%),
+    #c9cbcf var(--range-max, 100%),
+    #c9cbcf 100%
+  );
 }
 
 .catalog-price__handle {
@@ -1030,19 +1043,9 @@
   gap: 1.6rem;
   overflow: hidden;
   border-radius: 1rem;
-  padding: 1.2rem 1.6rem 1.2rem 16.8rem;
-  background: #ccd7e5;
-}
-
-.catalog-request::before {
-  content: "";
-  position: absolute;
-  left: -3rem;
-  top: -5.4rem;
-  width: 18rem;
-  height: 18rem;
-  background: url("../images/catalog/banner-part-a.webp") center / contain no-repeat;
-  transform: rotate(-15deg);
+  padding: 1.6rem 1.6rem 1.6rem 18rem;
+  background: #ccd7e5 url("../images/catalog/banner-request-choice.webp") left
+    center / cover no-repeat;
 }
 
 .catalog-request__text {
@@ -1052,7 +1055,7 @@
 
 .catalog-request__title {
   color: #303236;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 600;
   line-height: 1.6rem;
 }
@@ -1074,6 +1077,13 @@
   cursor: pointer;
   font-size: 1.4rem;
   font-weight: 500;
+  line-height: 1.6rem;
+}
+
+.catalog-request__button:hover,
+.catalog-request__button:focus-visible {
+  color: #204a8f;
+  box-shadow: 0 0 0 1px rgba(58, 141, 222, 0.3);
 }
 
 @media (max-width: 1299.98px) {
@@ -1111,12 +1121,10 @@
   .catalog-request {
     align-items: flex-start;
     flex-direction: column;
-    padding: 11rem 1.6rem 1.6rem;
-  }
-
-  .catalog-request::before {
-    left: 0;
-    top: -4.8rem;
+    min-height: 16rem;
+    padding: 8.8rem 1.6rem 1.6rem;
+    background-size: auto 8rem;
+    background-position: left top;
   }
 
   .catalog-request__button {

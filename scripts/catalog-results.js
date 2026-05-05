@@ -154,6 +154,8 @@
     draggingPrice: "",
   };
 
+  let deferredRenderTimer = 0;
+
   function makeNumberedOptions(prefix, label, count) {
     return Array.from({ length: count }, (_, index) => {
       const number = String(index + 1).padStart(2, "0");
@@ -187,6 +189,15 @@
     return new Intl.NumberFormat("ru-RU").format(value) + " ₽";
   }
 
+  function formatPriceInput(value) {
+    return new Intl.NumberFormat("ru-RU").format(value);
+  }
+
+  function parsePriceInput(value) {
+    const digits = String(value).replace(/\D/g, "");
+    return digits ? Number(digits) : state.price.min;
+  }
+
   function findOption(filterId, value) {
     const filter = filters.find((item) => item.id === filterId);
     const option = filter && filter.options.find((item) => item[0] === value);
@@ -209,26 +220,18 @@
     );
   }
 
-  function getFilteredProducts() {
-    const query = state.query.trim().toLowerCase();
-    let result = products.filter((item) => {
-      const matchesQuery =
-        !query ||
-        item.name.toLowerCase().includes(query) ||
-        item.code.toLowerCase().includes(query);
-      const matchesDiscount = !state.selected.discount || item.discount;
-      const matchesPrice =
-        item.price >= state.price.currentMin && item.price <= state.price.currentMax;
-
-      return matchesQuery && matchesDiscount && matchesPrice;
-    });
-
-    return result;
+  function getCatalogProducts() {
+    return products;
   }
 
   function render() {
-    const filteredProducts = getFilteredProducts();
-    const visibleProducts = filteredProducts.slice(0, state.visibleProducts);
+    if (deferredRenderTimer) {
+      window.clearTimeout(deferredRenderTimer);
+      deferredRenderTimer = 0;
+    }
+
+    const catalogProducts = getCatalogProducts();
+    const visibleProducts = catalogProducts.slice(0, state.visibleProducts);
 
     root.innerHTML = `
       <article class="catalog-results">
@@ -258,7 +261,7 @@
               ${visibleProducts.map(renderProduct).join("")}
             </div>
             ${
-              visibleProducts.length < filteredProducts.length
+              visibleProducts.length < catalogProducts.length
                 ? '<button class="catalog-more" type="button" data-show-more>Показать еще</button>'
                 : ""
             }
@@ -269,6 +272,15 @@
     `;
 
     updatePriceTrack();
+  }
+
+  function deferRender(delay = 220) {
+    if (deferredRenderTimer) window.clearTimeout(deferredRenderTimer);
+
+    deferredRenderTimer = window.setTimeout(() => {
+      deferredRenderTimer = 0;
+      render();
+    }, delay);
   }
 
   function renderSort() {
@@ -384,8 +396,8 @@
         <h3 class="catalog-filter__title">Цена</h3>
         <div class="catalog-price" data-price>
           <div class="catalog-price__inputs">
-            <input class="catalog-price__input" type="number" min="${state.price.min}" max="${state.price.max}" value="${state.price.currentMin}" aria-label="Цена от" data-price-input="min">
-            <input class="catalog-price__input" type="number" min="${state.price.min}" max="${state.price.max}" value="${state.price.currentMax}" aria-label="Цена до" data-price-input="max">
+            <input class="catalog-price__input" type="text" inputmode="numeric" pattern="[0-9 ]*" value="${formatPriceInput(state.price.currentMin)}" aria-label="Цена от" data-price-input="min">
+            <input class="catalog-price__input" type="text" inputmode="numeric" pattern="[0-9 ]*" value="${formatPriceInput(state.price.currentMax)}" aria-label="Цена до" data-price-input="max">
           </div>
           <div class="catalog-price__slider">
             <span class="catalog-price__track" aria-hidden="true"></span>
@@ -525,8 +537,8 @@
     const minHandle = root.querySelector('[data-price-handle="min"]');
     const maxHandle = root.querySelector('[data-price-handle="max"]');
 
-    if (minInput) minInput.value = state.price.currentMin;
-    if (maxInput) maxInput.value = state.price.currentMax;
+    if (minInput) minInput.value = formatPriceInput(state.price.currentMin);
+    if (maxInput) maxInput.value = formatPriceInput(state.price.currentMax);
     if (minRange) minRange.value = state.price.currentMin;
     if (maxRange) maxRange.value = state.price.currentMax;
     if (minHandle) minHandle.setAttribute("aria-valuenow", String(state.price.currentMin));
@@ -534,7 +546,7 @@
   }
 
   function clampPrice(type, value) {
-    const next = Math.min(Math.max(Number(value) || state.price.min, state.price.min), state.price.max);
+    const next = Math.min(Math.max(parsePriceInput(value), state.price.min), state.price.max);
 
     if (type === "min") {
       state.price.currentMin = Math.min(next, state.price.currentMax);
@@ -608,7 +620,6 @@
       event.preventDefault();
       const input = search.querySelector("[name='q']");
       state.query = input ? input.value : "";
-      state.visibleProducts = 9;
       render();
     }
 
@@ -647,7 +658,6 @@
         state.selected[filterId] = value;
       }
 
-      state.visibleProducts = 9;
       render();
     }
 
@@ -662,20 +672,17 @@
 
     if (discount) {
       state.selected.discount = discount.checked;
-      state.visibleProducts = 9;
-      render();
+      deferRender();
     }
 
     if (priceInput || priceRange) {
       const control = priceInput || priceRange;
       clampPrice(control.dataset.priceInput || control.dataset.priceRange, control.value);
-      state.visibleProducts = 9;
       render();
     }
 
     if (searchInput) {
       state.query = searchInput.value;
-      state.visibleProducts = 9;
     }
 
     if (cartInput) {
@@ -721,7 +728,6 @@
     event.preventDefault();
     const current = type === "min" ? state.price.currentMin : state.price.currentMax;
     clampPrice(type, current + direction * keyStep);
-    state.visibleProducts = 9;
     render();
     root.querySelector(`[data-price-handle="${type}"]`)?.focus();
   });
@@ -872,7 +878,6 @@
     if (!state.draggingPrice) return;
 
     state.draggingPrice = "";
-    state.visibleProducts = 9;
     render();
   });
 

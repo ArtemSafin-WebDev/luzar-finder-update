@@ -1,0 +1,518 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - navigation "Верхняя навигация" [ref=e6]:
+          - link "О компании" [ref=e7] [cursor=pointer]:
+            - /url: /about/
+          - link "Точки продаж" [ref=e8] [cursor=pointer]:
+            - /url: /where-buy/
+          - link "Гарантия" [ref=e9] [cursor=pointer]:
+            - /url: /about/garantiynye-obyazatelstva/
+          - link "Материалы" [ref=e10] [cursor=pointer]:
+            - /url: /materials/
+          - link "Новости" [ref=e11] [cursor=pointer]:
+            - /url: /news/
+          - link "Контакты" [ref=e12] [cursor=pointer]:
+            - /url: /contacts/
+          - link "Вопрос-ответ" [ref=e13] [cursor=pointer]:
+            - /url: /faqs/
+        - link "Академия ЛУЗАР" [ref=e15] [cursor=pointer]:
+          - /url: /academy/
+          - img [ref=e16]
+          - text: Академия ЛУЗАР
+      - generic [ref=e18]:
+        - link "LUZAR" [ref=e19] [cursor=pointer]:
+          - /url: /
+        - link "Каталог" [ref=e20] [cursor=pointer]:
+          - /url: /catalogue/
+          - img [ref=e21]
+          - text: Каталог
+        - search [ref=e23]:
+          - generic [ref=e24]: Поиск по каталогу
+          - searchbox "Поиск по каталогу" [ref=e25]
+          - button "Найти" [ref=e26] [cursor=pointer]:
+            - img [ref=e27]
+        - generic "Действия пользователя" [ref=e29]:
+          - link "Избранное" [ref=e30] [cursor=pointer]:
+            - /url: /favorites/
+            - img [ref=e31]
+          - link "Корзина" [ref=e33] [cursor=pointer]:
+            - /url: /cart/
+            - img [ref=e34]
+            - generic [ref=e36]: "3"
+  - main [ref=e37]:
+    - region "Подберите детали для легковых и грузовых автомобилей" [ref=e534]:
+      - article "Подберите детали для легковых и грузовых автомобилей" [ref=e537]:
+        - heading "Подберите детали для легковых и грузовых автомобилей" [level=1] [ref=e538]
+        - generic [ref=e539]:
+          - tablist "Режим подбора" [ref=e540]:
+            - generic [ref=e541]:
+              - tab "Подобрать по авто" [ref=e542] [cursor=pointer]
+              - tab "Подобрать по VIN и госномеру" [selected] [ref=e543] [cursor=pointer]
+            - button "Мои авто" [ref=e544] [cursor=pointer]:
+              - img [ref=e545]
+              - generic [ref=e547]: Мои авто
+          - generic [ref=e549]:
+            - generic [ref=e550]:
+              - generic [ref=e551]: VIN или госномер
+              - textbox "VIN или госномер Очистить VIN или госномер" [ref=e552]:
+                - /placeholder: VIN или госномер
+                - text: XW8ZZZ5NZJG000001
+              - button "Очистить VIN или госномер" [ref=e553] [cursor=pointer]:
+                - img [ref=e554]
+            - button "Подобрать товары" [ref=e556] [cursor=pointer]
+          - region "Найденный автомобиль" [ref=e557]:
+            - paragraph [ref=e558]: "По вашим данным нашли авто:"
+            - generic [ref=e559]:
+              - generic [ref=e560]:
+                - img [ref=e562]
+                - generic [ref=e564]:
+                  - generic [ref=e565]:
+                    - generic [ref=e566]: Марка
+                    - generic [ref=e567]: Volkswagen
+                  - generic [ref=e568]:
+                    - generic [ref=e569]: Модель
+                    - generic [ref=e570]: Tiguan
+                  - generic [ref=e571]:
+                    - generic [ref=e572]: Год
+                    - generic [ref=e573]: "2016"
+                  - generic [ref=e574]:
+                    - generic [ref=e575]: Объём двигателя
+                    - generic [ref=e576]: 2.0 бензиновый
+                  - generic [ref=e577]:
+                    - generic [ref=e578]: Модификация
+                    - generic [ref=e579]: бензин TSI 1.4-2.0 л
+              - button "Не моё авто" [ref=e580] [cursor=pointer]:
+                - img [ref=e581]
+                - generic [ref=e583]: Не моё авто
+    - region "Y6DTF69YO8O144158" [ref=e38]:
+      - article [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - paragraph [ref=e44]: Результаты подбора по VIN
+            - heading "Y6DTF69YO8O144158" [level=2] [ref=e45]
+          - generic [ref=e46]:
+            - generic [ref=e47]: Найти товар для вашего авто
+            - searchbox "Найти товар для вашего авто" [ref=e48]
+            - button "Найти" [ref=e49] [cursor=pointer]:
+              - img [ref=e50]
+          - button "По популярности" [ref=e53] [cursor=pointer]:
+            - img [ref=e54]
+            - generic [ref=e56]: По популярности
+        - generic [ref=e57]:
+          - complementary "Фильтры каталога" [ref=e58]:
+            - generic [ref=e59]: "Всего товаров: 1065"
+            - generic [ref=e60]:
+              - heading "Доступные группы товаров" [level=3] [ref=e61]
+              - generic [ref=e62]:
+                - generic [ref=e63] [cursor=pointer]:
+                  - checkbox "Радиаторы"
+                  - img [ref=e65]
+                  - generic [ref=e67]: Радиаторы
+                - generic [ref=e68] [cursor=pointer]:
+                  - checkbox "Насосы водяные"
+                  - img [ref=e70]
+                  - generic [ref=e72]: Насосы водяные
+                - generic [ref=e73] [cursor=pointer]:
+                  - checkbox "Электровентиляторы охлаждения" [checked]
+                  - img [ref=e75]
+                  - generic [ref=e77]: Электровентиляторы охлаждения
+                - generic [ref=e78] [cursor=pointer]:
+                  - checkbox "Термостаты"
+                  - img [ref=e80]
+                  - generic [ref=e82]: Термостаты
+                - generic [ref=e83] [cursor=pointer]:
+                  - checkbox "Компоненты системы охлаждения"
+                  - img [ref=e85]
+                  - generic [ref=e87]: Компоненты системы охлаждения
+                - generic [ref=e88] [cursor=pointer]:
+                  - checkbox "Компрессоры кондиционера"
+                  - img [ref=e90]
+                  - generic [ref=e92]: Компрессоры кондиционера
+                - generic [ref=e93] [cursor=pointer]:
+                  - checkbox "Компоненты системы кондиционирования"
+                  - img [ref=e95]
+                  - generic [ref=e97]: Компоненты системы кондиционирования
+              - button "Еще 6" [ref=e98] [cursor=pointer]:
+                - generic [ref=e99]: Еще 6
+                - img [ref=e100]
+            - generic [ref=e102]:
+              - heading "Кол-во зубьев" [level=3] [ref=e103]
+              - generic [ref=e104]:
+                - generic [ref=e105] [cursor=pointer]:
+                  - radio "variant 01"
+                  - generic [ref=e106]: variant 01
+                - generic [ref=e107] [cursor=pointer]:
+                  - radio "variant 02"
+                  - generic [ref=e108]: variant 02
+                - generic [ref=e109] [cursor=pointer]:
+                  - radio "variant 03" [checked]
+                  - generic [ref=e110]: variant 03
+                - generic [ref=e111] [cursor=pointer]:
+                  - radio "variant 04"
+                  - generic [ref=e112]: variant 04
+                - generic [ref=e113] [cursor=pointer]:
+                  - radio "variant 05"
+                  - generic [ref=e114]: variant 05
+                - generic [ref=e115] [cursor=pointer]:
+                  - radio "variant 06"
+                  - generic [ref=e116]: variant 06
+            - generic [ref=e117]:
+              - heading "Мощность, кВт" [level=3] [ref=e118]
+              - generic [ref=e119]:
+                - generic [ref=e120] [cursor=pointer]:
+                  - radio "Variant 01"
+                  - generic [ref=e122]: Variant 01
+                - generic [ref=e123] [cursor=pointer]:
+                  - radio "Variant 02"
+                  - generic [ref=e125]: Variant 02
+                - generic [ref=e126] [cursor=pointer]:
+                  - radio "Variant 03"
+                  - generic [ref=e128]: Variant 03
+                - generic [ref=e129] [cursor=pointer]:
+                  - radio "Variant 04"
+                  - generic [ref=e131]: Variant 04
+                - generic [ref=e132] [cursor=pointer]:
+                  - radio "Variant 05"
+                  - generic [ref=e134]: Variant 05
+                - generic [ref=e135] [cursor=pointer]:
+                  - radio "Variant 06"
+                  - generic [ref=e137]: Variant 06
+                - generic [ref=e138] [cursor=pointer]:
+                  - radio "Variant 07"
+                  - generic [ref=e140]: Variant 07
+              - button "Еще 134" [ref=e141] [cursor=pointer]:
+                - generic [ref=e142]: Еще 134
+                - img [ref=e143]
+            - generic [ref=e145]:
+              - heading "Марка" [level=3] [ref=e146]
+              - generic [ref=e147]:
+                - generic [ref=e148] [cursor=pointer]:
+                  - radio "Audi"
+                  - generic [ref=e150]: Audi
+                - generic [ref=e151] [cursor=pointer]:
+                  - radio "BMW"
+                  - generic [ref=e153]: BMW
+                - generic [ref=e154] [cursor=pointer]:
+                  - radio "Chevrolet"
+                  - generic [ref=e156]: Chevrolet
+                - generic [ref=e157] [cursor=pointer]:
+                  - radio "Citroen"
+                  - generic [ref=e159]: Citroen
+                - generic [ref=e160] [cursor=pointer]:
+                  - radio "Ford"
+                  - generic [ref=e162]: Ford
+                - generic [ref=e163] [cursor=pointer]:
+                  - radio "Hyundai"
+                  - generic [ref=e165]: Hyundai
+                - generic [ref=e166] [cursor=pointer]:
+                  - radio "KIA"
+                  - generic [ref=e168]: KIA
+              - button "Еще 134" [ref=e169] [cursor=pointer]:
+                - generic [ref=e170]: Еще 134
+                - img [ref=e171]
+            - generic [ref=e174] [cursor=pointer]:
+              - generic [ref=e175]: Товары со скидкой
+              - checkbox "Товары со скидкой"
+            - generic [ref=e177]:
+              - heading "Цена" [level=3] [ref=e178]
+              - generic [ref=e179]:
+                - generic [ref=e180]:
+                  - textbox "Цена от" [ref=e181]: "459"
+                  - textbox "Цена до" [ref=e182]: 9 999 999
+                - generic [ref=e183]:
+                  - slider "Минимальная цена" [ref=e185]
+                  - slider "Максимальная цена" [ref=e186]
+                  - slider "Минимальная цена": "459"
+                  - slider "Максимальная цена": "9999999"
+            - button "Сбросить фильтры" [ref=e187] [cursor=pointer]:
+              - img [ref=e188]
+              - generic [ref=e190]: Сбросить фильтры
+          - generic [ref=e191]:
+            - generic [ref=e192]:
+              - generic [ref=e193]: "Фильтры:"
+              - generic [ref=e194]:
+                - button "Электровентиляторы охлаждения" [ref=e195] [cursor=pointer]:
+                  - generic [ref=e196]: Электровентиляторы охлаждения
+                  - img [ref=e197]
+                - button "variant 03" [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]: variant 03
+                  - img [ref=e201]
+            - generic [ref=e203]:
+              - article [ref=e204]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e205] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e206]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e207]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e208]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e209]
+                - generic [ref=e214]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e215] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e216]:
+                    - generic [ref=e217]: "Код товара:"
+                    - generic [ref=e218]: LRAC 1980
+                    - button "Скопировать код товара" [ref=e219] [cursor=pointer]:
+                      - img [ref=e220]
+                    - button "Добавить в избранное" [ref=e223] [cursor=pointer]:
+                      - img [ref=e224]
+                  - generic [ref=e226]:
+                    - generic [ref=e227]: "ОЕМ номер:"
+                    - generic [ref=e228]:
+                      - generic [ref=e229]: 88450-12290
+                      - generic [ref=e230]: 88450-12280
+                      - generic [ref=e231]: 88450-02410
+                      - generic [ref=e232]: 88450-02280
+                      - generic [ref=e233]: 88450-02280
+                  - generic [ref=e234]:
+                    - generic [ref=e235]:
+                      - generic [ref=e236]: 8 500 ₽
+                      - generic [ref=e237]: 6 650 ₽
+                    - button "В корзину" [ref=e239] [cursor=pointer]
+              - article [ref=e240]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e241] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e242]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e243]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e244]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e245]
+                - generic [ref=e250]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e251] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e252]:
+                    - generic [ref=e253]: "Код товара:"
+                    - generic [ref=e254]: LRAC 1920
+                    - button "Скопировать код товара" [ref=e255] [cursor=pointer]:
+                      - img [ref=e256]
+                    - button "Добавить в избранное" [ref=e259] [cursor=pointer]:
+                      - img [ref=e260]
+                  - generic [ref=e262]:
+                    - generic [ref=e263]: "ОЕМ номер:"
+                    - generic [ref=e264]:
+                      - generic [ref=e265]: 88450-12290
+                      - generic [ref=e266]: 88450-12280
+                      - generic [ref=e267]: 88450-02410
+                      - generic [ref=e268]: 88450-02280
+                      - generic [ref=e269]: 88450-02280
+                  - generic [ref=e270]:
+                    - generic [ref=e271]:
+                      - generic [ref=e272]: 8 500 ₽
+                      - generic [ref=e273]: 6 650 ₽
+                    - button "В корзину" [ref=e275] [cursor=pointer]
+              - article [ref=e276]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e277] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e278]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e279]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e280]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e281]
+                - generic [ref=e286]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e287] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e288]:
+                    - generic [ref=e289]: "Код товара:"
+                    - generic [ref=e290]: LRAC 1750
+                    - button "Скопировать код товара" [ref=e291] [cursor=pointer]:
+                      - img [ref=e292]
+                    - button "Добавить в избранное" [ref=e295] [cursor=pointer]:
+                      - img [ref=e296]
+                  - generic [ref=e298]:
+                    - generic [ref=e299]: "ОЕМ номер:"
+                    - generic [ref=e300]:
+                      - generic [ref=e301]: 88450-12290
+                      - generic [ref=e302]: 88450-12280
+                      - generic [ref=e303]: 88450-02410
+                      - generic [ref=e304]: 88450-02280
+                      - generic [ref=e305]: 88450-02280
+                  - generic [ref=e306]:
+                    - generic [ref=e307]:
+                      - generic [ref=e308]: 8 500 ₽
+                      - generic [ref=e309]: 6 650 ₽
+                    - button "В корзину" [ref=e311] [cursor=pointer]
+              - article [ref=e312]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e313] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e314]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e315]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e316]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e317]
+                - generic [ref=e322]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e323] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e324]:
+                    - generic [ref=e325]: "Код товара:"
+                    - generic [ref=e326]: LRAC 2160
+                    - button "Скопировать код товара" [ref=e327] [cursor=pointer]:
+                      - img [ref=e328]
+                    - button "Добавить в избранное" [ref=e331] [cursor=pointer]:
+                      - img [ref=e332]
+                  - generic [ref=e334]:
+                    - generic [ref=e335]: "ОЕМ номер:"
+                    - generic [ref=e336]:
+                      - generic [ref=e337]: 88450-12290
+                      - generic [ref=e338]: 88450-12280
+                      - generic [ref=e339]: 88450-02410
+                      - generic [ref=e340]: 88450-02280
+                      - generic [ref=e341]: 88450-02280
+                  - generic [ref=e342]:
+                    - generic [ref=e343]:
+                      - generic [ref=e344]: 8 500 ₽
+                      - generic [ref=e345]: 6 650 ₽
+                    - button "В корзину" [ref=e347] [cursor=pointer]
+              - article [ref=e348]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e349] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e350]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e351]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e352]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e353]
+                - generic [ref=e358]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e359] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e360]:
+                    - generic [ref=e361]: "Код товара:"
+                    - generic [ref=e362]: LRAC 2210
+                    - button "Скопировать код товара" [ref=e363] [cursor=pointer]:
+                      - img [ref=e364]
+                    - button "Добавить в избранное" [ref=e367] [cursor=pointer]:
+                      - img [ref=e368]
+                  - generic [ref=e370]:
+                    - generic [ref=e371]: "ОЕМ номер:"
+                    - generic [ref=e372]:
+                      - generic [ref=e373]: 88450-12290
+                      - generic [ref=e374]: 88450-12280
+                      - generic [ref=e375]: 88450-02410
+                      - generic [ref=e376]: 88450-02280
+                      - generic [ref=e377]: 88450-02280
+                  - generic [ref=e378]:
+                    - generic [ref=e379]:
+                      - generic [ref=e380]: 8 500 ₽
+                      - generic [ref=e381]: 6 650 ₽
+                    - button "В корзину" [ref=e383] [cursor=pointer]
+              - article [ref=e384]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e385] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e386]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e387]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e388]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e389]
+                - generic [ref=e394]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e395] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e396]:
+                    - generic [ref=e397]: "Код товара:"
+                    - generic [ref=e398]: LRAC 2350
+                    - button "Скопировать код товара" [ref=e399] [cursor=pointer]:
+                      - img [ref=e400]
+                    - button "Добавить в избранное" [ref=e403] [cursor=pointer]:
+                      - img [ref=e404]
+                  - generic [ref=e406]:
+                    - generic [ref=e407]: "ОЕМ номер:"
+                    - generic [ref=e408]:
+                      - generic [ref=e409]: 88450-12290
+                      - generic [ref=e410]: 88450-12280
+                      - generic [ref=e411]: 88450-02410
+                      - generic [ref=e412]: 88450-02280
+                      - generic [ref=e413]: 88450-02280
+                  - generic [ref=e414]:
+                    - generic [ref=e415]:
+                      - generic [ref=e416]: 8 500 ₽
+                      - generic [ref=e417]: 6 650 ₽
+                    - button "В корзину" [ref=e419] [cursor=pointer]
+              - article [ref=e420]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e421] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e422]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e423]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e424]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e425]
+                - generic [ref=e430]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e431] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e432]:
+                    - generic [ref=e433]: "Код товара:"
+                    - generic [ref=e434]: LRAC 2410
+                    - button "Скопировать код товара" [ref=e435] [cursor=pointer]:
+                      - img [ref=e436]
+                    - button "Добавить в избранное" [ref=e439] [cursor=pointer]:
+                      - img [ref=e440]
+                  - generic [ref=e442]:
+                    - generic [ref=e443]: "ОЕМ номер:"
+                    - generic [ref=e444]:
+                      - generic [ref=e445]: 88450-12290
+                      - generic [ref=e446]: 88450-12280
+                      - generic [ref=e447]: 88450-02410
+                      - generic [ref=e448]: 88450-02280
+                      - generic [ref=e449]: 88450-02280
+                  - generic [ref=e450]:
+                    - generic [ref=e451]:
+                      - generic [ref=e452]: 8 500 ₽
+                      - generic [ref=e453]: 6 650 ₽
+                    - button "В корзину" [ref=e455] [cursor=pointer]
+              - article [ref=e456]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e457] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e458]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e459]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e460]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e461]
+                - generic [ref=e466]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e467] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e468]:
+                    - generic [ref=e469]: "Код товара:"
+                    - generic [ref=e470]: LRAC 2490
+                    - button "Скопировать код товара" [ref=e471] [cursor=pointer]:
+                      - img [ref=e472]
+                    - button "Добавить в избранное" [ref=e475] [cursor=pointer]:
+                      - img [ref=e476]
+                  - generic [ref=e478]:
+                    - generic [ref=e479]: "ОЕМ номер:"
+                    - generic [ref=e480]:
+                      - generic [ref=e481]: 88450-12290
+                      - generic [ref=e482]: 88450-12280
+                      - generic [ref=e483]: 88450-02410
+                      - generic [ref=e484]: 88450-02280
+                      - generic [ref=e485]: 88450-02280
+                  - generic [ref=e486]:
+                    - generic [ref=e487]:
+                      - generic [ref=e488]: 8 500 ₽
+                      - generic [ref=e489]: 6 650 ₽
+                    - button "В корзину" [ref=e491] [cursor=pointer]
+              - article [ref=e492]:
+                - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e493] [cursor=pointer]:
+                  - /url: "#"
+                  - generic [ref=e494]:
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e495]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e496]
+                    - img "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e497]
+                - generic [ref=e502]:
+                  - link "Радиатор кондиционера для автомобилей Приора (тип Halla)" [ref=e503] [cursor=pointer]:
+                    - /url: "#"
+                  - generic [ref=e504]:
+                    - generic [ref=e505]: "Код товара:"
+                    - generic [ref=e506]: LRAC 2510
+                    - button "Скопировать код товара" [ref=e507] [cursor=pointer]:
+                      - img [ref=e508]
+                    - button "Добавить в избранное" [ref=e511] [cursor=pointer]:
+                      - img [ref=e512]
+                  - generic [ref=e514]:
+                    - generic [ref=e515]: "ОЕМ номер:"
+                    - generic [ref=e516]:
+                      - generic [ref=e517]: 88450-12290
+                      - generic [ref=e518]: 88450-12280
+                      - generic [ref=e519]: 88450-02410
+                      - generic [ref=e520]: 88450-02280
+                      - generic [ref=e521]: 88450-02280
+                  - generic [ref=e522]:
+                    - generic [ref=e523]:
+                      - generic [ref=e524]: 8 500 ₽
+                      - generic [ref=e525]: 6 650 ₽
+                    - button "В корзину" [ref=e527] [cursor=pointer]
+            - button "Показать еще" [ref=e528] [cursor=pointer]
+            - generic [ref=e529]:
+              - generic [ref=e530]:
+                - generic [ref=e531]: Не уверены в выборе? Оставьте заявку на индивидуальный подбор
+                - generic [ref=e532]: Наши специалисты помогут подобрать подходящую деталь для вашего авто
+              - button "Запросить подбор" [ref=e533] [cursor=pointer]
