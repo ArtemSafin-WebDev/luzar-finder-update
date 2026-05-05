@@ -179,6 +179,14 @@
       });
 
       this.root.addEventListener("change", (event) => {
+        if (event.target.matches("[data-group-option]")) {
+          this.toggleOption(event.target.value);
+          return;
+        }
+        if (event.target.matches("[data-groups-all]")) {
+          this.toggleAllGroups();
+          return;
+        }
         if (!event.target.matches("[data-vin-request-field]")) return;
         this.updateVinRequestField(event.target);
         this.updateVinRequestSubmitState();
@@ -797,10 +805,11 @@
           <div class="${className}" role="listbox" aria-multiselectable="true">
             ${this.tagsTemplate(control)}
             <div class="pf-options">
-              <button class="pf-option pf-option--all ${control.allSelected ? "is-selected" : ""}" type="button" data-action="toggle-all">
+              <label class="pf-option pf-option--all">
+                <input type="checkbox" ${control.allSelected ? "checked" : ""} data-groups-all>
                 <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
                 <span class="pf-option__label">Выбрать все</span>
-              </button>
+              </label>
               ${options.length ? options.map((option) => this.multiOptionTemplate(option, control.value)).join("") : emptyTemplate()}
             </div>
           </div>
@@ -848,10 +857,11 @@
     multiOptionTemplate(option, value) {
       const selected = value.some((item) => item.id === option.id);
       return `
-        <button class="pf-option ${selected ? "is-selected" : ""}" type="button" role="option" aria-selected="${selected}" data-action="toggle-option" data-value="${escapeAttr(option.id)}">
+        <label class="pf-option" role="option" aria-selected="${selected}">
+          <input type="checkbox" value="${escapeAttr(option.id)}" ${selected ? "checked" : ""} data-group-option>
           <span class="pf-checkbox" aria-hidden="true">${iconCheck()}</span>
           <span class="pf-option__label">${escapeHtml(option.label)}</span>
-        </button>
+        </label>
       `;
     }
 

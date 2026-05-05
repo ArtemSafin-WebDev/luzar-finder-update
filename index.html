@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/luzar-base.css">
     <link rel="stylesheet" href="styles/luzar-header.css">
     <link rel="stylesheet" href="styles/parts-finder.css">
+    <link rel="stylesheet" href="styles/catalog-results.css">
   </head>
   <body>
     <div class="page">
@@ -114,6 +115,12 @@
             <div id="parts-finder" class="parts-finder-shell"></div>
           </div>
         </section>
+
+        <section class="catalog-results-section" aria-labelledby="catalog-results-title">
+          <div class="page__center page__center--wide">
+            <div id="catalog-results" class="catalog-results-shell" data-catalog-results></div>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -127,6 +134,7 @@
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js" defer></script>
     <script src="scripts/parts-finder.js" defer></script>
+    <script src="scripts/catalog-results.js" defer></script>
     <script src="scripts/luzar-header.js" defer></script>
   </body>
 </html>

@@ -366,6 +366,7 @@
 }
 
 .pf-option {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 0.8rem;
@@ -379,9 +380,19 @@
   font-weight: 400;
   line-height: 1.6rem;
   text-align: left;
+  appearance: none;
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
+}
+
+.pf-option input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .pf-option__label {
@@ -452,9 +463,14 @@
   border-color: #3a8dde;
 }
 
-.pf-option.is-selected .pf-checkbox::before {
+.pf-option input:checked + .pf-checkbox::before {
   border-color: #3a8dde;
   background: #3a8dde;
+}
+
+.pf-option input:focus-visible + .pf-checkbox::before {
+  border-color: #3a8dde;
+  box-shadow: 0 0 0 0.2rem rgba(58, 141, 222, 0.24);
 }
 
 .pf-checkbox svg {
@@ -466,7 +482,7 @@
   transition: opacity 0.2s ease;
 }
 
-.pf-option.is-selected .pf-checkbox svg {
+.pf-option input:checked + .pf-checkbox svg {
   opacity: 1;
 }
 
