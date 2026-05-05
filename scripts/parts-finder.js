@@ -23,6 +23,11 @@
     brand: "20rem",
     model: "20rem",
   };
+  const MOBILE_VISIBLE_OPTIONS = {
+    brand: 10,
+    productGroups: 4,
+    default: 8,
+  };
   const EMPTY_VIN_REQUEST = {
     brand: null,
     model: null,
@@ -99,6 +104,8 @@
       this.openControl = null;
       this.historyOpen = null;
       this.expandedTags = false;
+      this.mobileFinderOpen = false;
+      this.mobileExpandedControl = null;
       this.vinSearch = {
         value: options.initialVin || "",
         result: options.initialVinResult || "",
@@ -156,11 +163,22 @@
         if (actionName === "more-tags") this.expandTags();
         if (actionName === "remove-tag") this.removeGroup(value);
         if (actionName === "reset-tags") this.resetGroups();
+        if (actionName === "open-mobile-finder") this.openMobileFinder();
+        if (actionName === "close-mobile-finder") this.closeMobileFinder();
+        if (actionName === "open-mobile-options") this.openMobileOptions(id);
+        if (actionName === "close-mobile-options") this.closeMobileOptions();
+        if (actionName === "save-mobile-options") this.saveMobileOptions();
+        if (actionName === "choose-mobile-next") this.chooseMobileNext();
 
         event.preventDefault();
       });
 
       this.root.addEventListener("input", (event) => {
+        if (event.target.matches("[data-mobile-search]")) {
+          this.search[event.target.dataset.mobileSearch] = event.target.value;
+          this.updateMobileExpandedOptions(event.target.dataset.mobileSearch);
+          return;
+        }
         if (event.target.matches("[data-search]")) {
           this.search[event.target.dataset.search] = event.target.value;
           this.updateOpenDropdownOptions(event.target.dataset.search);
@@ -232,6 +250,7 @@
       if (options.productGroupsScrollTop !== undefined) {
         this.restoreProductGroupsScrollTop(options.productGroupsScrollTop);
       }
+      document.body.classList.toggle("pf-mobile-lock", this.mobileFinderOpen);
       this.positionVinRequestHistory();
     }
 
@@ -255,7 +274,7 @@
       if (hiddenInputs) hiddenInputs.innerHTML = this.hiddenInputsTemplate();
       const submit = this.root.querySelector(".pf-input-group .pf-submit");
       if (submit && this.response.submit) {
-        submit.disabled = Boolean(this.response.submit.disabled);
+        submit.disabled = this.isVehicleSubmitDisabled();
         submit.textContent = this.response.submit.label || "Подобрать";
       }
       if (options.productGroupsScrollTop !== undefined) {
@@ -403,14 +422,239 @@
 
     template() {
       return `
-        <article class="parts-finder" aria-labelledby="parts-finder-title">
+        <article class="parts-finder ${this.mobileFinderOpen ? "is-mobile-open" : ""}" aria-labelledby="parts-finder-title">
+          ${this.mobileBannerTemplate()}
           <h1 id="parts-finder-title" class="parts-finder__title">${escapeHtml(this.response.title)}</h1>
           <div class="parts-finder__workspace">
             ${this.tabsTemplate()}
             ${this.mode === "vin" ? this.vinTemplate() : this.inputGroupTemplate()}
             ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
           </div>
+          ${this.mobileFinderTemplate()}
         </article>
+      `;
+    }
+
+    mobileBannerTemplate() {
+      return `
+        <div class="pf-mobile-banner" aria-hidden="false">
+          <h2 class="pf-mobile-banner__title">${formatMobileTitle(this.response.title)}</h2>
+          <button class="pf-mobile-banner__button" type="button" data-action="open-mobile-finder">
+            Подобрать детали
+          </button>
+        </div>
+      `;
+    }
+
+    mobileFinderTemplate() {
+      if (!this.mobileFinderOpen) return "";
+      const expandedControl = this.mobileExpandedControl
+        ? this.response.controls.find((control) => control.id === this.mobileExpandedControl)
+        : null;
+
+      return `
+        <div class="pf-mobile-dialog" role="dialog" aria-modal="true" aria-labelledby="pf-mobile-title">
+          ${this.mobileHeaderTemplate()}
+          ${
+            expandedControl
+              ? this.mobileExpandedTemplate(expandedControl)
+              : this.mobileMainTemplate()
+          }
+        </div>
+      `;
+    }
+
+    mobileHeaderTemplate() {
+      return `
+        <div class="pf-mobile-header">
+          <img class="pf-mobile-header__logo" src="images/logo.svg" width="121" height="36" alt="LUZAR">
+          <div class="pf-mobile-header__actions" aria-hidden="true">
+            ${iconSearch()}
+            <span class="pf-mobile-header__burger"></span>
+          </div>
+          <button class="pf-mobile-header__close" type="button" aria-label="Закрыть подбор" data-action="close-mobile-finder">
+            ${iconCross()}
+          </button>
+        </div>
+      `;
+    }
+
+    mobileMainTemplate() {
+      return `
+        <div class="pf-mobile-content">
+          <div class="pf-mobile-page-title" id="pf-mobile-title">Подбор деталей</div>
+          ${this.mobileTabsTemplate()}
+          ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
+          ${
+            this.mode === "vin"
+              ? `<div class="pf-mobile-vin">${this.vinTemplate()}</div>`
+              : this.mobileVehicleFormTemplate()
+          }
+        </div>
+      `;
+    }
+
+    mobileTabsTemplate() {
+      const vehicleSelected = this.mode === "vehicle";
+      const vinSelected = this.mode === "vin";
+      const history = this.response.history;
+      const historyCount = history?.items?.length || 0;
+
+      return `
+        <div class="pf-mobile-tabs" role="tablist" aria-label="Режим подбора">
+          <div class="pf-mobile-tabs__group">
+            <button class="pf-mobile-tab" type="button" role="tab" aria-selected="${vehicleSelected}" data-action="switch-mode" data-mode="vehicle">По авто</button>
+            <button class="pf-mobile-tab" type="button" role="tab" aria-selected="${vinSelected}" data-action="switch-mode" data-mode="vin">По VIN или госномеру</button>
+          </div>
+          ${
+            this.hasHistoryItems()
+              ? `<button class="pf-mobile-history-tab ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" aria-label="${escapeAttr(history.label)}" data-action="toggle-history" data-placement="tabs">
+                  ${iconCar()}
+                  ${historyCount ? `<span>${historyCount}</span>` : ""}
+                </button>`
+              : ""
+          }
+        </div>
+      `;
+    }
+
+    mobileVehicleFormTemplate() {
+      const action =
+        this.response.submit?.endpoint ||
+        this.response.submit?.action ||
+        this.submitEndpoint ||
+        this.response.endpoint ||
+        DEFAULT_ENDPOINTS.submit;
+
+      return `
+        <form class="pf-mobile-form" action="${escapeAttr(action)}" method="post">
+          <div class="pf-mobile-controls">
+            ${this.response.controls.map((control) => this.mobileControlTemplate(control)).join("")}
+          </div>
+          <div class="pf-hidden-inputs" data-hidden-inputs>${this.hiddenInputsTemplate()}</div>
+          <button class="pf-mobile-submit" type="submit" ${this.isVehicleSubmitDisabled() ? "disabled" : ""}>
+            ${escapeHtml(this.response.submit?.mobileLabel || "Подобрать товары")}
+          </button>
+        </form>
+      `;
+    }
+
+    mobileControlTemplate(control) {
+      const disabled = this.isControlDisabled(control);
+      const activeClass = disabled ? "is-disabled" : "";
+      const options = Array.isArray(control.options) ? control.options : [];
+      const visibleLimit = MOBILE_VISIBLE_OPTIONS[control.id] || MOBILE_VISIBLE_OPTIONS.default;
+      const visibleOptions = options.slice(0, visibleLimit);
+      const moreCount = Math.max(options.length - visibleOptions.length, 0);
+      const title = `${control.label}${control.id === "brand" ? "*" : ""}`;
+
+      return `
+        <section class="pf-mobile-control ${activeClass}" data-mobile-control="${escapeAttr(control.id)}">
+          <h3 class="pf-mobile-control__title">${escapeHtml(title)}</h3>
+          ${
+            !disabled && options.length
+              ? `<div class="pf-mobile-tags">
+                  ${visibleOptions.map((option) => this.mobileTagTemplate(option, control)).join("")}
+                  ${
+                    moreCount > 0
+                      ? `<button class="pf-mobile-tag pf-mobile-tag--more" type="button" data-action="open-mobile-options" data-id="${escapeAttr(control.id)}">
+                          <span>Еще ${moreCount}</span>${iconRight()}
+                        </button>`
+                      : ""
+                  }
+                </div>`
+              : ""
+          }
+        </section>
+      `;
+    }
+
+    mobileTagTemplate(option, control) {
+      const selected =
+        control.type === "multi"
+          ? (control.value || []).some((item) => item.id === option.id)
+          : control.value?.id === option.id;
+      const action = control.type === "multi" ? "toggle-option" : "select-option";
+      const idAttr = control.type === "multi" ? "" : `data-id="${escapeAttr(control.id)}"`;
+
+      return `
+        <button
+          class="pf-mobile-tag ${selected ? "is-selected" : ""}"
+          type="button"
+          data-action="${action}"
+          ${idAttr}
+          data-value="${escapeAttr(option.id)}"
+          aria-pressed="${selected}"
+        >${escapeHtml(option.label)}</button>
+      `;
+    }
+
+    mobileExpandedTemplate(control) {
+      const query = (this.search[control.id] || "").trim().toLowerCase();
+      const options = (control.options || []).filter((option) =>
+        option.label.toLowerCase().includes(query),
+      );
+      const hasSelection =
+        control.type === "multi"
+          ? (control.value || []).length > 0
+          : Boolean(control.value);
+
+      return `
+        <div class="pf-mobile-content pf-mobile-content--expanded">
+          <button class="pf-mobile-expanded__title" type="button" data-action="close-mobile-options">
+            ${iconBack()}
+            <span>${escapeHtml(control.label)}</span>
+          </button>
+          <label class="pf-mobile-search">
+            <span class="visually-hidden">Поиск: ${escapeHtml(control.label)}</span>
+            <input type="search" value="${escapeAttr(this.search[control.id] || "")}" placeholder="${escapeAttr(control.label)}" data-mobile-search="${escapeAttr(control.id)}" data-autofocus>
+            <span>${iconSearch()}</span>
+          </label>
+          <div class="pf-mobile-expanded__list">
+            <div class="pf-mobile-expanded__hint">Популярные</div>
+            <div class="pf-mobile-expanded__options" data-mobile-expanded-options="${escapeAttr(control.id)}">
+              ${options.length ? options.map((option) => this.mobileExpandedOptionTemplate(option, control)).join("") : emptyTemplate()}
+            </div>
+          </div>
+          ${hasSelection ? this.mobileExpandedActionsTemplate(control) : ""}
+        </div>
+      `;
+    }
+
+    mobileExpandedOptionTemplate(option, control) {
+      const selected =
+        control.type === "multi"
+          ? (control.value || []).some((item) => item.id === option.id)
+          : control.value?.id === option.id;
+      const action = control.type === "multi" ? "toggle-option" : "select-option";
+      const idAttr = control.type === "multi" ? "" : `data-id="${escapeAttr(control.id)}"`;
+
+      return `
+        <button
+          class="pf-mobile-expanded__option ${selected ? "is-selected" : ""}"
+          type="button"
+          data-action="${action}"
+          ${idAttr}
+          data-value="${escapeAttr(option.id)}"
+          aria-pressed="${selected}"
+        >
+          <span>${escapeHtml(option.label)}</span>
+          ${selected ? `<span class="pf-mobile-expanded__check">${iconCheck()}</span>` : ""}
+        </button>
+      `;
+    }
+
+    mobileExpandedActionsTemplate(control) {
+      const next = this.getNextEnabledControl(control.id);
+      return `
+        <div class="pf-mobile-expanded__actions">
+          ${
+            next && control.type !== "multi"
+              ? `<button class="pf-mobile-submit" type="button" data-action="choose-mobile-next">Выбрать ${escapeHtml(next.label.toLowerCase())}</button>`
+              : ""
+          }
+          <button class="pf-mobile-submit pf-mobile-submit--secondary" type="button" data-action="save-mobile-options">Сохранить</button>
+        </div>
       `;
     }
 
@@ -696,7 +940,7 @@
         <form class="pf-input-group" action="${escapeAttr(action)}" method="post">
           <div class="pf-controls">${controls}</div>
           <div class="pf-hidden-inputs" data-hidden-inputs>${hiddenInputs}</div>
-          <button class="pf-submit" type="submit" ${this.response.submit.disabled ? "disabled" : ""}>
+          <button class="pf-submit" type="submit" ${this.isVehicleSubmitDisabled() ? "disabled" : ""}>
             ${escapeHtml(this.response.submit.label)}
           </button>
         </form>
@@ -739,7 +983,7 @@
       return `
         <div class="${classes}" style="${style}" data-control="${control.id}">
           ${this.fieldTemplate(control, hasValue, isOpen)}
-          ${isOpen && !control.disabled ? this.dropdownTemplate(control) : ""}
+          ${isOpen && !this.isControlDisabled(control) ? this.dropdownTemplate(control) : ""}
         </div>
       `;
     }
@@ -775,10 +1019,10 @@
         <div
           class="pf-field ${hasValue ? "has-value" : ""} ${allGroups ? "has-all-groups" : ""}"
           role="button"
-          tabindex="${control.disabled ? "-1" : "0"}"
+          tabindex="${this.isControlDisabled(control) ? "-1" : "0"}"
           aria-haspopup="listbox"
           aria-expanded="${isOpen}"
-          aria-disabled="${control.disabled}"
+          aria-disabled="${this.isControlDisabled(control)}"
           data-action="toggle-control"
           data-id="${control.id}"
         >
@@ -972,7 +1216,7 @@
 
     toggleControl(id) {
       const control = this.response.controls.find((item) => item.id === id);
-      if (!control || control.disabled) return;
+      if (!control || this.isControlDisabled(control)) return;
       const previousControl = this.openControl;
       const previousHistory = this.historyOpen;
       this.historyOpen = null;
@@ -1004,11 +1248,15 @@
       this.selected[id] = option;
       this.clearAfter(id);
       this.openControl = null;
-      this.search[id] = "";
+      if (!this.mobileFinderOpen) this.search[id] = "";
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView();
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView();
+      }
     }
 
     async switchMode(mode) {
@@ -1097,7 +1345,11 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      }
     }
 
     async toggleAllGroups() {
@@ -1113,7 +1365,11 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView();
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView();
+      }
     }
 
     async clearControl(id) {
@@ -1127,7 +1383,11 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView();
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView();
+      }
     }
 
     clearAfter(id) {
@@ -1137,12 +1397,18 @@
           this.selected[key] = null;
           this.search[key] = "";
         });
-        this.selected.productGroups = [];
       }
     }
 
     toggleHistory(placement = "tabs") {
       if (!this.hasHistoryItems()) return;
+      if (this.mobileFinderOpen && placement === "tabs") {
+        this.historyOpen = this.historyOpen === placement ? null : placement;
+        this.mobileExpandedControl = null;
+        this.openControl = null;
+        this.render();
+        return;
+      }
       const previousControl = this.openControl;
       if (previousControl) {
         const selector = `[data-control="${selectorEscape(previousControl)}"]`;
@@ -1220,9 +1486,13 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView();
-      this.updateHistoryButtons();
-      this.updateHistoryView("tabs", false);
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView();
+        this.updateHistoryButtons();
+        this.updateHistoryView("tabs", false);
+      }
     }
 
     updateVinRequestField(field) {
@@ -1247,11 +1517,11 @@
 
     openVinRequestModal() {
       if (!window.PartsFinderRequestModal) return;
-      const vehicle = this.getFoundVehicle() || {};
+      const vehicle = this.response ? this.getFoundVehicle() || {} : {};
       window.PartsFinderRequestModal.open({
         endpoint:
-          this.response.vinRequest?.endpoint ||
-          this.response.vinRequest?.action ||
+          this.response?.vinRequest?.endpoint ||
+          this.response?.vinRequest?.action ||
           this.endpoints.vinRequest,
         vehicle,
         values: {
@@ -1263,8 +1533,8 @@
         },
         brandOptions: this.getVinBrandOptions(),
         modelOptions: this.getVinModelOptions(vehicle.brand || this.vinRequest.brand),
-        modelOptionsMap: this.response.vinRequest?.modelOptions || {},
-        history: this.response.history,
+        modelOptionsMap: this.response?.vinRequest?.modelOptions || {},
+        history: this.response?.history,
       });
     }
 
@@ -1324,15 +1594,15 @@
     }
 
     getVinBrandOptions() {
-      return this.response.vinRequest?.brandOptions || [];
+      return this.response?.vinRequest?.brandOptions || [];
     }
 
     getVinModelOptions(brand) {
-      const controls = this.response.vinRequest?.controls || [];
+      const controls = this.response?.vinRequest?.controls || [];
       const modelControl = controls.find((control) => control.id === "model");
       if (modelControl?.options) return modelControl.options;
       const brandId = brand?.id;
-      return this.response.vinRequest?.modelOptions?.[brandId] || [];
+      return this.response?.vinRequest?.modelOptions?.[brandId] || [];
     }
 
     async refreshVinRequestOptions() {
@@ -1384,7 +1654,11 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      }
     }
 
     async resetGroups() {
@@ -1395,7 +1669,89 @@
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
-      this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      if (this.mobileFinderOpen) {
+        this.render();
+      } else {
+        this.updateControlsView({ productGroupsScrollTop: scrollTop });
+      }
+    }
+
+    openMobileFinder() {
+      this.mobileFinderOpen = true;
+      this.mobileExpandedControl = null;
+      this.historyOpen = null;
+      this.openControl = null;
+      this.render();
+    }
+
+    closeMobileFinder() {
+      this.mobileFinderOpen = false;
+      this.mobileExpandedControl = null;
+      this.historyOpen = null;
+      document.body.classList.remove("pf-mobile-lock");
+      this.render();
+    }
+
+    openMobileOptions(id) {
+      const control = this.response.controls.find((item) => item.id === id);
+      if (!control || this.isControlDisabled(control)) return;
+      this.mobileExpandedControl = id;
+      this.historyOpen = null;
+      this.search[id] = "";
+      this.render();
+    }
+
+    closeMobileOptions() {
+      this.mobileExpandedControl = null;
+      this.render();
+    }
+
+    saveMobileOptions() {
+      this.mobileExpandedControl = null;
+      this.render();
+    }
+
+    chooseMobileNext() {
+      const next = this.getNextEnabledControl(this.mobileExpandedControl);
+      if (!next) return;
+      this.mobileExpandedControl = next.id;
+      this.search[next.id] = "";
+      this.render();
+    }
+
+    updateMobileExpandedOptions(controlId) {
+      const control = this.response.controls.find((item) => item.id === controlId);
+      const node = this.root.querySelector(
+        `[data-mobile-expanded-options="${selectorEscape(controlId)}"]`,
+      );
+      if (!control || !node) return;
+      const query = (this.search[controlId] || "").trim().toLowerCase();
+      const options = control.options.filter((option) =>
+        option.label.toLowerCase().includes(query),
+      );
+      node.innerHTML = options.length
+        ? options
+            .map((option) => this.mobileExpandedOptionTemplate(option, control))
+            .join("")
+        : emptyTemplate();
+    }
+
+    getNextEnabledControl(id) {
+      const index = STEPS.indexOf(id);
+      if (index < 0) return null;
+      return STEPS.slice(index + 1)
+        .map((key) => this.response.controls.find((control) => control.id === key))
+        .find((control) => control && !this.isControlDisabled(control) && control.options?.length);
+    }
+
+    isControlDisabled(control) {
+      if (control.id === "productGroups") return false;
+      return Boolean(control.disabled);
+    }
+
+    isVehicleSubmitDisabled() {
+      const brandControl = this.response?.controls?.find((control) => control.id === "brand");
+      return !Boolean(this.selected.brand || brandControl?.value);
     }
 
     getProductGroupsScrollTop() {
@@ -1581,12 +1937,32 @@
     return escapeHtml(value);
   }
 
+  function formatMobileTitle(value) {
+    const text = String(value);
+    if (text === "Подберите детали для легковых и грузовых автомобилей") {
+      return "Подберите детали<br>для легковых<br>и грузовых автомобилей";
+    }
+    return escapeHtml(text);
+  }
+
   function iconCross() {
     return `<svg class="pf-cross-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
   }
 
   function iconArrow() {
     return `<svg class="pf-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.8047 5.80469L8.47168 11.1377H7.52832L2.19531 5.80469L3.1377 4.8623L8 9.72363L12.8623 4.8623L13.8047 5.80469Z"/></svg>`;
+  }
+
+  function iconRight() {
+    return `<svg class="pf-right-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.80469 2.19531L11.1377 7.52832V8.47168L5.80469 13.8047L4.8623 12.8623L9.72363 8L4.8623 3.1377L5.80469 2.19531Z"/></svg>`;
+  }
+
+  function iconBack() {
+    return `<svg class="pf-back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.92 19.08L3.84 12L10.92 4.92L12.34 6.34L7.68 11H20V13H7.68L12.34 17.66L10.92 19.08Z"/></svg>`;
+  }
+
+  function iconSearch() {
+    return `<svg class="pf-search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.75 3C15.03 3 18.5 6.47 18.5 10.75C18.5 12.54 17.89 14.19 16.87 15.5L21 19.63L19.63 21L15.5 16.87C14.19 17.89 12.54 18.5 10.75 18.5C6.47 18.5 3 15.03 3 10.75C3 6.47 6.47 3 10.75 3ZM10.75 5C7.57 5 5 7.57 5 10.75C5 13.93 7.57 16.5 10.75 16.5C13.93 16.5 16.5 13.93 16.5 10.75C16.5 7.57 13.93 5 10.75 5Z"/></svg>`;
   }
 
   function iconCar() {
@@ -1634,10 +2010,17 @@
     const config = window.PartsFinderConfig || {};
     const endpoints = normalizeEndpoints(config.endpoints);
     const initialState = getInitialState(config);
-    new PartsFinder(root, createPartsFinderApi(config), {
+    const partsFinder = new PartsFinder(root, createPartsFinderApi(config), {
       endpoints,
       submitEndpoint: endpoints.submit,
       ...initialState,
-    }).init();
+    });
+
+    document.addEventListener("parts-finder:open-vin-request-modal", (event) => {
+      event.preventDefault();
+      partsFinder.openVinRequestModal();
+    });
+
+    partsFinder.init();
   }
 })();

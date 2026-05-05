@@ -510,7 +510,7 @@
           <div class="catalog-request__title">Не уверены в выборе? Оставьте заявку на индивидуальный подбор</div>
           <div class="catalog-request__subtitle">Наши специалисты помогут подобрать подходящую деталь для вашего авто</div>
         </div>
-        <button class="catalog-request__button" type="button">Запросить подбор</button>
+        <button class="catalog-request__button" type="button" data-action="open-vin-request-modal">Запросить подбор</button>
       </div>
     `;
   }
@@ -610,6 +610,18 @@
 
     button.classList.add("is-copied");
     window.setTimeout(() => button.classList.remove("is-copied"), 900);
+  }
+
+  function openVinRequestModal() {
+    const handledByPartsFinder = !document.dispatchEvent(
+      new CustomEvent("parts-finder:open-vin-request-modal", {
+        cancelable: true,
+      }),
+    );
+
+    if (!handledByPartsFinder && window.PartsFinderRequestModal) {
+      window.PartsFinderRequestModal.open();
+    }
   }
 
   root.addEventListener("submit", (event) => {
@@ -745,9 +757,15 @@
     const cartPlus = event.target.closest("[data-cart-plus]");
     const cartMinus = event.target.closest("[data-cart-minus]");
     const gallery = event.target.closest("[data-gallery]");
+    const requestButton = event.target.closest('[data-action="open-vin-request-modal"]');
 
     if (gallery) {
       event.preventDefault();
+    }
+
+    if (requestButton) {
+      event.preventDefault();
+      openVinRequestModal();
     }
 
     if (sortToggle) {

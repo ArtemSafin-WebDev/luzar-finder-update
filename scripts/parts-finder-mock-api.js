@@ -263,6 +263,46 @@
         label: "Toyota",
         models: [{ id: "camry", label: "Camry", years: [] }],
       },
+      {
+        id: "audi",
+        label: "Audi",
+        models: [{ id: "a4", label: "A4", years: [] }],
+      },
+      {
+        id: "belgee",
+        label: "Belgee",
+        models: [{ id: "x50", label: "X50", years: [] }],
+      },
+      {
+        id: "changan",
+        label: "Changan",
+        models: [{ id: "cs35-plus", label: "CS35 Plus", years: [] }],
+      },
+      {
+        id: "chevrolet",
+        label: "Chevrolet",
+        models: [{ id: "cruze", label: "Cruze", years: [] }],
+      },
+      {
+        id: "citroen",
+        label: "Citroen",
+        models: [{ id: "c4", label: "C4", years: [] }],
+      },
+      {
+        id: "nissan",
+        label: "Nissan",
+        models: [{ id: "qashqai", label: "Qashqai", years: [] }],
+      },
+      {
+        id: "renault",
+        label: "Renault",
+        models: [{ id: "logan", label: "Logan", years: [] }],
+      },
+      {
+        id: "ford",
+        label: "Ford",
+        models: [{ id: "focus", label: "Focus", years: [] }],
+      },
     ],
     productGroups: [
       { id: "radiators", label: "Радиаторы" },
@@ -435,7 +475,10 @@
 
         return {
           ...field,
-          disabled: field.id === "brand" ? false : !previousComplete,
+          disabled:
+            field.id === "brand" || field.id === "productGroups"
+              ? false
+              : !previousComplete,
           value,
           options: fieldOptions,
           allSelected:
@@ -448,7 +491,8 @@
         controls,
         submit: {
           label: "Подобрать",
-          disabled: !STEPS.every((key) => selected[key]),
+          mobileLabel: "Подобрать товары",
+          disabled: !selected.brand,
         },
       };
     }
@@ -508,8 +552,7 @@
 
     isPreviousComplete(fieldId, selected) {
       if (fieldId === "brand") return true;
-      if (fieldId === "productGroups")
-        return STEPS.every((key) => selected[key]);
+      if (fieldId === "productGroups") return true;
       const index = STEPS.indexOf(fieldId);
       return STEPS.slice(0, index).every((key) => selected[key]);
     }
