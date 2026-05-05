@@ -444,10 +444,15 @@
   font-size: 1.4rem;
   line-height: 1.6rem;
   white-space: nowrap;
+  transition:
+    color 0.2s,
+    border-color 0.2s,
+    background-color 0.2s;
 }
 
 .catalog-chip:hover {
   border-color: #3a8dde;
+  color: #3a8dde;
 }
 
 .catalog-chip input {
@@ -469,7 +474,7 @@
   border: 0;
   padding: 0.6rem 1.6rem 0;
   background: transparent;
-  color: #00205c;
+  color: #3a8dde;
   cursor: pointer;
   font-size: 1.4rem;
   font-weight: 500;
@@ -1063,7 +1068,6 @@
 .catalog-request {
   position: relative;
   display: flex;
-  min-height: 8rem;
   align-items: center;
   gap: 1.6rem;
   overflow: hidden;
@@ -1071,6 +1075,7 @@
   padding: 1.6rem 1.6rem 1.6rem 18rem;
   background: #ccd7e5 url("../images/catalog/banner-request-choice.webp") left
     center / cover no-repeat;
+  margin-top: 1.6rem;
 }
 
 .catalog-request__text {
