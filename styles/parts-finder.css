@@ -11,7 +11,6 @@
 .parts-finder {
   position: relative;
   z-index: 0;
-  min-height: 20.8rem;
   padding: 3.2rem 1.6rem 1.6rem;
   border-radius: 1.2rem;
   background: linear-gradient(90deg, #f4f8fb 0%, #e6ebf2 42%, #ccd7e5 100%);
@@ -68,7 +67,6 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 4.2rem;
   border: 0;
   border-radius: 1rem 1rem 0 0;
   padding: 1.2rem 1.6rem;
@@ -98,7 +96,6 @@
   align-items: center;
   flex: 0 0 auto;
   gap: 0.6rem;
-  min-height: 3.2rem;
   border: 0;
   border-radius: 0.8rem;
   padding: 0.8rem;
@@ -211,7 +208,6 @@
   gap: 0.8rem;
   width: 100%;
   height: 4rem;
-  min-height: 4rem;
   border: 1px solid #e5e6e7;
   border-radius: 0.8rem;
   padding: 1.1rem 1.2rem;
@@ -614,7 +610,6 @@ body.pf-mobile-lock {
   justify-content: center;
   flex: 0 0 auto;
   height: 4rem;
-  min-height: 4rem;
   border: 0;
   border-radius: 0.8rem;
   padding: 0 1.2rem;
@@ -664,7 +659,6 @@ body.pf-mobile-lock {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 17.2rem;
   padding: 3.2rem 1.6rem;
   overflow: hidden;
 }
@@ -1126,8 +1120,7 @@ button.pf-vin-request__car-icon.is-open {
 
 .pf-request-input textarea {
   display: block;
-  height: 100%;
-  min-height: 8.8rem;
+  height: 8.8rem;
   resize: none;
 }
 
@@ -1242,7 +1235,6 @@ button.pf-vin-request__car-icon.is-open {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 38.9rem));
   width: min(79.4rem, 100%);
-  min-height: 54.8rem;
   border-radius: 1.6rem;
   padding-right: 1.6rem;
   background: #ccd7e5 url("../images/parts-finder/modal-bg.png") center / cover
@@ -1292,7 +1284,6 @@ button.pf-vin-request__car-icon.is-open {
 
 .pf-modal__art {
   position: relative;
-  min-height: 54.8rem;
   border-radius: 1.6rem 0 0 1.6rem;
   padding: 1.6rem;
   overflow: hidden;
@@ -1366,7 +1357,7 @@ button.pf-vin-request__car-icon.is-open {
 }
 
 .pf-modal-field textarea {
-  min-height: 12rem;
+  height: 12rem;
   resize: vertical;
   padding: 1.1rem 1.2rem;
 }
@@ -1471,7 +1462,6 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .parts-finder {
-    min-height: 0;
     background-position: 62% top;
   }
 
@@ -1495,7 +1485,6 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .parts-finder {
-    min-height: 0;
     padding: 0;
     border-radius: 0;
     background: transparent;
@@ -1510,11 +1499,10 @@ button.pf-vin-request__car-icon.is-open {
   .pf-mobile-banner {
     position: relative;
     display: flex;
-    min-height: 16.4rem;
     flex-direction: column;
     align-items: flex-start;
     gap: 1.6rem;
-    padding: 1.6rem;
+    padding: 1.6rem 1.6rem 2.4rem;
     background-image:
       url("../images/parts-finder/mobile-bg.png"),
       url("../images/parts-finder/mobile-blur.svg");
@@ -1551,7 +1539,6 @@ button.pf-vin-request__car-icon.is-open {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 4rem;
     border: 0;
     border-radius: 0.8rem;
     padding: 1.2rem;
@@ -1583,7 +1570,6 @@ button.pf-vin-request__car-icon.is-open {
     display: flex;
     align-items: center;
     gap: 1.6rem;
-    min-height: 5.2rem;
     padding: 0.8rem 1.6rem;
     background: #ffffff;
   }
@@ -1647,10 +1633,6 @@ button.pf-vin-request__car-icon.is-open {
     padding: 1.6rem 1.6rem 2.8rem;
   }
 
-  .pf-mobile-content--expanded {
-    min-height: calc(100svh - 5.2rem);
-  }
-
   .pf-mobile-page-title,
   .pf-mobile-expanded__title {
     color: #303236;
@@ -1688,25 +1670,27 @@ button.pf-vin-request__car-icon.is-open {
     border-radius: 0.5rem;
     background: #ffffff;
     padding: 0;
+    gap: 0.4rem;
   }
 
   .pf-mobile-tab {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex: 1 1 0;
+    flex: 1 0 auto;
     min-width: 0;
-    min-height: 4rem;
     border: 0;
     border-radius: 0.5rem;
-    padding: 0.8rem;
+
     background: transparent;
     color: #55585e;
     cursor: pointer;
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.6rem;
+    padding: 1.2rem 2rem;
     white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .pf-mobile-tab[aria-selected="true"] {
@@ -1801,7 +1785,6 @@ button.pf-vin-request__car-icon.is-open {
     align-items: center;
     gap: 0.4rem;
     max-width: 100%;
-    min-height: 3.4rem;
     border: 1px solid #e5e6e7;
     border-radius: 0.6rem;
     padding: 0.8rem 1.2rem;
@@ -1830,7 +1813,6 @@ button.pf-vin-request__car-icon.is-open {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 4rem;
     border: 0;
     border-radius: 0.8rem;
     padding: 1.2rem;
@@ -1889,7 +1871,7 @@ button.pf-vin-request__car-icon.is-open {
     justify-content: center;
     flex: 0 0 4rem;
     width: 4rem;
-    min-height: 4rem;
+    height: 4rem;
     border-radius: 0.8rem;
     background: #00205c;
     color: #ffffff;
@@ -2065,7 +2047,7 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .pf-request-input textarea {
-    min-height: 8rem;
+    height: 8rem;
   }
 
   .pf-modal {
@@ -2076,15 +2058,14 @@ button.pf-vin-request__car-icon.is-open {
 
   .pf-modal__dialog {
     grid-template-columns: 1fr;
-    min-height: 0;
     padding-right: 0;
     background-size: auto 100%;
     background-position: left top;
   }
 
   .pf-modal__art {
-    min-height: 16rem;
     border-radius: 1.6rem 1.6rem 0 0;
+    padding-bottom: 10rem;
   }
 
   .pf-modal__form {

@@ -59,11 +59,6 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  min-height: 100%;
-}
-
 html {
   font-size: 10px;
 }
@@ -112,10 +107,6 @@ input,
 textarea,
 select {
   font: inherit;
-}
-
-.page {
-  min-height: 100vh;
 }
 
 .page__center {
@@ -264,7 +255,6 @@ select {
 }
 
 .hero-panel {
-  min-height: 32rem;
   padding: 3.2rem 3.6rem;
   border-radius: var(--radius-xl);
   background:
@@ -285,7 +275,6 @@ select {
 .catalog-card {
   position: relative;
   display: flex;
-  min-height: 16.7rem;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
