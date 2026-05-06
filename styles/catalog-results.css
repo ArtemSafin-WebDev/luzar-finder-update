@@ -230,9 +230,40 @@ body.catalog-sort-modal-open {
 }
 
 .catalog-sidebar {
-  overflow: hidden;
+  position: sticky;
+  top: 1.6rem;
+  align-self: start;
+  max-height: calc(100vh - 3.2rem);
+  overflow-x: hidden;
+  overflow-y: auto;
   border-radius: 0.8rem;
   background: #ffffff;
+  scrollbar-color: #c9cbcf #e5e6e7;
+  scrollbar-width: thin;
+}
+
+.catalog-sidebar::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+.catalog-sidebar::-webkit-scrollbar-track {
+  margin-block: 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #e5e6e7 0 0.2rem,
+    transparent 0.2rem 100%
+  );
+}
+
+.catalog-sidebar::-webkit-scrollbar-thumb {
+  margin-block: 1.6rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #c9cbcf 0 0.2rem,
+    transparent 0.2rem 100%
+  );
 }
 
 .catalog-sidebar__summary {
@@ -1136,6 +1167,12 @@ body.catalog-sort-modal-open {
 
   .catalog-results__layout {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-sidebar {
+    position: static;
+    max-height: none;
+    overflow: hidden;
   }
 
   .catalog-grid-results {

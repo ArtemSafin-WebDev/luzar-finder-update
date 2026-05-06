@@ -1017,6 +1017,26 @@ button.pf-vin-request__car-icon.is-open {
   color: #3a8dde;
 }
 
+.pf-vin-found__disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  border-radius: 0.6rem;
+  padding: 0.8rem 1.2rem;
+  background: #ccd7e5;
+  color: #55585e;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.pf-disclaimer-icon {
+  display: block;
+  flex: 0 0 1.6rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: currentColor;
+}
+
 .pf-vin-request {
   display: grid;
   gap: 1.6rem;

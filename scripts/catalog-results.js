@@ -685,6 +685,11 @@
   }
 
   function openVinRequestModal() {
+    if (window.LuzarPartsFinder?.openVinRequestModal) {
+      window.LuzarPartsFinder.openVinRequestModal();
+      return;
+    }
+
     const handledByPartsFinder = !document.dispatchEvent(
       new CustomEvent("parts-finder:open-vin-request-modal", {
         cancelable: true,
