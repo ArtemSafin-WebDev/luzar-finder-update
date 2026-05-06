@@ -28,6 +28,9 @@
       '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg>',
   };
 
+  const mobileSortQuery = "(max-width: 699.98px)";
+  const sortAnimationDuration = 260;
+
   const imageBase = "images/catalog/";
   const productImages = [
     `${imageBase}radiator-01.webp`,
@@ -127,7 +130,7 @@
     ["popular", "По популярности"],
     ["price-asc", "Сначала дешевле"],
     ["price-desc", "Сначала дороже"],
-    ["new", "По новизне"],
+    ["new", "Новинки"],
     ["discount", "По величине скидки"],
   ];
   const initialHeaderCartCount = Number(
@@ -146,6 +149,7 @@
     filterSearch: {},
     price: { min: 459, max: 9999999, currentMin: 459, currentMax: 9999999 },
     sort: "popular",
+    sortDraft: "popular",
     sortOpen: false,
     query: "",
     visibleProducts: 9,
@@ -155,6 +159,7 @@
   };
 
   let deferredRenderTimer = 0;
+  let sortCloseTimer = 0;
 
   function makeNumberedOptions(prefix, label, count) {
     return Array.from({ length: count }, (_, index) => {
@@ -206,6 +211,10 @@
 
   function getSortLabel() {
     return sortOptions.find((option) => option[0] === state.sort)[1];
+  }
+
+  function isMobileSortModal() {
+    return window.matchMedia(mobileSortQuery).matches;
   }
 
   function hasActiveFilters() {
@@ -272,6 +281,58 @@
     `;
 
     updatePriceTrack();
+    syncSortModalState();
+  }
+
+  function syncSortModalState() {
+    document.body.classList.toggle(
+      "catalog-sort-modal-open",
+      state.sortOpen && isMobileSortModal(),
+    );
+  }
+
+  function syncSortDraftOptions() {
+    root.querySelectorAll("[data-sort-value]").forEach((button) => {
+      const active = button.getAttribute("data-sort-value") === state.sortDraft;
+
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+  }
+
+  function closeSort(options = {}) {
+    const { apply = false, resetDraft = true } = options;
+
+    if (sortCloseTimer) {
+      window.clearTimeout(sortCloseTimer);
+      sortCloseTimer = 0;
+    }
+
+    if (apply) {
+      state.sort = state.sortDraft;
+    } else if (resetDraft) {
+      state.sortDraft = state.sort;
+    }
+
+    if (isMobileSortModal() && state.sortOpen) {
+      const sort = root.querySelector("[data-sort]");
+      const sortToggle = root.querySelector("[data-sort-toggle]");
+
+      state.sortOpen = false;
+      sort?.classList.add("is-closing");
+      sort?.classList.remove("is-open");
+      sortToggle?.setAttribute("aria-expanded", "false");
+
+      sortCloseTimer = window.setTimeout(() => {
+        sortCloseTimer = 0;
+        render();
+      }, sortAnimationDuration);
+
+      return;
+    }
+
+    state.sortOpen = false;
+    render();
   }
 
   function deferRender(delay = 220) {
@@ -284,24 +345,35 @@
   }
 
   function renderSort() {
+    const activeSort = state.sortOpen ? state.sortDraft : state.sort;
+
     return `
       <div class="catalog-sort${state.sortOpen ? " is-open" : ""}" data-sort>
         <button class="catalog-sort__button" type="button" aria-haspopup="listbox" aria-expanded="${state.sortOpen}" data-sort-toggle>
           ${icons.sort}
           <span>${escapeHtml(getSortLabel())}</span>
         </button>
-        <div class="catalog-sort__menu" role="listbox">
-          <div class="catalog-sort__title">Сортировать:</div>
-          ${sortOptions
-            .map(
-              ([value, label]) => `
-                <button class="catalog-sort__option${state.sort === value ? " is-active" : ""}" type="button" role="option" aria-selected="${state.sort === value}" data-sort-value="${value}">
-                  <span class="catalog-sort__radio" aria-hidden="true"></span>
-                  <span>${escapeHtml(label)}</span>
-                </button>
-              `,
-            )
-            .join("")}
+        <div class="catalog-sort__modal" data-sort-modal>
+          <button class="catalog-sort__backdrop" type="button" aria-label="Закрыть сортировку" data-sort-close></button>
+          <div class="catalog-sort__menu" role="dialog" aria-modal="true" aria-labelledby="catalog-sort-title">
+            <div class="catalog-sort__header">
+              <h3 class="catalog-sort__title" id="catalog-sort-title">Сортировка</h3>
+              <button class="catalog-sort__close" type="button" aria-label="Закрыть сортировку" data-sort-close>${icons.close}</button>
+            </div>
+            <div class="catalog-sort__options" role="listbox" aria-label="Сортировка">
+              ${sortOptions
+                .map(
+                  ([value, label]) => `
+                    <button class="catalog-sort__option${activeSort === value ? " is-active" : ""}" type="button" role="option" aria-selected="${activeSort === value}" data-sort-value="${value}">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>${escapeHtml(label)}</span>
+                    </button>
+                  `,
+                )
+                .join("")}
+            </div>
+            <button class="catalog-sort__apply" type="button" data-sort-apply>Выбрать</button>
+          </div>
         </div>
       </div>
     `;
@@ -724,6 +796,12 @@
   });
 
   root.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && state.sortOpen) {
+      event.preventDefault();
+      closeSort();
+      return;
+    }
+
     const handle = event.target.closest("[data-price-handle]");
     if (!handle) return;
 
@@ -747,6 +825,8 @@
   root.addEventListener("click", (event) => {
     const sortToggle = event.target.closest("[data-sort-toggle]");
     const sortValue = event.target.closest("[data-sort-value]");
+    const sortClose = event.target.closest("[data-sort-close]");
+    const sortApply = event.target.closest("[data-sort-apply]");
     const expand = event.target.closest("[data-filter-expand]");
     const collapse = event.target.closest("[data-filter-collapse]");
     const reset = event.target.closest("[data-reset-filters]");
@@ -770,15 +850,36 @@
 
     if (sortToggle) {
       event.stopPropagation();
+      if (sortCloseTimer) {
+        window.clearTimeout(sortCloseTimer);
+        sortCloseTimer = 0;
+      }
+      state.sortDraft = state.sort;
       state.sortOpen = !state.sortOpen;
       render();
     }
 
     if (sortValue) {
       event.stopPropagation();
-      state.sort = sortValue.getAttribute("data-sort-value");
-      state.sortOpen = false;
-      render();
+      if (isMobileSortModal()) {
+        state.sortDraft = sortValue.getAttribute("data-sort-value");
+        syncSortDraftOptions();
+      } else {
+        state.sort = sortValue.getAttribute("data-sort-value");
+        state.sortDraft = state.sort;
+        state.sortOpen = false;
+        render();
+      }
+    }
+
+    if (sortClose) {
+      event.stopPropagation();
+      closeSort();
+    }
+
+    if (sortApply) {
+      event.stopPropagation();
+      closeSort({ apply: true, resetDraft: false });
     }
 
     if (expand) {
@@ -881,9 +982,10 @@
     if (root.contains(event.target) || event.composedPath().includes(root)) return;
     if (!state.sortOpen) return;
 
-    state.sortOpen = false;
-    render();
+    closeSort();
   });
+
+  window.addEventListener("resize", syncSortModalState);
 
   document.addEventListener("pointermove", (event) => {
     if (!state.draggingPrice) return;

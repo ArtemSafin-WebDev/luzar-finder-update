@@ -24,11 +24,6 @@
   box-sizing: border-box;
 }
 
-.parts-finder button,
-.parts-finder input {
-  font-family: inherit;
-}
-
 .parts-finder__title {
   position: relative;
   z-index: 1;
@@ -554,7 +549,7 @@
 }
 
 .pf-mobile-banner,
-.pf-mobile-dialog {
+.pf-mobile-screen {
   display: none;
 }
 
@@ -1550,9 +1545,20 @@ button.pf-vin-request__car-icon.is-open {
     line-height: 1.6rem;
   }
 
-  .pf-mobile-dialog {
+  body.pf-mobile-lock .luzar-header {
     position: fixed;
-    inset: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1001;
+  }
+
+  .pf-mobile-screen {
+    position: fixed;
+    top: 5.2rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -1561,66 +1567,14 @@ button.pf-vin-request__car-icon.is-open {
     background: #f5f5f5;
     color: #303236;
     overflow: hidden auto;
+    overscroll-behavior-y: none;
   }
 
-  .pf-mobile-header {
-    position: sticky;
-    top: 0;
-    z-index: 5;
+  .pf-mobile-titlebar {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
-    padding: 0.8rem 1.6rem;
-    background: #ffffff;
-  }
-
-  .pf-mobile-header__logo {
-    width: 12.1rem;
-    height: 3.6rem;
-    object-fit: contain;
-  }
-
-  .pf-mobile-header__actions {
-    display: flex;
-    flex: 1 1 auto;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1.6rem;
-    color: #00205c;
-  }
-
-  .pf-mobile-header__burger {
-    position: relative;
-    display: block;
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-
-  .pf-mobile-header__burger::before {
-    position: absolute;
-    top: 0.6rem;
-    left: 0.2rem;
-    width: 2rem;
-    height: 0.2rem;
-    background: currentColor;
-    box-shadow:
-      0 0.6rem 0 currentColor,
-      0 1.2rem 0 currentColor;
-    content: "";
-  }
-
-  .pf-mobile-header__close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 3.2rem;
-    height: 3.2rem;
-    border: 0;
-    border-radius: 0.8rem;
-    padding: 0.8rem;
-    background: #f5f5f5;
-    color: #55585e;
-    cursor: pointer;
+    justify-content: space-between;
+    gap: 1.2rem;
   }
 
   .pf-mobile-content {
@@ -1644,6 +1598,21 @@ button.pf-vin-request__car-icon.is-open {
     text-transform: uppercase;
   }
 
+  .pf-mobile-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 3.2rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 0;
+    border-radius: 0.8rem;
+    padding: 0.8rem;
+    background: #ffffff;
+    color: #55585e;
+    cursor: pointer;
+  }
+
   .pf-mobile-expanded__title {
     display: inline-flex;
     align-items: center;
@@ -1655,6 +1624,196 @@ button.pf-vin-request__car-icon.is-open {
     background: transparent;
     cursor: pointer;
     text-align: left;
+  }
+
+  .pf-mobile-content--history {
+    gap: 1.6rem;
+  }
+
+  .pf-mobile-history-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    width: max-content;
+    max-width: 100%;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #303236;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .pf-mobile-history-title .pf-back-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .pf-mobile-history-cards {
+    display: grid;
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .pf-mobile-history-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    width: 100%;
+    border-radius: 0.4rem;
+    background: #ffffff;
+    padding: 1.6rem;
+  }
+
+  .pf-mobile-history-card__rows {
+    display: grid;
+    gap: 1.2rem;
+    width: 100%;
+    margin: 0;
+    color: #303236;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+  }
+
+  .pf-mobile-history-card__row {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 1.2rem;
+    align-items: start;
+  }
+
+  .pf-mobile-history-card__row dt,
+  .pf-mobile-history-card__row dd {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .pf-mobile-history-card__row dt {
+    color: #55585e;
+  }
+
+  .pf-mobile-history-card__row dd {
+    overflow: hidden;
+    color: #303236;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pf-mobile-history-card__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+    width: 100%;
+  }
+
+  .pf-mobile-history-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    border: 0;
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .pf-mobile-history-card__button--delete {
+    background: #ecf4fc;
+    color: #303236;
+  }
+
+  .pf-mobile-history-card__button--select {
+    background: #00205c;
+    color: #ffffff;
+  }
+
+  .pf-mobile-history-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.2rem;
+    width: 100%;
+    border-radius: 0.4rem;
+    background: #ffffff;
+    padding: 1.6rem;
+  }
+
+  .pf-mobile-history-empty__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.4rem;
+    width: 100%;
+  }
+
+  .pf-mobile-history-empty__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.4rem;
+    height: 6.4rem;
+    color: #e8e8e8;
+  }
+
+  .pf-mobile-history-empty__icon .pf-sleep-icon {
+    width: 6.4rem;
+    height: 6.4rem;
+  }
+
+  .pf-mobile-history-empty__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .pf-mobile-history-empty__text h2 {
+    margin: 0;
+    color: #303236;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .pf-mobile-history-empty__text p {
+    max-width: 30rem;
+    margin: 0;
+    color: #797d86;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+  }
+
+  .pf-mobile-history-empty__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 0;
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    background: #ecf4fc;
+    color: #303236;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+    text-align: center;
   }
 
   .pf-mobile-tabs {
@@ -1813,6 +1972,7 @@ button.pf-vin-request__car-icon.is-open {
     align-items: center;
     justify-content: center;
     width: 100%;
+    min-height: 4rem;
     border: 0;
     border-radius: 0.8rem;
     padding: 1.2rem;
@@ -1832,46 +1992,82 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .pf-mobile-submit--secondary {
-    border: 1px solid #e5e6e7;
-    background: #ffffff;
-    color: #00205c;
+    background: #ecf4fc;
+    color: #303236;
   }
 
   .pf-mobile-search {
     display: flex;
     align-items: center;
+    gap: 0.8rem;
     width: 100%;
+    height: 4rem;
     overflow: hidden;
     border: 1px solid #e5e6e7;
     border-radius: 0.8rem;
+    padding-left: 1.2rem;
     background: #ffffff;
-    color: #ffffff;
+    color: #303236;
+    transition: border-color 0.2s ease;
+  }
+
+  .pf-mobile-search.is-filled {
+    border-color: #55585e;
   }
 
   .pf-mobile-search input {
     flex: 1 1 auto;
     min-width: 0;
-    height: 3.8rem;
+    height: 100%;
     border: 0;
-    padding: 1.1rem 1.2rem;
+    padding: 1.1rem 0;
     background: transparent;
     color: #303236;
     font-size: 1.4rem;
+    font-weight: 400;
     line-height: 1.6rem;
     outline: 0;
+  }
+
+  .pf-mobile-search input::-webkit-search-decoration,
+  .pf-mobile-search input::-webkit-search-cancel-button,
+  .pf-mobile-search input::-webkit-search-results-button,
+  .pf-mobile-search input::-webkit-search-results-decoration {
+    display: none;
+    -webkit-appearance: none;
   }
 
   .pf-mobile-search input::placeholder {
     color: #afb2b7;
   }
 
-  .pf-mobile-search > span {
+  .pf-mobile-search__clear {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 1.6rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #797d86;
+    cursor: pointer;
+  }
+
+  .pf-mobile-search__clear[hidden] {
+    display: none;
+  }
+
+  .pf-mobile-search__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
     flex: 0 0 4rem;
     width: 4rem;
-    height: 4rem;
+    height: auto;
+    margin: -1px -1px -1px 0;
     border-radius: 0.8rem;
     background: #00205c;
     color: #ffffff;
@@ -1920,7 +2116,8 @@ button.pf-vin-request__car-icon.is-open {
 
   .pf-mobile-expanded__option.is-selected {
     color: #303236;
-    font-weight: 500;
+    /* font-weight: 500; */
+    background-color: #f7f7f8;
   }
 
   .pf-mobile-expanded__option > span:first-child {
@@ -1945,14 +2142,15 @@ button.pf-vin-request__car-icon.is-open {
     position: sticky;
     bottom: 0;
     display: grid;
-    gap: 0.8rem;
+    gap: 0.9rem;
     margin: auto -1.6rem -2.8rem;
-    padding: 1.2rem 1.6rem;
-    background: #f5f5f5;
-    box-shadow: 0 -0.5rem 0.75rem rgba(4, 21, 51, 0.05);
+    border-radius: 0.6rem 0.6rem 0 0;
+    padding: 1.6rem;
+    background: #ffffff;
+    box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.25);
   }
 
-  .pf-mobile-dialog .pf-history {
+  .pf-mobile-screen .pf-history {
     position: static;
     width: 100%;
     border-radius: 0.6rem;
@@ -1960,7 +2158,7 @@ button.pf-vin-request__car-icon.is-open {
     box-shadow: none;
   }
 
-  .pf-mobile-dialog .pf-history__scroller {
+  .pf-mobile-screen .pf-history__scroller {
     overflow-x: auto;
   }
 
@@ -2015,6 +2213,10 @@ button.pf-vin-request__car-icon.is-open {
   .pf-vin-panel,
   .pf-vin-search {
     border-radius: 1rem;
+  }
+
+  .pf-vin-search {
+    align-items: stretch;
   }
 
   .pf-vin-search,

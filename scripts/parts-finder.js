@@ -106,6 +106,7 @@
       this.expandedTags = false;
       this.mobileFinderOpen = false;
       this.mobileExpandedControl = null;
+      this.mobileHistoryOpen = false;
       this.vinSearch = {
         value: options.initialVin || "",
         result: options.initialVinResult || "",
@@ -165,8 +166,11 @@
         if (actionName === "reset-tags") this.resetGroups();
         if (actionName === "open-mobile-finder") this.openMobileFinder();
         if (actionName === "close-mobile-finder") this.closeMobileFinder();
+        if (actionName === "open-mobile-history") this.openMobileHistory();
+        if (actionName === "close-mobile-history") this.closeMobileHistory();
         if (actionName === "open-mobile-options") this.openMobileOptions(id);
         if (actionName === "close-mobile-options") this.closeMobileOptions();
+        if (actionName === "clear-mobile-search") this.clearMobileSearch(id);
         if (actionName === "save-mobile-options") this.saveMobileOptions();
         if (actionName === "choose-mobile-next") this.chooseMobileNext();
 
@@ -177,6 +181,7 @@
         if (event.target.matches("[data-mobile-search]")) {
           this.search[event.target.dataset.mobileSearch] = event.target.value;
           this.updateMobileExpandedOptions(event.target.dataset.mobileSearch);
+          this.updateMobileSearchState(event.target.dataset.mobileSearch);
           return;
         }
         if (event.target.matches("[data-search]")) {
@@ -232,7 +237,9 @@
       if (!this.response) return;
       this.root.innerHTML = this.template();
       const input =
-        this.root.querySelector("[data-autofocus]") ||
+        (options.skipAutofocus
+          ? null
+          : this.root.querySelector("[data-autofocus]")) ||
         (options.focusVinSearch
           ? this.root.querySelector("[data-vin-search]")
           : null) ||
@@ -249,6 +256,9 @@
       }
       if (options.productGroupsScrollTop !== undefined) {
         this.restoreProductGroupsScrollTop(options.productGroupsScrollTop);
+      }
+      if (options.mobileScrollTop !== undefined) {
+        this.restoreMobileScreenScrollTop(options.mobileScrollTop);
       }
       document.body.classList.toggle("pf-mobile-lock", this.mobileFinderOpen);
       this.positionVinRequestHistory();
@@ -453,10 +463,11 @@
         : null;
 
       return `
-        <div class="pf-mobile-dialog" role="dialog" aria-modal="true" aria-labelledby="pf-mobile-title">
-          ${this.mobileHeaderTemplate()}
+        <div class="pf-mobile-screen" aria-labelledby="pf-mobile-title">
           ${
-            expandedControl
+            this.mobileHistoryOpen
+              ? this.mobileHistoryTemplate()
+              : expandedControl
               ? this.mobileExpandedTemplate(expandedControl)
               : this.mobileMainTemplate()
           }
@@ -464,25 +475,15 @@
       `;
     }
 
-    mobileHeaderTemplate() {
-      return `
-        <div class="pf-mobile-header">
-          <img class="pf-mobile-header__logo" src="images/logo.svg" width="121" height="36" alt="LUZAR">
-          <div class="pf-mobile-header__actions" aria-hidden="true">
-            ${iconSearch()}
-            <span class="pf-mobile-header__burger"></span>
-          </div>
-          <button class="pf-mobile-header__close" type="button" aria-label="Закрыть подбор" data-action="close-mobile-finder">
-            ${iconCross()}
-          </button>
-        </div>
-      `;
-    }
-
     mobileMainTemplate() {
       return `
         <div class="pf-mobile-content">
-          <div class="pf-mobile-page-title" id="pf-mobile-title">Подбор деталей</div>
+          <div class="pf-mobile-titlebar">
+            <div class="pf-mobile-page-title" id="pf-mobile-title">Подбор деталей</div>
+            <button class="pf-mobile-close" type="button" aria-label="Закрыть подбор" data-action="close-mobile-finder">
+              ${iconCross()}
+            </button>
+          </div>
           ${this.mobileTabsTemplate()}
           ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
           ${
@@ -507,13 +508,83 @@
             <button class="pf-mobile-tab" type="button" role="tab" aria-selected="${vinSelected}" data-action="switch-mode" data-mode="vin">По VIN или госномеру</button>
           </div>
           ${
-            this.hasHistoryItems()
-              ? `<button class="pf-mobile-history-tab ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" aria-label="${escapeAttr(history.label)}" data-action="toggle-history" data-placement="tabs">
+            this.hasHistoryFeature()
+              ? `<button class="pf-mobile-history-tab" type="button" aria-label="${escapeAttr(history.label)}" data-action="open-mobile-history">
                   ${iconCar()}
                   ${historyCount ? `<span>${historyCount}</span>` : ""}
                 </button>`
               : ""
           }
+        </div>
+      `;
+    }
+
+    mobileHistoryTemplate() {
+      return `
+        <div class="pf-mobile-content pf-mobile-content--history">
+          <button class="pf-mobile-history-title" type="button" id="pf-mobile-title" data-action="close-mobile-history">
+            ${iconBack()}
+            <span>${escapeHtml(this.response.history?.label || "Мои авто")}</span>
+          </button>
+          ${
+            this.hasHistoryItems()
+              ? `<div class="pf-mobile-history-cards">
+                  ${this.response.history.items
+                    .map((item) => this.mobileHistoryCardTemplate(item))
+                    .join("")}
+                </div>`
+              : this.mobileHistoryEmptyTemplate()
+          }
+        </div>
+      `;
+    }
+
+    mobileHistoryCardTemplate(item) {
+      const rows = [
+        ["Марка", item.brand?.label],
+        ["Модель", item.model?.label],
+        ["Год", item.year?.label],
+        ["Объём двигателя", item.engine?.label],
+        ["Модификация", item.modification?.label],
+        ["VIN", item.vin],
+        ["Госномер", item.plate],
+      ];
+
+      return `
+        <article class="pf-mobile-history-card">
+          <dl class="pf-mobile-history-card__rows">
+            ${rows
+              .map(
+                ([label, value]) => `
+                  <div class="pf-mobile-history-card__row">
+                    <dt>${escapeHtml(label)}</dt>
+                    <dd>${escapeHtml(value || "---")}</dd>
+                  </div>
+                `,
+              )
+              .join("")}
+          </dl>
+          <div class="pf-mobile-history-card__actions">
+            <button class="pf-mobile-history-card__button pf-mobile-history-card__button--delete" type="button" data-action="delete-history" data-value="${escapeAttr(item.id)}">Удалить</button>
+            <button class="pf-mobile-history-card__button pf-mobile-history-card__button--select" type="button" data-action="select-history" data-value="${escapeAttr(item.id)}">Выбрать</button>
+          </div>
+        </article>
+      `;
+    }
+
+    mobileHistoryEmptyTemplate() {
+      return `
+        <div class="pf-mobile-history-empty" role="status">
+          <div class="pf-mobile-history-empty__content">
+            <div class="pf-mobile-history-empty__icon" aria-hidden="true">
+              ${iconSleep()}
+            </div>
+            <div class="pf-mobile-history-empty__text">
+              <h2>Здесь пусто</h2>
+              <p>Данные о ваших авто сохранятся автоматически после подбора запчастей</p>
+            </div>
+          </div>
+          <button class="pf-mobile-history-empty__button" type="button" data-action="close-mobile-history">Назад к подбору</button>
         </div>
       `;
     }
@@ -591,6 +662,8 @@
 
     mobileExpandedTemplate(control) {
       const query = (this.search[control.id] || "").trim().toLowerCase();
+      const searchValue = this.search[control.id] || "";
+      const searchId = `pf-mobile-search-${control.id}`;
       const options = (control.options || []).filter((option) =>
         option.label.toLowerCase().includes(query),
       );
@@ -605,11 +678,14 @@
             ${iconBack()}
             <span>${escapeHtml(control.label)}</span>
           </button>
-          <label class="pf-mobile-search">
-            <span class="visually-hidden">Поиск: ${escapeHtml(control.label)}</span>
-            <input type="search" value="${escapeAttr(this.search[control.id] || "")}" placeholder="${escapeAttr(control.label)}" data-mobile-search="${escapeAttr(control.id)}" data-autofocus>
-            <span>${iconSearch()}</span>
-          </label>
+          <div class="pf-mobile-search ${searchValue ? "is-filled" : ""}" data-mobile-search-field="${escapeAttr(control.id)}">
+            <label class="visually-hidden" for="${escapeAttr(searchId)}">Поиск: ${escapeHtml(control.label)}</label>
+            <input id="${escapeAttr(searchId)}" type="search" value="${escapeAttr(searchValue)}" placeholder="${escapeAttr(control.label)}" data-mobile-search="${escapeAttr(control.id)}" data-autofocus autocomplete="off">
+            <button class="pf-mobile-search__clear" type="button" aria-label="Очистить ${escapeAttr(control.label)}" data-action="clear-mobile-search" data-id="${escapeAttr(control.id)}" ${searchValue ? "" : "hidden"}>
+              ${iconCross()}
+            </button>
+            <span class="pf-mobile-search__submit" aria-hidden="true">${iconSearch()}</span>
+          </div>
           <div class="pf-mobile-expanded__list">
             <div class="pf-mobile-expanded__hint">Популярные</div>
             <div class="pf-mobile-expanded__options" data-mobile-expanded-options="${escapeAttr(control.id)}">
@@ -1143,6 +1219,10 @@
       return Boolean(this.response.history?.enabled && this.response.history.items?.length);
     }
 
+    hasHistoryFeature() {
+      return Boolean(this.response.history?.enabled);
+    }
+
     historyTemplate(placement = "tabs") {
       const items = this.response.history?.items || [];
       const placementClass = placement === "vinRequest" ? "vin-request" : placement;
@@ -1245,6 +1325,9 @@
       const control = this.response.controls.find((item) => item.id === id);
       const option = control?.options.find((item) => item.id === optionId);
       if (!option) return;
+      const mobileScrollTop = this.mobileFinderOpen
+        ? this.getMobileScreenScrollTop()
+        : undefined;
       this.selected[id] = option;
       this.clearAfter(id);
       this.openControl = null;
@@ -1253,7 +1336,10 @@
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
       if (this.mobileFinderOpen) {
-        this.render();
+        this.render({
+          mobileScrollTop,
+          skipAutofocus: true,
+        });
       } else {
         this.updateControlsView();
       }
@@ -1336,6 +1422,9 @@
       const option = control?.options.find((item) => item.id === optionId);
       if (!option) return;
       const scrollTop = this.getProductGroupsScrollTop();
+      const mobileScrollTop = this.mobileFinderOpen
+        ? this.getMobileScreenScrollTop()
+        : undefined;
       const selected = this.selected.productGroups;
       const exists = selected.some((item) => item.id === optionId);
       this.selected.productGroups = exists
@@ -1346,7 +1435,10 @@
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
       if (this.mobileFinderOpen) {
-        this.render();
+        this.render({
+          mobileScrollTop,
+          skipAutofocus: true,
+        });
       } else {
         this.updateControlsView({ productGroupsScrollTop: scrollTop });
       }
@@ -1357,6 +1449,9 @@
         (item) => item.id === "productGroups",
       );
       if (!control) return;
+      const mobileScrollTop = this.mobileFinderOpen
+        ? this.getMobileScreenScrollTop()
+        : undefined;
       this.selected.productGroups = control.allSelected
         ? []
         : [...control.options];
@@ -1366,13 +1461,19 @@
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
       if (this.mobileFinderOpen) {
-        this.render();
+        this.render({
+          mobileScrollTop,
+          skipAutofocus: true,
+        });
       } else {
         this.updateControlsView();
       }
     }
 
     async clearControl(id) {
+      const mobileScrollTop = this.mobileFinderOpen
+        ? this.getMobileScreenScrollTop()
+        : undefined;
       if (id === "productGroups") {
         this.selected.productGroups = [];
       } else {
@@ -1384,7 +1485,10 @@
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
       if (this.mobileFinderOpen) {
-        this.render();
+        this.render({
+          mobileScrollTop,
+          skipAutofocus: true,
+        });
       } else {
         this.updateControlsView();
       }
@@ -1403,10 +1507,7 @@
     toggleHistory(placement = "tabs") {
       if (!this.hasHistoryItems()) return;
       if (this.mobileFinderOpen && placement === "tabs") {
-        this.historyOpen = this.historyOpen === placement ? null : placement;
-        this.mobileExpandedControl = null;
-        this.openControl = null;
-        this.render();
+        this.openMobileHistory();
         return;
       }
       const previousControl = this.openControl;
@@ -1451,6 +1552,11 @@
         this.historyOpen = null;
         this.openControl = null;
         await this.refreshVinRequestOptions();
+        this.mobileHistoryOpen = false;
+        if (this.mobileFinderOpen) {
+          this.render();
+          return;
+        }
         this.updateVinRequestControlsView();
         this.updateVinRequestSubmitState();
         this.updateHistoryView("vinRequest", false);
@@ -1470,6 +1576,11 @@
         }
         this.historyOpen = null;
         this.openControl = null;
+        this.mobileHistoryOpen = false;
+        if (this.mobileFinderOpen) {
+          this.render();
+          return;
+        }
         const input = this.root.querySelector("[data-vin-search]");
         if (input) input.value = value;
         this.updateVinSearchClearButton();
@@ -1483,6 +1594,7 @@
       this.selected.productGroups = [];
       this.historyOpen = null;
       this.openControl = null;
+      this.mobileHistoryOpen = false;
       const payload = await this.api.getControls({ selected: this.selected });
       this.response.controls = payload.controls;
       this.response.submit = payload.submit;
@@ -1629,6 +1741,10 @@
       this.response.history = history;
       this.openControl = null;
       if (!this.hasHistoryItems()) this.historyOpen = null;
+      if (this.mobileFinderOpen) {
+        this.render();
+        return;
+      }
       this.updateHistoryButtons();
       this.updateHistoryView("tabs", this.historyOpen === "tabs");
       this.updateHistoryView("vinRequest", this.historyOpen === "vinRequest");
@@ -1679,6 +1795,7 @@
     openMobileFinder() {
       this.mobileFinderOpen = true;
       this.mobileExpandedControl = null;
+      this.mobileHistoryOpen = false;
       this.historyOpen = null;
       this.openControl = null;
       this.render();
@@ -1687,8 +1804,24 @@
     closeMobileFinder() {
       this.mobileFinderOpen = false;
       this.mobileExpandedControl = null;
+      this.mobileHistoryOpen = false;
       this.historyOpen = null;
       document.body.classList.remove("pf-mobile-lock");
+      this.render();
+    }
+
+    openMobileHistory() {
+      if (!this.hasHistoryFeature()) return;
+      this.mobileFinderOpen = true;
+      this.mobileHistoryOpen = true;
+      this.mobileExpandedControl = null;
+      this.historyOpen = null;
+      this.openControl = null;
+      this.render();
+    }
+
+    closeMobileHistory() {
+      this.mobileHistoryOpen = false;
       this.render();
     }
 
@@ -1696,6 +1829,7 @@
       const control = this.response.controls.find((item) => item.id === id);
       if (!control || this.isControlDisabled(control)) return;
       this.mobileExpandedControl = id;
+      this.mobileHistoryOpen = false;
       this.historyOpen = null;
       this.search[id] = "";
       this.render();
@@ -1719,6 +1853,19 @@
       this.render();
     }
 
+    clearMobileSearch(controlId) {
+      this.search[controlId] = "";
+      const input = this.root.querySelector(
+        `[data-mobile-search="${selectorEscape(controlId)}"]`,
+      );
+      if (input) {
+        input.value = "";
+        input.focus();
+      }
+      this.updateMobileExpandedOptions(controlId);
+      this.updateMobileSearchState(controlId);
+    }
+
     updateMobileExpandedOptions(controlId) {
       const control = this.response.controls.find((item) => item.id === controlId);
       const node = this.root.querySelector(
@@ -1734,6 +1881,17 @@
             .map((option) => this.mobileExpandedOptionTemplate(option, control))
             .join("")
         : emptyTemplate();
+    }
+
+    updateMobileSearchState(controlId) {
+      const field = this.root.querySelector(
+        `[data-mobile-search-field="${selectorEscape(controlId)}"]`,
+      );
+      if (!field) return;
+      const hasValue = Boolean(this.search[controlId]);
+      field.classList.toggle("is-filled", hasValue);
+      const clear = field.querySelector(".pf-mobile-search__clear");
+      if (clear) clear.hidden = !hasValue;
     }
 
     getNextEnabledControl(id) {
@@ -1762,12 +1920,22 @@
       );
     }
 
+    getMobileScreenScrollTop() {
+      return this.root.querySelector(".pf-mobile-screen")?.scrollTop || 0;
+    }
+
     restoreProductGroupsScrollTop(scrollTop) {
       const dropdown = this.root.querySelector(
         '[data-control="productGroups"] .pf-dropdown--groups',
       );
       if (!dropdown) return;
       dropdown.scrollTop = scrollTop;
+    }
+
+    restoreMobileScreenScrollTop(scrollTop) {
+      const screen = this.root.querySelector(".pf-mobile-screen");
+      if (!screen) return;
+      screen.scrollTop = scrollTop;
     }
 
     positionVinRequestHistory() {
@@ -1946,7 +2114,7 @@
   }
 
   function iconCross() {
-    return `<svg class="pf-cross-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
+    return `<svg class="pf-cross-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.334 3.64551L8.97949 8L13.334 12.3545L12.3555 13.333L8.00098 8.97852L3.64648 13.333L2.66797 12.3545L7.02246 8L2.66797 3.64551L3.64648 2.66699L8.00098 7.02148L12.3555 2.66699L13.334 3.64551Z"/></svg>`;
   }
 
   function iconArrow() {
@@ -1982,8 +2150,8 @@
   }
 
   function iconSleep() {
-    return `<svg class="pf-sleep-icon" viewBox="0 0 48 48" aria-hidden="true">
-      <path d="M33.4141 33.4141L28.8281 38H34V42H24L22.5859 38.5859L27.1719 34H22V30H32L33.4141 33.4141ZM19.4141 19.4141L12.8281 26H20V30H8L6.58594 26.5859L13.1719 20H6V16H18L19.4141 19.4141ZM41.4141 9.41406L30.8281 20H42V24H26L24.5859 20.5859L35.1719 10H24V6H40L41.4141 9.41406Z"/>
+    return `<svg class="pf-sleep-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <path d="M42.667 40C43.194 40.0002 43.7092 40.1565 44.1475 40.4492C44.5859 40.7422 44.9281 41.1593 45.1299 41.6465C45.3316 42.1336 45.384 42.6694 45.2812 43.1865C45.1784 43.7037 44.9246 44.1788 44.5518 44.5518L38.4375 50.667H42.667C43.3741 50.6671 44.0527 50.9472 44.5527 51.4473C45.0528 51.9473 45.3329 52.6259 45.333 53.333C45.333 54.0401 45.0526 54.7187 44.5527 55.2188C44.0527 55.7188 43.3741 55.9999 42.667 56H32C31.4727 55.9999 30.957 55.8438 30.5186 55.5508C30.0801 55.2578 29.7389 54.8407 29.5371 54.3535C29.3354 53.8664 29.282 53.3306 29.3848 52.8135C29.4876 52.2964 29.7416 51.8211 30.1143 51.4482L36.2295 45.333H32C31.2928 45.333 30.6143 45.0527 30.1143 44.5527C29.6142 44.0527 29.3331 43.3741 29.333 42.667C29.333 41.9598 29.6143 41.2813 30.1143 40.7812C30.6144 40.2812 31.2928 40 32 40H42.667ZM24 21.333C24.5273 21.3331 25.043 21.4902 25.4814 21.7832C25.9197 22.0762 26.2611 22.4925 26.4629 22.9795C26.6647 23.4667 26.7181 24.0033 26.6152 24.5205C26.5123 25.0376 26.2585 25.5129 25.8857 25.8857L17.1035 34.667H24C24.7072 34.667 25.3857 34.9473 25.8857 35.4473C26.3858 35.9473 26.6669 36.6259 26.667 37.333C26.667 38.0402 26.3857 38.7187 25.8857 39.2188C25.3856 39.7188 24.7072 40 24 40H10.667C10.1398 39.9999 9.62392 39.8437 9.18555 39.5508C8.74712 39.2578 8.40491 38.8407 8.20312 38.3535C8.00148 37.8665 7.94899 37.3305 8.05176 36.8135C8.15459 36.2963 8.40851 35.8212 8.78125 35.4482L17.5625 26.667H10.667C9.95982 26.667 9.28133 26.3857 8.78125 25.8857C8.28115 25.3856 8 24.7072 8 24C8 23.2928 8.28115 22.6144 8.78125 22.1143C9.28133 21.6143 9.95983 21.333 10.667 21.333H24ZM53.333 8C53.8602 8.00011 54.3761 8.1563 54.8145 8.44922C55.2529 8.74224 55.5951 9.15928 55.7969 9.64648C55.9985 10.1335 56.051 10.6695 55.9482 11.1865C55.8454 11.7037 55.5915 12.1788 55.2188 12.5518L41.1035 26.667H53.333C54.0401 26.667 54.7187 26.9474 55.2188 27.4473C55.7188 27.9473 55.9999 28.6259 56 29.333C56 30.0403 55.7188 30.7187 55.2188 31.2188C54.7187 31.7188 54.0403 32 53.333 32H34.667C34.1398 31.9999 33.6239 31.8437 33.1855 31.5508C32.7471 31.2578 32.4049 30.8407 32.2031 30.3535C32.0015 29.8665 31.949 29.3305 32.0518 28.8135C32.1546 28.2963 32.4085 27.8212 32.7812 27.4482L46.8965 13.333H34.667C33.9599 13.333 33.2813 13.0526 32.7812 12.5527C32.2812 12.0527 32.0001 11.3741 32 10.667C32 9.95975 32.2812 9.28135 32.7812 8.78125C33.2813 8.28115 33.9597 8 34.667 8H53.333Z" fill="#E8E8E8"/>
     </svg>`;
   }
 
