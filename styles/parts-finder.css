@@ -8,6 +8,14 @@
   z-index: 20;
 }
 
+.page__content--vin-not-found {
+  padding-top: 0;
+}
+
+.page__content--vin-not-found .parts-section {
+  margin-top: 0;
+}
+
 .parts-finder {
   position: relative;
   z-index: 0;

@@ -114,6 +114,7 @@
       this.vinRequest = {
         ...EMPTY_VIN_REQUEST,
         ...(options.initialVin ? { vin: options.initialVin } : {}),
+        ...(options.initialVinRequest || {}),
       };
       this.selected = {
         brand: null,
@@ -192,6 +193,7 @@
         if (event.target.matches("[data-vin-search]")) {
           this.updateVinSearchValue(event.target.value);
           this.updateVinSearchClearButton();
+          this.updateVinSearchSubmitState();
           return;
         }
         if (event.target.matches("[data-vin-request-field]")) {
@@ -336,6 +338,11 @@
         );
       }
       if (!this.vinSearch.value && clear) clear.remove();
+    }
+
+    updateVinSearchSubmitState() {
+      const submit = this.root.querySelector(".pf-vin-search .pf-submit");
+      if (submit) submit.disabled = !this.vinSearch.value.trim();
     }
 
     updateOpenDropdownOptions(controlId) {
@@ -792,6 +799,10 @@
       const queryKey = search.queryKey || "vin";
       const label = search.submit?.label || "Подобрать товары";
       const value = search.value ?? this.vinSearch.value ?? "";
+      const disabled =
+        !String(value).trim() ||
+        search.submit?.disabled ||
+        (search.state || this.vinSearch.result) === "not-found";
 
       return `
         <form class="pf-vin-search" action="${escapeAttr(action)}" method="post">
@@ -805,7 +816,7 @@
                 : ""
             }
           </label>
-          <button class="pf-submit" type="submit">
+          <button class="pf-submit" type="submit" ${disabled ? "disabled" : ""}>
             ${escapeHtml(label)}
           </button>
         </form>
@@ -2203,6 +2214,7 @@
       endpoints,
       submitEndpoint: endpoints.submit,
       ...initialState,
+      initialVinRequest: config.initialVinRequest,
     });
     window.LuzarPartsFinder = {
       ...(window.LuzarPartsFinder || {}),
