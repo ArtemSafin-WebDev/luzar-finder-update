@@ -3,6 +3,8 @@
 
   if (!root) return;
 
+  const catalogMode = root.dataset.catalogMode || "full";
+
   const icons = {
     search:
       '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg>',
@@ -152,7 +154,7 @@
     sortDraft: "popular",
     sortOpen: false,
     query: "",
-    visibleProducts: 9,
+    visibleProducts: catalogMode === "recommendations" ? 12 : 9,
     cart: {},
     favorites: new Set(),
     draggingPrice: "",
@@ -239,6 +241,11 @@
       deferredRenderTimer = 0;
     }
 
+    if (catalogMode === "recommendations") {
+      renderRecommendations();
+      return;
+    }
+
     const catalogProducts = getCatalogProducts();
     const visibleProducts = catalogProducts.slice(0, state.visibleProducts);
 
@@ -282,6 +289,24 @@
 
     updatePriceTrack();
     syncSortModalState();
+  }
+
+  function renderRecommendations() {
+    const catalogProducts = getCatalogProducts();
+    const visibleProducts = catalogProducts.slice(0, state.visibleProducts);
+
+    root.innerHTML = `
+      <article class="catalog-results catalog-results--recommendations">
+        <h2 class="catalog-results__recommendations-title" id="catalog-results-title">Вам может быть интересно</h2>
+        <div class="catalog-results__main">
+          <div class="catalog-grid-results">
+            ${visibleProducts.map(renderProduct).join("")}
+          </div>
+          <button class="catalog-more" type="button" data-show-more>Показать еще</button>
+          ${renderRequestBanner()}
+        </div>
+      </article>
+    `;
   }
 
   function syncSortModalState() {

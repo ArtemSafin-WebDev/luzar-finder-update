@@ -442,6 +442,7 @@
           </div>
           ${this.mobileFinderTemplate()}
         </article>
+        ${this.hasFoundVehicle() ? this.vinFoundDisclaimerTemplate() : ""}
       `;
     }
 
@@ -846,11 +847,16 @@
               <span>Не моё авто</span>
             </button>
           </div>
-          <div class="pf-vin-found__disclaimer">
-            ${iconDisclaimer()}
-            <span>Инструменты подбора деталей на сайте не гарантируют 100% точность. Проверяйте совместимость с помощью оригинальных автомобильных каталогов.</span>
-          </div>
         </section>
+      `;
+    }
+
+    vinFoundDisclaimerTemplate() {
+      return `
+        <div class="pf-vin-found__disclaimer">
+          ${iconDisclaimer()}
+          <span>Инструменты подбора деталей на сайте не гарантируют 100% точность. Проверяйте совместимость с помощью оригинальных автомобильных каталогов.</span>
+        </div>
       `;
     }
 
@@ -1682,6 +1688,11 @@
       );
     }
 
+    hasFoundVehicle() {
+      const state = this.response.vinSearch?.state || this.vinSearch.result || "";
+      return this.mode === "vin" && state === "found" && Boolean(this.getFoundVehicle());
+    }
+
     getVinRequestControls() {
       const controls = this.response.vinRequest?.controls;
       if (Array.isArray(controls)) return controls;
@@ -2012,7 +2023,7 @@
       );
     }
 
-    return new window.MockPartsFinderApi(endpoints);
+    return new window.MockPartsFinderApi(endpoints, config);
   }
 
   function appendSelectedParams(url, selected) {

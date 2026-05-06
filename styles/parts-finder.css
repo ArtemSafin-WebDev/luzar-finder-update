@@ -1019,11 +1019,13 @@ button.pf-vin-request__car-icon.is-open {
 
 .pf-vin-found__disclaimer {
   display: flex;
-  align-items: flex-start;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  margin-top: 0.8rem;
   border-radius: 0.6rem;
-  padding: 0.8rem 1.2rem;
-  background: #ccd7e5;
+  padding: 0.8rem;
+  background: linear-gradient(90deg, #e7eef6 0%, #ccd7e5 100%);
   color: #55585e;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -1031,10 +1033,14 @@ button.pf-vin-request__car-icon.is-open {
 
 .pf-disclaimer-icon {
   display: block;
+  box-sizing: content-box;
   flex: 0 0 1.6rem;
   width: 1.6rem;
   height: 1.6rem;
-  fill: currentColor;
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  background: #ffffff;
+  fill: #00205c;
 }
 
 .pf-vin-request {
@@ -1508,6 +1514,10 @@ button.pf-vin-request__car-icon.is-open {
 
   .parts-finder__title,
   .parts-finder__workspace {
+    display: none;
+  }
+
+  .parts-finder-shell > .pf-vin-found__disclaimer {
     display: none;
   }
 

@@ -352,10 +352,11 @@
   ];
 
   class MockPartsFinderApi {
-    constructor(endpoints = DEFAULT_ENDPOINTS) {
+    constructor(endpoints = DEFAULT_ENDPOINTS, options = {}) {
       this.data = MOCK_DATA;
       this.history = [...HISTORY_SEED];
       this.endpoints = normalizeEndpoints(endpoints);
+      this.foundVehicle = options.initialFoundVehicle || HISTORY_SEED[0];
     }
 
     async getState(params) {
@@ -421,7 +422,7 @@
       const vinSearch = normalizeVinSearch(params.vinSearch);
       const vinRequest = normalizeVinRequest(params.vinRequest);
       const requestOptionsPayload = this.buildVinRequestOptionsPayload(vinRequest);
-      const foundVehicle = HISTORY_SEED[0];
+      const foundVehicle = this.foundVehicle;
       const state = normalizeVinResult(vinSearch.result);
 
       return {

@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>LUZAR - авто найдено, товары не найдены</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles/luzar-base.css">
+    <link rel="stylesheet" href="styles/luzar-header.css">
+    <link rel="stylesheet" href="styles/parts-finder.css">
+    <link rel="stylesheet" href="styles/catalog-results.css">
+  </head>
+  <body>
+    <div class="page">
+      <header class="luzar-header" data-luzar-header>
+        <div class="page__center">
+          <div class="luzar-header__top">
+            <nav class="luzar-header__nav" aria-label="Верхняя навигация">
+              <a class="luzar-header__nav-link" href="/about/">О компании</a>
+              <a class="luzar-header__nav-link" href="/where-buy/">Точки продаж</a>
+              <a class="luzar-header__nav-link" href="/about/garantiynye-obyazatelstva/">Гарантия</a>
+              <a class="luzar-header__nav-link" href="/materials/">Материалы</a>
+              <a class="luzar-header__nav-link" href="/news/">Новости</a>
+              <a class="luzar-header__nav-link" href="/contacts/">Контакты</a>
+              <a class="luzar-header__nav-link" href="/faqs/">Вопрос-ответ</a>
+            </nav>
+
+            <div class="luzar-header__academy">
+              <a class="luzar-header__academy-link" href="/academy/" aria-haspopup="true">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M12.6667 8.18813V9.33346C12.6667 10.5711 12.175 11.7581 11.2998 12.6333C10.4247 13.5085 9.23769 14.0001 8.00001 14.0001C6.76233 14.0001 5.57535 13.5085 4.70018 12.6333C3.82501 11.7581 3.33334 10.5711 3.33334 9.33346V8.18813L7.57268 10.1928C7.70629 10.2559 7.85223 10.2887 8.00001 10.2887C8.14779 10.2887 8.29374 10.2559 8.42734 10.1928L12.6667 8.18813ZM8.42734 1.80813L14.4807 4.6708C14.97 4.90146 15.032 5.5388 14.6667 5.8728V8.6668C14.6667 8.84361 14.5964 9.01318 14.4714 9.1382C14.3464 9.26323 14.1768 9.33346 14 9.33346C13.8232 9.33346 13.6536 9.26323 13.5286 9.1382C13.4036 9.01318 13.3333 8.84361 13.3333 8.6668V6.54013L8.42734 8.86013C8.29374 8.92328 8.14779 8.95604 8.00001 8.95604C7.85223 8.95604 7.70629 8.92328 7.57268 8.86013L1.51934 5.9968C1.39391 5.93734 1.28793 5.84351 1.21371 5.72621C1.13949 5.6089 1.1001 5.47294 1.1001 5.33413C1.1001 5.19532 1.13949 5.05936 1.21371 4.94205C1.28793 4.82475 1.39391 4.73092 1.51934 4.67146L7.57268 1.8088C7.70629 1.74564 7.85223 1.71289 8.00001 1.71289C8.14779 1.71289 8.29374 1.74564 8.42734 1.8088V1.80813Z" />
+                </svg>
+                Академия ЛУЗАР
+              </a>
+              <div class="luzar-header__academy-menu" role="menu">
+                <a href="/academy/" role="menuitem">Академия LUZAR</a>
+                <a href="/academy/library/" role="menuitem">Обучающая библиотека</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="luzar-header__bottom">
+            <a class="luzar-header__logo" href="/" aria-label="LUZAR">
+              <img src="images/logo.svg" width="162" height="48" alt="">
+            </a>
+
+            <a class="luzar-header__catalog" href="/catalogue/">
+              <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M14.667 12.667H1.33301V11.333H14.667V12.667ZM14.667 8.66699H1.33301V7.33301H14.667V8.66699ZM14.667 4.66699H1.33301V3.33301H14.667V4.66699Z" />
+              </svg>
+              Каталог
+            </a>
+
+            <form class="luzar-header__search" action="/catalogue/" method="get" role="search">
+              <label class="visually-hidden" for="luzar-header-search">Поиск по каталогу</label>
+              <input id="luzar-header-search" type="search" name="q" placeholder="Искать на сайте по наименованию или артикулу" autocomplete="off">
+              <button class="luzar-header__search-submit" type="submit" aria-label="Найти">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M7.3335 1.33301C10.6472 1.33301 13.3335 4.0193 13.3335 7.33301C13.3335 8.74965 12.8411 10.0507 12.02 11.0771L15.1382 14.1953L14.1958 15.1377L11.0776 12.0195C10.0512 12.8406 8.75014 13.333 7.3335 13.333C4.01979 13.333 1.3335 10.6467 1.3335 7.33301C1.3335 4.0193 4.01979 1.33301 7.3335 1.33301ZM7.3335 2.66602C4.75617 2.66602 2.6665 4.75568 2.6665 7.33301C2.6665 9.91034 4.75617 12 7.3335 12C9.91083 12 12.0005 9.91034 12.0005 7.33301C12.0005 4.75568 9.91083 2.66602 7.3335 2.66602Z" />
+                </svg>
+              </button>
+            </form>
+
+            <div class="luzar-header__actions" aria-label="Действия пользователя">
+              <a class="luzar-header__action" href="/favorites/" aria-label="Избранное">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z" />
+                </svg>
+              </a>
+              <a class="luzar-header__action luzar-header__action--cart" href="/cart/" aria-label="Корзина">
+                <svg class="luzar-header__icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M5 12.667C5.26522 12.667 5.51949 12.7724 5.70703 12.96C5.89447 13.1475 6 13.4019 6 13.667C5.99991 13.9321 5.89449 14.1866 5.70703 14.374C5.51951 14.5615 5.26514 14.667 5 14.667C4.73486 14.667 4.48049 14.5615 4.29297 14.374C4.10551 14.1866 4.00009 13.9321 4 13.667C4 13.4019 4.10553 13.1475 4.29297 12.96C4.48051 12.7724 4.73478 12.667 5 12.667ZM11.667 12.667C11.9321 12.6671 12.1866 12.7725 12.374 12.96C12.5614 13.1475 12.667 13.4019 12.667 13.667C12.6669 13.9321 12.5615 14.1866 12.374 14.374C12.1866 14.5615 11.9321 14.6669 11.667 14.667C11.4019 14.667 11.1475 14.5614 10.96 14.374C10.7725 14.1866 10.6671 13.9321 10.667 13.667C10.667 13.4018 10.7724 13.1475 10.96 12.96C11.1475 12.7724 11.4018 12.667 11.667 12.667ZM3.63184 2.07031L3.99805 2.61523L4.05371 3.33301H14L14.6553 4.11914L13.3223 11.4521L12.667 12H4L3.33496 11.3848L2.69727 3.09375L1.10547 2.29785L1.70215 1.10547L3.63184 2.07031ZM4.61719 10.667H12.1104L13.2021 4.66699H4.15625L4.61719 10.667Z" />
+                </svg>
+                <span class="luzar-header__cart-count">3</span>
+              </a>
+            </div>
+
+            <button class="luzar-header__mobile-search-trigger" type="button" aria-label="Открыть поиск" aria-controls="luzar-header-mobile-search" aria-expanded="false" data-luzar-header-search-toggle>
+              <svg class="luzar-header__icon" width="24" height="24" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M7.3335 1.33301C10.6472 1.33301 13.3335 4.0193 13.3335 7.33301C13.3335 8.74965 12.8411 10.0507 12.02 11.0771L15.1382 14.1953L14.1958 15.1377L11.0776 12.0195C10.0512 12.8406 8.75014 13.333 7.3335 13.333C4.01979 13.333 1.3335 10.6467 1.3335 7.33301C1.3335 4.0193 4.01979 1.33301 7.3335 1.33301ZM7.3335 2.66602C4.75617 2.66602 2.6665 4.75568 2.6665 7.33301C2.6665 9.91034 4.75617 12 7.3335 12C9.91083 12 12.0005 9.91034 12.0005 7.33301C12.0005 4.75568 9.91083 2.66602 7.3335 2.66602Z" />
+              </svg>
+            </button>
+
+            <button class="luzar-header__burger" type="button" aria-label="Открыть меню" aria-controls="luzar-header-menu" aria-expanded="false" data-luzar-header-menu-toggle>
+              <svg class="luzar-header__icon" width="24" height="24" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M14.667 12.667H1.33301V11.333H14.667V12.667ZM14.667 8.66699H1.33301V7.33301H14.667V8.66699ZM14.667 4.66699H1.33301V3.33301H14.667V4.66699Z" />
+              </svg>
+            </button>
+          </div>
+
+          <form class="luzar-header__mobile-search" id="luzar-header-mobile-search" action="/catalogue/" method="get" role="search" aria-hidden="true" data-luzar-header-mobile-search>
+            <label class="visually-hidden" for="luzar-header-mobile-search-input">Поиск по каталогу</label>
+            <input id="luzar-header-mobile-search-input" type="search" name="q" placeholder="Поиск по каталогу" autocomplete="off">
+            <button type="submit">Найти</button>
+            <button type="button" data-luzar-header-search-close>Отмена</button>
+          </form>
+
+          <div class="luzar-header__mobile-panel" id="luzar-header-menu" aria-hidden="true" data-luzar-header-menu>
+            <a href="/catalogue/">Каталог</a>
+            <button type="button" data-luzar-header-scroll-target="#parts-finder">Подобрать по авто или VIN</button>
+            <a href="/academy/">Обучение LUZAR</a>
+            <a href="/where-buy/">Точки продаж</a>
+            <a href="/materials/">Материалы</a>
+            <a href="/contacts/">Контакты</a>
+            <a href="/favorites/">Избранное</a>
+            <a href="/cart/">Корзина</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="page__content page__content--no-products">
+        <section class="parts-section" aria-labelledby="parts-finder-title">
+          <div class="page__center page__center--wide">
+            <div id="parts-finder" class="parts-finder-shell"></div>
+          </div>
+        </section>
+
+        <section class="no-products-heading" aria-labelledby="no-products-title">
+          <div class="page__center page__center--wide">
+            <p class="no-products-heading__crumb">Результаты подбора по VIN</p>
+            <h1 class="no-products-heading__title" id="no-products-title">у177нх198 (VIN Y6D**************)</h1>
+          </div>
+        </section>
+
+        <section class="no-products-request-section" aria-labelledby="no-products-request-title">
+          <div class="page__center page__center--wide">
+            <form class="no-products-request" action="/api/parts-finder/vin-request" method="post">
+              <div class="no-products-request__intro">
+                <h2 id="no-products-request-title">Ничего не найдено</h2>
+                <p>Оставьте заявку на персональный подбор, менеджер с вами свяжется</p>
+              </div>
+
+              <div class="no-products-request__form-grid">
+                <div class="no-products-request__main">
+                  <div class="no-products-request__row">
+                    <div class="no-products-request__vehicle" data-no-products-vehicle></div>
+                  </div>
+
+                  <div class="no-products-request__row">
+                    <label class="no-products-request__field">
+                      <span class="visually-hidden">Госномер</span>
+                      <input type="text" name="plate" value="у177нх198" readonly>
+                    </label>
+                    <label class="no-products-request__field">
+                      <span class="visually-hidden">VIN</span>
+                      <input type="text" name="vin" value="Y6DTF69Y080144158" readonly>
+                    </label>
+                  </div>
+
+                  <label class="no-products-request__field">
+                    <span class="visually-hidden">ФИО</span>
+                    <input type="text" name="name" placeholder="ФИО*" required>
+                  </label>
+
+                  <div class="no-products-request__row">
+                    <label class="no-products-request__field">
+                      <span class="visually-hidden">Телефон</span>
+                      <input type="tel" name="phone" placeholder="Телефон*" required>
+                    </label>
+                    <label class="no-products-request__field">
+                      <span class="visually-hidden">Email</span>
+                      <input type="email" name="email" placeholder="Email">
+                    </label>
+                  </div>
+                </div>
+
+                <label class="no-products-request__field no-products-request__field--parts">
+                  <span class="visually-hidden">Интересующие запчасти</span>
+                  <textarea name="parts" placeholder="Интересующие запчасти*" required></textarea>
+                </label>
+              </div>
+
+              <div class="no-products-request__bottom">
+                <label class="pf-agreement pf-agreement--modal no-products-request__agreement">
+                  <input type="checkbox" name="agreement" value="1" required>
+                  <span class="pf-checkbox" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M14.4717 4.27637L6.47168 12.2764H5.52832L1.52832 8.27637L2.47168 7.33301L6 10.8623L13.5283 3.33301L14.4717 4.27637Z"/>
+                    </svg>
+                  </span>
+                  <span class="pf-agreement__text">Я принимаю <a href="/agreement/">Пользовательское соглашение</a> и <a href="/privacy/">Политику обработки персональных данных</a></span>
+                </label>
+                <button class="no-products-request__submit" type="submit" disabled>
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M13.962 2.889 9.962 14.222l-1.207.109-2.577-4.51-4.509-2.576.109-1.207 11.333-4 .851.851ZM7.498 9.444l1.69 2.959 2.538-7.187-4.228 4.228ZM3.596 6.811l2.96 1.691 4.227-4.229-7.187 2.538Z"/>
+                  </svg>
+                  <span>Отправить запрос</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section class="catalog-results-section catalog-results-section--recommendations" aria-labelledby="catalog-results-title">
+          <div class="page__center page__center--wide">
+            <div id="catalog-results" class="catalog-results-shell" data-catalog-results data-catalog-mode="recommendations"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      window.PartsFinderConfig = {
+        initialMode: "vin",
+        initialVin: "у177нх198",
+        initialVinResult: "found",
+        initialFoundVehicle: {
+          id: "audi-a4-b8",
+          brand: { id: "audi", label: "Audi" },
+          model: { id: "a4-b8", label: "A4 B8 (08-)" },
+          year: { id: "2018", label: "2018" },
+          engine: { id: "20-petrol", label: "2.0 бензиновый" },
+          modification: { id: "tfsi-20", label: "A4 2.0 TFSI quattro 190 л.с." },
+          vin: "Y6DTF69Y080144158",
+          plate: "у177нх198"
+        },
+        noProductsRequest: {
+          brandOptions: [
+            { id: "audi", label: "Audi" },
+            { id: "volkswagen", label: "Volkswagen" },
+            { id: "lada", label: "Lada" },
+            { id: "haval", label: "Haval" },
+            { id: "chery", label: "Chery" },
+            { id: "bmw", label: "BMW" }
+          ],
+          modelOptionsMap: {
+            audi: [
+              { id: "a4-b8", label: "A4 B8 (08-)" },
+              { id: "a6-c7", label: "A6 C7 (11-)" },
+              { id: "q5", label: "Q5 (08-)" }
+            ],
+            volkswagen: [
+              { id: "tiguan", label: "Tiguan" },
+              { id: "polo", label: "Polo" }
+            ],
+            lada: [
+              { id: "vesta", label: "Vesta" }
+            ],
+            haval: [
+              { id: "f7", label: "F7" }
+            ],
+            chery: [
+              { id: "tiggo-7", label: "Tiggo 7 Pro" }
+            ],
+            bmw: [
+              { id: "5", label: "5" }
+            ]
+          },
+          history: {
+            enabled: true,
+            label: "Мои авто",
+            items: [
+              {
+                id: "audi-a4-b8",
+                brand: { id: "audi", label: "Audi" },
+                model: { id: "a4-b8", label: "A4 B8 (08-)" },
+                vin: "Y6DTF69Y080144158",
+                plate: "у177нх198"
+              },
+              {
+                id: "volkswagen-tiguan",
+                brand: { id: "volkswagen", label: "Volkswagen" },
+                model: { id: "tiguan", label: "Tiguan" },
+                vin: "XW8ZZZ5NZJG000001",
+                plate: "а123аа198"
+              },
+              {
+                id: "lada-vesta",
+                brand: { id: "lada", label: "Lada" },
+                model: { id: "vesta", label: "Vesta" },
+                vin: "XTA845000M0000001",
+                plate: "м456ор777"
+              }
+            ]
+          }
+        },
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector(".no-products-request");
+        const submit = form?.querySelector(".no-products-request__submit");
+        const vehicle = form?.querySelector("[data-no-products-vehicle]");
+        if (!form || !submit || !vehicle) return;
+
+        const config = window.PartsFinderConfig || {};
+        const requestConfig = config.noProductsRequest || {};
+        const initialVehicle = config.initialFoundVehicle || {};
+        const values = {
+          brand: initialVehicle.brand || null,
+          model: initialVehicle.model || null,
+        };
+        const state = {
+          brandOptions: requestConfig.brandOptions || [],
+          modelOptionsMap: requestConfig.modelOptionsMap || {},
+          history: requestConfig.history || null,
+          modelOptions: [],
+          historyOpen: false,
+          openControl: null,
+        };
+
+        state.modelOptions = values.brand?.id
+          ? state.modelOptionsMap[values.brand.id] || []
+          : [];
+
+        const icons = {
+          car:
+            '<svg class="pf-history-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M12 8C12.1111 8 12.2204 8.02454 12.3193 8.07031L12.415 8.12305L12.501 8.18848C12.5551 8.23575 12.6028 8.29012 12.6416 8.34961L12.6934 8.44238L13.3096 9.75L14.6777 9.95801C14.7876 9.9746 14.8917 10.0156 14.9824 10.0752L15.0693 10.1406L15.1445 10.2178C15.1909 10.2719 15.229 10.3326 15.2588 10.3965L15.2969 10.4951L15.3223 10.5977C15.3399 10.7015 15.3366 10.8091 15.3125 10.9121C15.2803 11.0493 15.2109 11.1771 15.1104 11.2803L15.1094 11.2812L14.1055 12.3057L14.3428 13.7568L14.3525 13.8613C14.3557 13.9665 14.3391 14.0727 14.3008 14.1719C14.2495 14.3042 14.1618 14.4226 14.0459 14.5107C13.9298 14.599 13.7898 14.6541 13.6416 14.665C13.4941 14.6758 13.3476 14.6419 13.2197 14.5713L12 13.9004L10.7812 14.5723H10.7803C10.6522 14.6422 10.5056 14.6743 10.3584 14.6631C10.2113 14.6518 10.0715 14.5982 9.95605 14.5107C9.84091 14.4234 9.75392 14.3059 9.70215 14.1748C9.65051 14.0438 9.63508 13.9011 9.65625 13.7627L9.65723 13.7578L9.89453 12.3057L8.89258 11.2822C8.79102 11.1791 8.72012 11.0509 8.6875 10.9131C8.65497 10.7754 8.66015 10.6304 8.70215 10.4951L8.74121 10.3965C8.7862 10.3 8.85068 10.2116 8.93262 10.1396L9.01953 10.0742C9.08024 10.0346 9.14668 10.0035 9.2168 9.98242L9.3252 9.95801L10.6904 9.75L11.3066 8.44336L11.3076 8.44238C11.3684 8.31413 11.4639 8.2025 11.5859 8.12305L11.6816 8.07031C11.7804 8.02461 11.8891 8.00009 12 8ZM11.4902 10.4248C11.4185 10.5768 11.2746 10.6837 11.1084 10.709L9.9209 10.8887L10.7959 11.7812C10.9083 11.8961 10.9595 12.0582 10.9336 12.2168L10.7314 13.4453L11.7568 12.8818C11.9083 12.7985 12.0926 12.7986 12.2441 12.8818L13.2676 13.4453L13.0674 12.2168C13.0415 12.0583 13.0928 11.896 13.2051 11.7812L14.0791 10.8887L12.8916 10.709C12.7256 10.6835 12.5824 10.5767 12.5107 10.4248L12 9.3418L11.4902 10.4248ZM10.9463 1.33301C11.4247 1.33307 11.8671 1.58956 12.1045 2.00488L14.4912 6.18262C14.6062 6.38398 14.667 6.61187 14.667 6.84375V7.33301C14.667 7.7012 14.3682 8 14 8C13.6318 8 13.333 7.7012 13.333 7.33301V6.84375L10.9463 2.66699H5.05371L2.66699 6.84375V9.84277L3.41211 11.333H4.66699V10.667C4.66699 10.2989 4.96497 10.0002 5.33301 10H7.33301C7.7012 10 8 10.2988 8 10.667C7.99982 11.035 7.70109 11.333 7.33301 11.333H6C6 12.0693 5.40322 12.6668 4.66699 12.667H3.41211C2.90714 12.667 2.44561 12.3813 2.21973 11.9297L1.47363 10.4385C1.38128 10.2536 1.33306 10.0495 1.33301 9.84277V6.84375C1.33301 6.61187 1.39382 6.38398 1.50879 6.18262L3.89551 2.00488C4.13289 1.58956 4.57534 1.33307 5.05371 1.33301H10.9463ZM10.8623 6.19531C11.1227 5.93513 11.5444 5.93502 11.8047 6.19531C12.065 6.45561 12.0649 6.87733 11.8047 7.1377C11.5639 7.37849 11.1197 7.58259 10.5498 7.72949C9.94637 7.88498 9.11099 8 8 8C6.88901 8 6.05363 7.88498 5.4502 7.72949C4.95152 7.60095 4.54903 7.42876 4.29492 7.22656L4.19531 7.1377L4.14941 7.08691C3.93615 6.82507 3.95135 6.43928 4.19531 6.19531C4.43928 5.95135 4.82507 5.93615 5.08691 6.14941L5.1377 6.19531L5.15918 6.20703C5.21895 6.24194 5.40236 6.33934 5.7832 6.4375C6.25752 6.55974 6.97789 6.66699 8 6.66699C9.02211 6.66699 9.74248 6.55974 10.2168 6.4375C10.723 6.30702 10.8798 6.17764 10.8623 6.19531Z"/></svg>',
+          arrow:
+            '<svg class="pf-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.8047 5.80469L8.47168 11.1377H7.52832L2.19531 5.80469L3.1377 4.8623L8 9.72363L12.8623 4.8623L13.8047 5.80469Z"/></svg>',
+          cross:
+            '<svg class="pf-cross-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>',
+          check:
+            '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.4717 4.27637L6.47168 12.2764H5.52832L1.52832 8.27637L2.47168 7.33301L6 10.8623L13.5283 3.33301L14.4717 4.27637Z"/></svg>',
+        };
+
+        const hasHistoryItems = () =>
+          Boolean(state.history?.enabled && state.history.items?.length);
+
+        const escapeHtml = (value) =>
+          String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+        const controlTemplate = (id) => {
+          const isBrand = id === "brand";
+          const value = values[id];
+          const disabled = !isBrand && !values.brand;
+          const options = isBrand ? state.brandOptions : state.modelOptions;
+          const isOpen = state.openControl === id;
+          const label = value?.label || (isBrand ? "Марка" : "Модель");
+
+          return `
+            <div class="pf-control pf-control--request pf-control--modal ${isOpen ? "is-open" : ""}" data-no-products-control="${id}">
+              <div
+                class="pf-field ${value ? "has-value" : ""}"
+                role="button"
+                tabindex="${disabled ? "-1" : "0"}"
+                aria-haspopup="listbox"
+                aria-expanded="${isOpen}"
+                aria-disabled="${disabled}"
+                data-no-products-action="toggle-control"
+                data-id="${id}"
+              >
+                <span class="pf-field__text">${escapeHtml(label)}</span>
+                ${
+                  value
+                    ? `<button class="pf-clear" type="button" aria-label="Очистить ${isBrand ? "марку" : "модель"}" data-no-products-action="clear-control" data-id="${id}">${icons.cross}</button>`
+                    : ""
+                }
+                ${icons.arrow}
+              </div>
+              ${value ? `<input type="hidden" name="${id}" value="${escapeHtml(value.id)}">` : ""}
+              ${
+                isOpen && !disabled
+                  ? `<div class="pf-dropdown" role="listbox"><div class="pf-options">${
+                      options.length
+                        ? options
+                            .map((option) => {
+                              const selected = value?.id === option.id;
+                              return `
+                                <button class="pf-option ${selected ? "is-selected" : ""}" type="button" role="option" aria-selected="${selected}" data-no-products-action="select-option" data-id="${id}" data-value="${escapeHtml(option.id)}">
+                                  <span class="pf-option__label">${escapeHtml(option.label)}</span>
+                                  ${selected ? `<span class="pf-option__check" aria-hidden="true">${icons.check}</span>` : ""}
+                                </button>
+                              `;
+                            })
+                            .join("")
+                        : '<div class="pf-empty">Ничего не найдено</div>'
+                    }</div></div>`
+                  : ""
+              }
+            </div>
+          `;
+        };
+
+        const historyTemplate = () => {
+          if (!hasHistoryItems()) return "";
+
+          return `
+            <div class="pf-modal-history">
+              <button
+                class="pf-modal-history__toggle ${state.historyOpen ? "is-open" : ""}"
+                type="button"
+                aria-label="${escapeHtml(state.history.label || "Мои авто")}"
+                aria-haspopup="listbox"
+                aria-expanded="${state.historyOpen}"
+                data-no-products-history-toggle
+              >
+                ${icons.car}
+                <span class="pf-modal-history__badge">${state.history.items.length}</span>
+              </button>
+              ${
+                state.historyOpen
+                  ? `<div class="pf-modal-history__list" role="listbox">${state.history.items
+                      .map(
+                        (item) => `
+                          <button class="pf-modal-history__item" type="button" role="option" data-no-products-history="${escapeHtml(item.id)}">
+                            <span>${escapeHtml(item.brand?.label || "")} ${escapeHtml(item.model?.label || "")}</span>
+                            <small>${escapeHtml(item.vin || item.plate || "")}</small>
+                          </button>
+                        `,
+                      )
+                      .join("")}</div>`
+                  : ""
+              }
+            </div>
+          `;
+        };
+
+        const renderVehicle = () => {
+          vehicle.innerHTML = `
+            ${historyTemplate()}
+            ${controlTemplate("brand")}
+            ${controlTemplate("model")}
+          `;
+        };
+
+        const syncVehicleFields = (item) => {
+          const vinInput = form.querySelector('[name="vin"]');
+          const plateInput = form.querySelector('[name="plate"]');
+          if (vinInput) vinInput.value = item.vin || "";
+          if (plateInput) plateInput.value = item.plate || "";
+        };
+
+        renderVehicle();
+
+        vehicle.addEventListener("click", (event) => {
+          event.stopPropagation();
+
+          const historyToggle = event.target.closest("[data-no-products-history-toggle]");
+          if (historyToggle) {
+            event.preventDefault();
+            state.historyOpen = !state.historyOpen;
+            state.openControl = null;
+            renderVehicle();
+            return;
+          }
+
+          const historyItem = event.target.closest("[data-no-products-history]");
+          if (historyItem) {
+            event.preventDefault();
+            const item = state.history.items.find((entry) => entry.id === historyItem.dataset.noProductsHistory);
+            if (!item) return;
+            values.brand = item.brand || null;
+            values.model = item.model || null;
+            state.modelOptions = values.brand?.id
+              ? state.modelOptionsMap[values.brand.id] || state.modelOptions
+              : [];
+            state.historyOpen = false;
+            state.openControl = null;
+            syncVehicleFields(item);
+            renderVehicle();
+            return;
+          }
+
+          const action = event.target.closest("[data-no-products-action]");
+          if (!action) return;
+          event.preventDefault();
+          const id = action.dataset.id;
+
+          if (action.dataset.noProductsAction === "toggle-control") {
+            const disabled = id === "model" && !values.brand;
+            if (disabled) return;
+            state.historyOpen = false;
+            state.openControl = state.openControl === id ? null : id;
+            renderVehicle();
+            return;
+          }
+
+          if (action.dataset.noProductsAction === "clear-control") {
+            values[id] = null;
+            if (id === "brand") {
+              values.model = null;
+              state.modelOptions = [];
+            }
+            state.openControl = null;
+            renderVehicle();
+            return;
+          }
+
+          if (action.dataset.noProductsAction === "select-option") {
+            const options = id === "brand" ? state.brandOptions : state.modelOptions;
+            const option = options.find((item) => item.id === action.dataset.value);
+            if (!option) return;
+            values[id] = option;
+            if (id === "brand") {
+              values.model = null;
+              state.modelOptions = state.modelOptionsMap[option.id] || [];
+            }
+            state.openControl = null;
+            renderVehicle();
+          }
+        });
+
+        document.addEventListener("click", (event) => {
+          if (vehicle.contains(event.target)) return;
+          if (!state.historyOpen && !state.openControl) return;
+          state.historyOpen = false;
+          state.openControl = null;
+          renderVehicle();
+        });
+
+        const updateSubmit = () => {
+          submit.disabled = !form.checkValidity();
+        };
+
+        form.addEventListener("input", updateSubmit);
+        form.addEventListener("change", updateSubmit);
+        updateSubmit();
+      });
+    </script>
+    <script src="scripts/parts-finder-mock-api.js" defer></script>
+    <script src="scripts/parts-finder-request-modal.js" defer></script>
+    <script src="scripts/parts-finder.js" defer></script>
+    <script src="scripts/catalog-results.js" defer></script>
+    <script src="scripts/luzar-header.js" defer></script>
+  </body>
+</html>
