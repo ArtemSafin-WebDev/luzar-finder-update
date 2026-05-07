@@ -26,6 +26,16 @@
   };
 
   let sortCloseTimer = 0;
+  const gallerySwipeThreshold = 34;
+  const gallerySwipeIntentThreshold = 8;
+  const gallerySwipe = {
+    gallery: null,
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    startIndex: 0,
+    isHorizontal: false,
+  };
 
   function escapeHtml(value) {
     return String(value)
@@ -127,6 +137,61 @@
     syncSortButton();
     syncSortDraftOptions();
     syncSortModalState();
+  }
+
+  function getGalleryImages(gallery) {
+    return Array.from(gallery.querySelectorAll("[data-gallery-image]"));
+  }
+
+  function getGalleryPoints(gallery) {
+    return Array.from(gallery.querySelectorAll("[data-gallery-point]"));
+  }
+
+  function getGalleryActiveIndex(gallery) {
+    const activeIndex = getGalleryImages(gallery).findIndex((image) =>
+      image.classList.contains("is-active"),
+    );
+
+    return activeIndex >= 0 ? activeIndex : 0;
+  }
+
+  function setGalleryIndex(gallery, index) {
+    const images = getGalleryImages(gallery);
+    const points = getGalleryPoints(gallery);
+
+    if (!images.length) return;
+
+    const activeIndex = Math.min(images.length - 1, Math.max(0, index));
+
+    images.forEach((image, imageIndex) =>
+      image.classList.toggle("is-active", imageIndex === activeIndex),
+    );
+    points.forEach((point, pointIndex) =>
+      point.classList.toggle("is-active", pointIndex === activeIndex),
+    );
+  }
+
+  function getGalleryIndexFromPointer(gallery, clientX) {
+    const images = getGalleryImages(gallery);
+    const points = getGalleryPoints(gallery);
+    const zones = points.length || images.length;
+    const rect = gallery.getBoundingClientRect();
+
+    if (!zones || !rect.width) return 0;
+
+    return Math.min(
+      zones - 1,
+      Math.max(0, Math.floor(((clientX - rect.left) / rect.width) * zones)),
+    );
+  }
+
+  function resetGallerySwipe() {
+    gallerySwipe.gallery = null;
+    gallerySwipe.pointerId = null;
+    gallerySwipe.startX = 0;
+    gallerySwipe.startY = 0;
+    gallerySwipe.startIndex = 0;
+    gallerySwipe.isHorizontal = false;
   }
 
   function closeSort(options = {}) {
@@ -646,29 +711,91 @@
 
   });
 
+  root.addEventListener("pointerdown", (event) => {
+    const gallery = event.target.closest("[data-gallery]");
+
+    if (!gallery || event.pointerType === "mouse") return;
+    if (getGalleryImages(gallery).length < 2) return;
+
+    gallerySwipe.gallery = gallery;
+    gallerySwipe.pointerId = event.pointerId;
+    gallerySwipe.startX = event.clientX;
+    gallerySwipe.startY = event.clientY;
+    gallerySwipe.startIndex = getGalleryActiveIndex(gallery);
+    gallerySwipe.isHorizontal = false;
+
+    try {
+      gallery.setPointerCapture(event.pointerId);
+    } catch {
+      // Some browsers can reject pointer capture after cancelled gestures.
+    }
+  });
+
   root.addEventListener("pointermove", (event) => {
     const gallery = event.target.closest("[data-gallery]");
     if (!gallery) return;
 
-    const images = Array.from(gallery.querySelectorAll("[data-gallery-image]"));
-    const points = Array.from(gallery.querySelectorAll("[data-gallery-point]"));
-    const rect = gallery.getBoundingClientRect();
-    const index = Math.min(points.length - 1, Math.max(0, Math.floor(((event.clientX - rect.left) / rect.width) * points.length)));
+    if (event.pointerType && event.pointerType !== "mouse") {
+      if (gallerySwipe.pointerId !== event.pointerId) return;
 
-    images.forEach((image, imageIndex) => image.classList.toggle("is-active", imageIndex === index));
-    points.forEach((point, pointIndex) => point.classList.toggle("is-active", pointIndex === index));
+      const deltaX = event.clientX - gallerySwipe.startX;
+      const deltaY = event.clientY - gallerySwipe.startY;
+
+      if (
+        !gallerySwipe.isHorizontal &&
+        Math.abs(deltaX) > gallerySwipeIntentThreshold &&
+        Math.abs(deltaX) > Math.abs(deltaY)
+      ) {
+        gallerySwipe.isHorizontal = true;
+      }
+
+      if (gallerySwipe.isHorizontal) {
+        event.preventDefault();
+      }
+
+      return;
+    }
+
+    setGalleryIndex(gallery, getGalleryIndexFromPointer(gallery, event.clientX));
+  });
+
+  root.addEventListener("pointerup", (event) => {
+    const gallery = gallerySwipe.gallery;
+
+    if (!gallery || gallerySwipe.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - gallerySwipe.startX;
+    const deltaY = event.clientY - gallerySwipe.startY;
+
+    if (Math.abs(deltaX) >= gallerySwipeThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
+      setGalleryIndex(gallery, gallerySwipe.startIndex + (deltaX < 0 ? 1 : -1));
+    }
+
+    try {
+      gallery.releasePointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture may already be released by the browser.
+    }
+
+    resetGallerySwipe();
+  });
+
+  root.addEventListener("pointercancel", resetGallerySwipe);
+
+  root.addEventListener("lostpointercapture", (event) => {
+    if (gallerySwipe.pointerId === event.pointerId) {
+      resetGallerySwipe();
+    }
   });
 
   root.addEventListener("pointerout", (event) => {
+    if (event.pointerType && event.pointerType !== "mouse") return;
+
     const gallery = event.target.closest && event.target.closest("[data-gallery]");
     if (!gallery) return;
     if (gallery.contains(event.relatedTarget)) return;
 
-    const images = Array.from(gallery.querySelectorAll("[data-gallery-image]"));
-    const points = Array.from(gallery.querySelectorAll("[data-gallery-point]"));
-
-    images.forEach((image, imageIndex) => image.classList.toggle("is-active", imageIndex === 0));
-    points.forEach((point, pointIndex) => point.classList.toggle("is-active", pointIndex === 0));
+    setGalleryIndex(gallery, 0);
   });
 
   document.addEventListener("click", (event) => {

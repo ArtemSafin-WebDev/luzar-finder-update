@@ -836,6 +836,7 @@ body.catalog-sort-modal-open {
   justify-content: center;
   overflow: hidden;
   padding: 2rem 1.8rem 1.4rem;
+  touch-action: pan-y;
 }
 
 .card-catalog__images {
