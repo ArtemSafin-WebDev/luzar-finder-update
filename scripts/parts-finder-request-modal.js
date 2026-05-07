@@ -210,6 +210,7 @@
       host.addEventListener("input", this.handleInput);
       host.addEventListener("change", this.handleInput);
       document.body.append(host);
+      window.LuzarPhoneMask?.init(host);
       host.showModal();
       const firstInput = host.querySelector("input, select, textarea");
       firstInput?.focus();
@@ -385,7 +386,7 @@
       return `
         <label class="pf-modal-field ${className}">
           <span class="visually-hidden">${escapeHtml(placeholder)}</span>
-          <input type="${escapeAttr(type)}" name="${escapeAttr(id)}" value="${escapeAttr(value || "")}" placeholder="${escapeAttr(placeholder)}" ${required ? "required" : ""} data-modal-field="${escapeAttr(id)}">
+          <input type="${escapeAttr(type)}" name="${escapeAttr(id)}" value="${escapeAttr(value || "")}" placeholder="${escapeAttr(placeholder)}" ${required ? "required" : ""} ${id === "phone" ? 'data-phone-mask="ru"' : ""} data-modal-field="${escapeAttr(id)}">
         </label>
       `;
     }
@@ -507,7 +508,7 @@
       const values = this.state.values;
       return Boolean(
         values.name.trim() &&
-          values.phone.trim() &&
+          window.LuzarPhoneMask?.isValid(values.phone) &&
           values.parts.trim() &&
           values.agreement,
       );

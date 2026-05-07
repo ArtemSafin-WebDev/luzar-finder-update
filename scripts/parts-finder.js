@@ -241,6 +241,7 @@
     render(options = {}) {
       if (!this.response) return;
       this.root.innerHTML = this.template();
+      window.LuzarPhoneMask?.init(this.root);
       const input =
         (options.skipAutofocus
           ? null
@@ -326,8 +327,11 @@
     }
 
     updateVinRequestSubmitState() {
-      const submit = this.root.querySelector(".pf-vin-request__form .pf-submit");
-      if (submit) submit.disabled = !this.isVinRequestComplete();
+      this.root
+        .querySelectorAll(".pf-vin-request__form .pf-submit")
+        .forEach((submit) => {
+          submit.disabled = !this.isVinRequestComplete();
+        });
     }
 
     updateVinSearchClearButton() {
@@ -962,6 +966,7 @@
             value="${escapeAttr(value)}"
             placeholder="${escapeAttr(placeholder)}"
             ${required ? "required" : ""}
+            ${id === "phone" ? 'data-phone-mask="ru"' : ""}
             data-vin-request-field="${escapeAttr(id)}"
           >
         </label>
@@ -1789,7 +1794,7 @@
     isVinRequestComplete() {
       return Boolean(
         this.vinRequest.name.trim() &&
-          this.vinRequest.phone.trim() &&
+          window.LuzarPhoneMask?.isValid(this.vinRequest.phone) &&
           this.vinRequest.parts.trim() &&
           this.vinRequest.agreement,
       );

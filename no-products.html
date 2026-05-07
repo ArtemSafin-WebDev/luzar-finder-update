@@ -156,7 +156,7 @@
                   <div class="no-products-request__row">
                     <label class="no-products-request__field">
                       <span class="visually-hidden">Телефон</span>
-                      <input type="tel" name="phone" placeholder="Телефон*" required>
+                      <input type="tel" name="phone" placeholder="Телефон*" required data-phone-mask="ru">
                     </label>
                     <label class="no-products-request__field">
                       <span class="visually-hidden">Email</span>
@@ -1210,6 +1210,8 @@
           closeVehicleFloatingLayers();
         });
 
+        window.LuzarPhoneMask?.init(form);
+
         const updateSubmit = () => {
           submit.disabled = !form.checkValidity();
         };
@@ -1219,6 +1221,8 @@
         updateSubmit();
       });
     </script>
+    <script src="scripts/vendor/imask.min.js" defer></script>
+    <script src="scripts/phone-mask.js" defer></script>
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js" defer></script>
     <script src="scripts/parts-finder.js" defer></script>
