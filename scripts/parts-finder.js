@@ -297,12 +297,12 @@
     updateVinRequestControlsView() {
       const row = this.root.querySelector(".pf-vin-request__vehicle-row");
       if (!row) return;
-      row.classList.toggle("has-history", this.hasHistoryItems());
-      row.classList.toggle("no-history", !this.hasHistoryItems());
+      row.classList.toggle("has-history", this.hasHistoryFeature());
+      row.classList.toggle("no-history", !this.hasHistoryFeature());
       const historyAnchor = row.querySelector(".pf-vin-request__history-anchor");
-      if (this.hasHistoryItems() && historyAnchor) {
+      if (this.hasHistoryFeature() && historyAnchor) {
         historyAnchor.outerHTML = this.vinRequestHistoryToggleTemplate();
-      } else if (this.hasHistoryItems()) {
+      } else if (this.hasHistoryFeature()) {
         row.insertAdjacentHTML("afterbegin", this.vinRequestHistoryToggleTemplate());
       } else {
         historyAnchor?.remove();
@@ -409,13 +409,13 @@
       const oldButton = tabs?.querySelector(".pf-history-toggle");
       if (!tabs) return;
       oldButton?.remove();
-      if (!this.hasHistoryItems()) return;
+      if (!this.hasHistoryFeature()) return;
       tabs.insertAdjacentHTML(
         "beforeend",
         `
           <button class="pf-history-toggle ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" data-action="toggle-history" data-placement="tabs">
             ${iconCar()}
-            <span>${escapeHtml(this.response.history.label)}</span>
+            <span>${escapeHtml(this.response.history.label || "Мои авто")}</span>
             <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
           </button>
         `,
@@ -425,7 +425,7 @@
     updateHistoryView(placement, shouldOpen = this.historyOpen === placement) {
       const placementClass = placement === "vinRequest" ? "vin-request" : placement;
       this.root.querySelector(`.pf-history--${placementClass}`)?.remove();
-      if (!shouldOpen || !this.hasHistoryItems()) return;
+      if (!shouldOpen || !this.hasHistoryFeature()) return;
       const html = this.historyTemplate(placement);
       if (placement === "vinRequest") {
         this.root.querySelector(".pf-vin-panel")?.insertAdjacentHTML("beforeend", html);
@@ -445,7 +445,7 @@
           <div class="parts-finder__workspace">
             ${this.tabsTemplate()}
             ${this.mode === "vin" ? this.vinTemplate() : this.inputGroupTemplate()}
-            ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
+            ${this.historyOpen === "tabs" && this.hasHistoryFeature() ? this.historyTemplate("tabs") : ""}
           </div>
           ${this.mobileFinderTemplate()}
         </article>
@@ -493,7 +493,7 @@
             </button>
           </div>
           ${this.mobileTabsTemplate()}
-          ${this.historyOpen === "tabs" && this.hasHistoryItems() ? this.historyTemplate("tabs") : ""}
+          ${this.historyOpen === "tabs" && this.hasHistoryFeature() ? this.historyTemplate("tabs") : ""}
           ${
             this.mode === "vin"
               ? `<div class="pf-mobile-vin">${this.vinTemplate()}</div>`
@@ -517,7 +517,7 @@
           </div>
           ${
             this.hasHistoryFeature()
-              ? `<button class="pf-mobile-history-tab" type="button" aria-label="${escapeAttr(history.label)}" data-action="open-mobile-history">
+              ? `<button class="pf-mobile-history-tab" type="button" aria-label="${escapeAttr(history.label || "Мои авто")}" data-action="open-mobile-history">
                   ${iconCar()}
                   ${historyCount ? `<span>${historyCount}</span>` : ""}
                 </button>`
@@ -759,11 +759,11 @@
         )
         .join("");
       const history = this.response.history;
-      const historyToggle = this.hasHistoryItems()
+      const historyToggle = this.hasHistoryFeature()
         ? `
           <button class="pf-history-toggle ${this.historyOpen === "tabs" ? "is-open" : ""}" type="button" data-action="toggle-history" data-placement="tabs">
             ${iconCar()}
-            <span>${escapeHtml(history.label)}</span>
+            <span>${escapeHtml(history.label || "Мои авто")}</span>
             <span class="pf-history-toggle__close">${iconHistoryClose()}</span>
           </button>
         `
@@ -783,7 +783,7 @@
         <div class="pf-vin-panel">
           ${this.vinSearchTemplate()}
           ${state === "not-found" ? this.vinRequestTemplate() : ""}
-          ${state === "not-found" && this.historyOpen === "vinRequest" && this.hasHistoryItems() ? this.historyTemplate("vinRequest") : ""}
+          ${state === "not-found" && this.historyOpen === "vinRequest" && this.hasHistoryFeature() ? this.historyTemplate("vinRequest") : ""}
         </div>
         ${state === "found" ? this.vinFoundTemplate() : ""}
       `;
@@ -887,7 +887,7 @@
             <input type="hidden" name="mode" value="vin-request">
             <div class="pf-vin-request__fields">
               <div class="pf-vin-request__main-fields">
-                <div class="pf-vin-request__vehicle-row ${this.hasHistoryItems() ? "has-history" : "no-history"}">
+                <div class="pf-vin-request__vehicle-row ${this.hasHistoryFeature() ? "has-history" : "no-history"}">
                   ${this.vinRequestHistoryToggleTemplate()}
                   ${controls.map((control) => this.requestControlTemplate(control)).join("")}
                   ${this.requestInputTemplate("vin", "VIN", false)}
@@ -1088,11 +1088,15 @@
     fieldTemplate(control, hasValue, isOpen) {
       const selectedCount = control.type === "multi" ? control.value.length : 0;
       const allGroups = control.type === "multi" && control.allSelected;
+      const multiLabel =
+        control.type === "multi" && selectedCount > 0
+          ? control.value.map((item) => item.label).join(", ")
+          : control.placeholder;
       const label =
         allGroups
           ? "Все группы товаров"
           : control.type === "multi"
-          ? control.placeholder
+          ? multiLabel
           : control.value?.label || control.placeholder;
       const searchValue = this.search[control.id] || "";
       const searchPlaceholder = "Начните ввод";
@@ -1218,7 +1222,7 @@
 
     vinRequestHistoryToggleTemplate() {
       const history = this.response.history;
-      if (!this.hasHistoryItems()) return "";
+      if (!this.hasHistoryFeature()) return "";
       const isOpen = this.historyOpen === "vinRequest";
 
       return `
@@ -1226,7 +1230,7 @@
           <button
             class="pf-vin-request__car-icon ${isOpen ? "is-open" : ""}"
             type="button"
-            aria-label="${escapeAttr(history.label)}"
+            aria-label="${escapeAttr(history.label || "Мои авто")}"
             aria-haspopup="dialog"
             aria-expanded="${isOpen}"
             data-action="toggle-history"
@@ -1526,7 +1530,7 @@
     }
 
     toggleHistory(placement = "tabs") {
-      if (!this.hasHistoryItems()) return;
+      if (!this.hasHistoryFeature()) return;
       if (this.mobileFinderOpen && placement === "tabs") {
         this.openMobileHistory();
         return;
@@ -1688,7 +1692,7 @@
           ...this.response.vinRequest.value,
         };
       }
-      if (!this.hasHistoryItems()) this.historyOpen = null;
+      if (!this.hasHistoryFeature()) this.historyOpen = null;
     }
 
     getFoundVehicle() {
@@ -1766,7 +1770,7 @@
       const history = await this.api.deleteHistory(id);
       this.response.history = history;
       this.openControl = null;
-      if (!this.hasHistoryItems()) this.historyOpen = null;
+      if (!this.hasHistoryFeature()) this.historyOpen = null;
       if (this.mobileFinderOpen) {
         this.render();
         return;

@@ -282,6 +282,10 @@
   transform: rotate(180deg);
 }
 
+.pf-field.has-value .pf-arrow {
+  display: none;
+}
+
 .pf-clear {
   display: none;
   flex: 0 0 auto;

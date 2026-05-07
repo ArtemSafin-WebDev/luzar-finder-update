@@ -118,7 +118,979 @@
 
         <section class="catalog-results-section" aria-labelledby="catalog-results-title">
           <div class="page__center page__center--wide">
-            <div id="catalog-results" class="catalog-results-shell" data-catalog-results></div>
+            <div id="catalog-results" class="catalog-results-shell" data-catalog-results>
+      <article class="catalog-results">
+        <div class="catalog-results__heading">
+          <div>
+            <p class="catalog-results__eyebrow">Результаты подбора по VIN</p>
+            <h2 class="catalog-results__title" id="catalog-results-title">Y6DTF69YO8O144158</h2>
+          </div>
+          <form class="catalog-search" data-catalog-search>
+            <label class="visually-hidden" for="catalog-search-input">Найти товар для вашего авто</label>
+            <input class="catalog-search__input" id="catalog-search-input" type="search" name="q" value="" placeholder="Найти товары для вашего авто" autocomplete="off">
+            <button class="catalog-search__submit" type="submit" aria-label="Найти"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></button>
+          </form>
+          
+      <div class="catalog-sort" data-sort>
+        <button class="catalog-sort__button" type="button" aria-haspopup="listbox" aria-expanded="false" data-sort-toggle>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14.4717 5.52832L13.5283 6.47168L12 4.94238V13.333H10.667V4.94238L9.1377 6.47168L8.19531 5.52832L10.8623 2.8623H11.8047L14.4717 5.52832ZM5.33301 11.0576L6.8623 9.52832L7.80469 10.4717L5.1377 13.1377H4.19531L1.52832 10.4717L2.47168 9.52832L4 11.0576V2.66699H5.33301V11.0576Z"/></svg>
+          <span>По популярности</span>
+        </button>
+        <div class="catalog-sort__modal" data-sort-modal>
+          <button class="catalog-sort__backdrop" type="button" aria-label="Закрыть сортировку" data-sort-close></button>
+          <div class="catalog-sort__menu" role="dialog" aria-modal="true" aria-labelledby="catalog-sort-title">
+            <div class="catalog-sort__header">
+              <h3 class="catalog-sort__title" id="catalog-sort-title">Сортировка</h3>
+              <button class="catalog-sort__close" type="button" aria-label="Закрыть сортировку" data-sort-close><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 3.52856L8 7.05716L11.5286 3.52856L12.4714 4.47136L8.9428 7.99996L12.4714 11.5286L11.5286 12.4714L8 8.94276L4.4714 12.4714L3.5286 11.5286L7.0572 7.99996L3.5286 4.47136L4.4714 3.52856Z"/></svg></button>
+            </div>
+            <div class="catalog-sort__options" role="listbox" aria-label="Сортировка">
+              
+                    <button class="catalog-sort__option is-active" type="button" role="option" aria-selected="true" data-sort-value="popular">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>По популярности</span>
+                    </button>
+                  
+                    <button class="catalog-sort__option" type="button" role="option" aria-selected="false" data-sort-value="price-asc">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>Сначала дешевле</span>
+                    </button>
+                  
+                    <button class="catalog-sort__option" type="button" role="option" aria-selected="false" data-sort-value="price-desc">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>Сначала дороже</span>
+                    </button>
+                  
+                    <button class="catalog-sort__option" type="button" role="option" aria-selected="false" data-sort-value="new">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>Новинки</span>
+                    </button>
+                  
+                    <button class="catalog-sort__option" type="button" role="option" aria-selected="false" data-sort-value="discount">
+                      <span class="catalog-sort__radio" aria-hidden="true"></span>
+                      <span>По величине скидки</span>
+                    </button>
+                  
+            </div>
+            <button class="catalog-sort__apply" type="button" data-sort-apply>Выбрать</button>
+          </div>
+        </div>
+      </div>
+    
+        </div>
+        <div class="catalog-results__layout">
+          <aside class="catalog-sidebar" aria-label="Фильтры каталога">
+            <div class="catalog-sidebar__summary">Всего товаров: 1065</div>
+            
+      <section class="catalog-filter" data-filter="groups">
+        <h3 class="catalog-filter__title">Доступные группы товаров</h3>
+        
+              <div class="catalog-filter__search">
+                <label class="visually-hidden" for="filter-search-groups">Поиск по фильтру Доступные группы товаров</label>
+                <div class="catalog-filter__search-field">
+                  <input class="catalog-filter__search-input" id="filter-search-groups" type="search" value="" placeholder="Начните ввод" data-filter-search="groups">
+                  <span class="catalog-filter__search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></span>
+                </div>
+              </div>
+            
+        <div class="catalog-filter__options">
+          
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="radiators"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Радиаторы</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="water-pumps"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Насосы водяные</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="cooling-fans" checked data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Электровентиляторы охлаждения</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="thermostats"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Термостаты</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="cooling-components"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Компоненты системы охлаждения</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="compressors"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Компрессоры кондиционера</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="checkbox" name="groups" value="ac-components"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Компоненты системы кондиционирования</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="pipes"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Трубопроводы кондиционера</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="sensors"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Датчики давления хладагента</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="caps"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Крышки и пробки</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="belts"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Приводные ремни</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="filters"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Фильтры</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="checkbox" name="groups" value="gaskets"  data-filter-input="groups">
+        <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
+        <span class="catalog-option__label">Прокладки двигателя</span>
+      </label>
+    
+        </div>
+        
+              <button class="catalog-filter__more" type="button" data-filter-expand="groups">
+                <span>Еще 6</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 5.52856L8 9.05716L11.5286 5.52856L12.4714 6.47136L8.4714 10.4714H7.5286L3.5286 6.47136L4.4714 5.52856Z"/></svg>
+              </button>
+              <button class="catalog-filter__collapse" type="button" data-filter-collapse="groups">
+                <span>Свернуть</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.5286 5.52856H8.4714L12.4714 9.52856L11.5286 10.4714L8 6.94276L4.4714 10.4714L3.5286 9.52856L7.5286 5.52856Z"/></svg>
+              </button>
+            
+      </section>
+    
+      <section class="catalog-filter" data-filter="teeth">
+        <h3 class="catalog-filter__title">Кол-во зубьев</h3>
+        
+        <div class="catalog-filter__options catalog-filter__options--chips">
+          
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-01"  data-filter-input="teeth">
+          <span>variant 01</span>
+        </label>
+      
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-02"  data-filter-input="teeth">
+          <span>variant 02</span>
+        </label>
+      
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-03" checked data-filter-input="teeth">
+          <span>variant 03</span>
+        </label>
+      
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-04"  data-filter-input="teeth">
+          <span>variant 04</span>
+        </label>
+      
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-05"  data-filter-input="teeth">
+          <span>variant 05</span>
+        </label>
+      
+        <label class="catalog-chip">
+          <input type="radio" name="teeth" value="teeth-06"  data-filter-input="teeth">
+          <span>variant 06</span>
+        </label>
+      
+        </div>
+        
+      </section>
+    
+      <section class="catalog-filter" data-filter="power">
+        <h3 class="catalog-filter__title">Мощность, кВт</h3>
+        
+              <div class="catalog-filter__search">
+                <label class="visually-hidden" for="filter-search-power">Поиск по фильтру Мощность, кВт</label>
+                <div class="catalog-filter__search-field">
+                  <input class="catalog-filter__search-input" id="filter-search-power" type="search" value="" placeholder="Начните ввод" data-filter-search="power">
+                  <span class="catalog-filter__search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></span>
+                </div>
+              </div>
+            
+        <div class="catalog-filter__options">
+          
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-01"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 01</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-02"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 02</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-03"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 03</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-04"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 04</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-05"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 05</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-06"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 06</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="power" value="power-07"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 07</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-08"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 08</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-09"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 09</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-10"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 10</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-11"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 11</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-12"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 12</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-13"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 13</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-14"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 14</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-15"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 15</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-16"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 16</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-17"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 17</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="power" value="power-18"  data-filter-input="power">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Variant 18</span>
+      </label>
+    
+        </div>
+        
+              <button class="catalog-filter__more" type="button" data-filter-expand="power">
+                <span>Еще 134</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 5.52856L8 9.05716L11.5286 5.52856L12.4714 6.47136L8.4714 10.4714H7.5286L3.5286 6.47136L4.4714 5.52856Z"/></svg>
+              </button>
+              <button class="catalog-filter__collapse" type="button" data-filter-collapse="power">
+                <span>Свернуть</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.5286 5.52856H8.4714L12.4714 9.52856L11.5286 10.4714L8 6.94276L4.4714 10.4714L3.5286 9.52856L7.5286 5.52856Z"/></svg>
+              </button>
+            
+      </section>
+    
+      <section class="catalog-filter" data-filter="brand">
+        <h3 class="catalog-filter__title">Марка</h3>
+        
+              <div class="catalog-filter__search">
+                <label class="visually-hidden" for="filter-search-brand">Поиск по фильтру Марка</label>
+                <div class="catalog-filter__search-field">
+                  <input class="catalog-filter__search-input" id="filter-search-brand" type="search" value="" placeholder="Начните ввод" data-filter-search="brand">
+                  <span class="catalog-filter__search-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></span>
+                </div>
+              </div>
+            
+        <div class="catalog-filter__options">
+          
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="audi"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Audi</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="bmw"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">BMW</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="chevrolet"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Chevrolet</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="citroen"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Citroen</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="ford"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Ford</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="hyundai"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Hyundai</span>
+      </label>
+    
+      <label class="catalog-option">
+        <input type="radio" name="brand" value="kia"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">KIA</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="lada"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">LADA</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="mazda"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Mazda</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="mercedes"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Mercedes-Benz</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="mitsubishi"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Mitsubishi</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="nissan"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Nissan</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="opel"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Opel</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="peugeot"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Peugeot</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="renault"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Renault</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="skoda"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Skoda</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="toyota"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Toyota</span>
+      </label>
+    
+      <label class="catalog-option is-hidden">
+        <input type="radio" name="brand" value="volkswagen"  data-filter-input="brand">
+        <span class="catalog-option__mark catalog-option__mark--radio"></span>
+        <span class="catalog-option__label">Volkswagen</span>
+      </label>
+    
+        </div>
+        
+              <button class="catalog-filter__more" type="button" data-filter-expand="brand">
+                <span>Еще 134</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 5.52856L8 9.05716L11.5286 5.52856L12.4714 6.47136L8.4714 10.4714H7.5286L3.5286 6.47136L4.4714 5.52856Z"/></svg>
+              </button>
+              <button class="catalog-filter__collapse" type="button" data-filter-collapse="brand">
+                <span>Свернуть</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.5286 5.52856H8.4714L12.4714 9.52856L11.5286 10.4714L8 6.94276L4.4714 10.4714L3.5286 9.52856L7.5286 5.52856Z"/></svg>
+              </button>
+            
+      </section>
+    
+            
+      <section class="catalog-filter">
+        <label class="catalog-toggle">
+          <span class="catalog-toggle__text">Товары со скидкой</span>
+          <input type="checkbox"  data-discount-toggle>
+          <span class="catalog-toggle__track" aria-hidden="true"></span>
+        </label>
+      </section>
+    
+            
+      <section class="catalog-filter">
+        <h3 class="catalog-filter__title">Цена</h3>
+        <div class="catalog-price" data-price>
+          <div class="catalog-price__inputs">
+            <input class="catalog-price__input" type="text" inputmode="numeric" pattern="[0-9 ]*" value="459" aria-label="Цена от" data-price-input="min">
+            <input class="catalog-price__input" type="text" inputmode="numeric" pattern="[0-9 ]*" value="9 999 999" aria-label="Цена до" data-price-input="max">
+          </div>
+          <div class="catalog-price__slider">
+            <span class="catalog-price__track" aria-hidden="true"></span>
+            <button class="catalog-price__handle catalog-price__handle--min" type="button" role="slider" aria-label="Минимальная цена" aria-valuemin="459" aria-valuemax="9999999" aria-valuenow="459" data-price-handle="min"></button>
+            <button class="catalog-price__handle catalog-price__handle--max" type="button" role="slider" aria-label="Максимальная цена" aria-valuemin="459" aria-valuemax="9999999" aria-valuenow="9999999" data-price-handle="max"></button>
+            <input class="catalog-price__range" type="range" min="459" max="9999999" value="459" aria-label="Минимальная цена" data-price-range="min">
+            <input class="catalog-price__range" type="range" min="459" max="9999999" value="9999999" aria-label="Максимальная цена" data-price-range="max">
+          </div>
+        </div>
+      </section>
+    
+            <button class="catalog-reset" type="button" data-reset-filters ><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.27441 1.56098C7.6919 1.18121 9.19598 1.2787 10.5518 1.84027C11.3452 2.16897 12.0617 2.64706 12.667 3.24066V1.66645H14L13.999 5.00043L13.333 5.66645H10V4.33344H11.8711C11.3592 3.793 10.7373 3.36113 10.041 3.0727C8.95656 2.62354 7.75394 2.54442 6.62012 2.84809C5.48612 3.15194 4.48326 3.82198 3.76855 4.75336C3.05393 5.68474 2.66701 6.82648 2.66699 8.00043C2.66706 9.17419 3.05411 10.3152 3.76855 11.2465C4.48326 12.1779 5.4861 12.8479 6.62012 13.1518C7.75402 13.4555 8.95649 13.3764 10.041 12.9272C11.1256 12.4779 12.0312 11.6831 12.6182 10.6664L13.7734 11.3334C13.0397 12.6043 11.9074 13.598 10.5518 14.1596C9.19596 14.7212 7.69192 14.8197 6.27441 14.4399C4.85708 14.0601 3.60427 13.2231 2.71094 12.059C1.81763 10.8948 1.33308 9.46786 1.33301 8.00043C1.33303 6.53298 1.81766 5.10607 2.71094 3.94184C3.60424 2.77773 4.85708 1.94084 6.27441 1.56098Z"/></svg><span>Сбросить фильтры</span></button>
+          </aside>
+          <div class="catalog-results__main">
+            
+      <div class="catalog-active">
+        <span class="catalog-active__label">Фильтры:</span>
+        <div class="catalog-active__tags">
+          
+                <button class="catalog-active__tag" type="button" data-clear-filter="groups" data-clear-value="cooling-fans">
+                  <span>Электровентиляторы охлаждения</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 3.52856L8 7.05716L11.5286 3.52856L12.4714 4.47136L8.9428 7.99996L12.4714 11.5286L11.5286 12.4714L8 8.94276L4.4714 12.4714L3.5286 11.5286L7.0572 7.99996L3.5286 4.47136L4.4714 3.52856Z"/></svg>
+                </button>
+              
+                <button class="catalog-active__tag" type="button" data-clear-filter="teeth" data-clear-value="teeth-03">
+                  <span>variant 03</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 3.52856L8 7.05716L11.5286 3.52856L12.4714 4.47136L8.9428 7.99996L12.4714 11.5286L11.5286 12.4714L8 8.94276L4.4714 12.4714L3.5286 11.5286L7.0572 7.99996L3.5286 4.47136L4.4714 3.52856Z"/></svg>
+                </button>
+              
+        </div>
+      </div>
+    
+            <div class="catalog-grid-results">
+              
+      <article class="card-catalog" data-card-id="lrac-1980">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 1980">LRAC 1980</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 1980"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-1980">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-1980">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-1980" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-1980"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-1980" aria-label="Количество LRAC 1980">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-1980"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-1920">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 1920">LRAC 1920</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 1920"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-1920">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-1920">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-1920" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-1920"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-1920" aria-label="Количество LRAC 1920">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-1920"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-1750">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 1750">LRAC 1750</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 1750"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-1750">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-1750">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-1750" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-1750"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-1750" aria-label="Количество LRAC 1750">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-1750"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2160">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2160">LRAC 2160</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2160"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2160">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2160">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2160" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2160"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2160" aria-label="Количество LRAC 2160">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2160"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2210">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2210">LRAC 2210</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2210"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2210">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2210">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2210" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2210"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2210" aria-label="Количество LRAC 2210">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2210"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2350">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2350">LRAC 2350</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2350"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2350">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2350">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2350" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2350"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2350" aria-label="Количество LRAC 2350">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2350"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2410">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2410">LRAC 2410</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2410"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2410">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2410">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2410" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2410"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2410" aria-label="Количество LRAC 2410">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2410"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2490">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2490">LRAC 2490</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2490"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2490">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2490">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2490" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2490"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2490" aria-label="Количество LRAC 2490">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2490"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+      <article class="card-catalog" data-card-id="lrac-2510">
+        <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
+          <span class="card-catalog__images">
+            
+                  <img class="card-catalog__image is-active" src="images/catalog/radiator-01.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="0">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-02.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="1">
+                
+                  <img class="card-catalog__image" src="images/catalog/radiator-03.webp" alt="Радиатор кондиционера для автомобилей Приора (тип Halla)" loading="lazy" data-gallery-image="2">
+                
+          </span>
+          <span class="card-catalog__points" aria-hidden="true">
+            <span class="card-catalog__point is-active" data-gallery-point="0"></span><span class="card-catalog__point" data-gallery-point="1"></span><span class="card-catalog__point" data-gallery-point="2"></span>
+          </span>
+        </a>
+        <div class="card-catalog__body">
+          <a class="card-catalog__name" href="#">Радиатор кондиционера для автомобилей Приора (тип Halla)</a>
+          <div class="card-catalog__code">
+            <span class="card-catalog__label">Код товара:</span>
+            <span class="card-catalog__code-value icon-copy-code" data-code="LRAC 2510">LRAC 2510</span>
+            <button class="card-catalog__icon-button icon-copy-code" type="button" aria-label="Скопировать код товара" data-code="LRAC 2510"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.333 5.33301V14L10.667 14.667H2L1.33301 14V5.33301L2 4.66699H10.667L11.333 5.33301ZM2.66699 13.333H10V6H2.66699V13.333ZM14.667 2V10.667L14 11.333H12V10H13.333V2.66699H6V4H4.66699V2L5.33301 1.33301H14L14.667 2Z"/></svg></button>
+            <form class="card-catalog__favorite-form" action="/favorites/" method="post" data-favorite-form>
+              <input type="hidden" name="id" value="lrac-2510">
+              <button class="card-catalog__icon-button" type="submit" aria-label="Добавить в избранное"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.1201 5.60645H14.9443L15.333 6.80566L11.4297 9.65137L12.9209 14.2598L11.9033 15L8 12.1533L4.09668 15L3.0791 14.2598L4.56934 9.65137L0.666992 6.80566L1.05566 5.60645H5.87988L7.37109 1H8.62891L10.1201 5.60645ZM6.84082 6.93262H3.08887L5.7373 8.86328L6.12402 9.14648L4.96582 12.7266L8 10.5137L11.0342 12.7266L9.87598 9.14648L10.2627 8.86328L12.9111 6.93262H9.15918L8 3.35254L6.84082 6.93262Z"/></svg></button>
+            </form>
+          </div>
+          <div class="card-catalog__group">
+            <span class="card-catalog__label">ОЕМ номер:</span>
+            <div class="card-catalog__oems">
+              <span class="card-catalog__oem">88450-12290</span><span class="card-catalog__oem">88450-12280</span><span class="card-catalog__oem">88450-02410</span><span class="card-catalog__oem">88450-02280</span><span class="card-catalog__oem">88450-02280</span>
+            </div>
+          </div>
+          <div class="card-catalog__footer">
+            <div class="card-catalog__price">
+              <div class="card-catalog__old-price">8 500 ₽</div>
+              <div class="card-catalog__current-price">6 650 ₽</div>
+            </div>
+            <div class="card-catalog__cart" data-cart-controls="lrac-2510">
+              <button class="card-catalog__cart-button" type="button" data-add-cart="lrac-2510" >В корзину</button>
+              <div class="card-catalog__counter" hidden>
+                <button class="card-catalog__counter-button" type="button" aria-label="Уменьшить количество" data-cart-minus="lrac-2510"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 7.33301V8.66699H2.66699V7.33301H13.333Z"/></svg></button>
+                <input class="card-catalog__counter-input" type="number" min="1" max="99" value="1" data-cart-input="lrac-2510" aria-label="Количество LRAC 2510">
+                <button class="card-catalog__counter-button" type="button" aria-label="Увеличить количество" data-cart-plus="lrac-2510"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8.66699 2.66699V7.33301H13.333V8.66699H8.66699V13.333H7.33301V8.66699H2.66699V7.33301H7.33301V2.66699H8.66699Z"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    
+            </div>
+            <button class="catalog-more" type="button" data-show-more>Показать еще</button>
+            
+      <div class="catalog-request">
+        <div class="catalog-request__text">
+          <div class="catalog-request__title">Не уверены в выборе? Оставьте заявку на индивидуальный подбор</div>
+          <div class="catalog-request__subtitle">Наши специалисты помогут подобрать подходящую деталь для вашего авто</div>
+        </div>
+        <button class="catalog-request__button" type="button" data-action="open-vin-request-modal">Запросить подбор</button>
+      </div>
+    
+          </div>
+        </div>
+      </article>
+    
+            </div>
           </div>
         </section>
       </main>
