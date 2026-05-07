@@ -1111,6 +1111,25 @@
           if (plateInput) plateInput.value = item.plate || "";
         };
 
+        const isVehicleFloatingTarget = (target) => {
+          if (state.openControl) {
+            const control = vehicle.querySelector(`[data-no-products-control="${state.openControl}"]`);
+            if (control?.contains(target)) return true;
+          }
+          if (state.historyOpen) {
+            const history = vehicle.querySelector(".pf-modal-history");
+            if (history?.contains(target)) return true;
+          }
+          return false;
+        };
+
+        const closeVehicleFloatingLayers = () => {
+          if (!state.historyOpen && !state.openControl) return;
+          state.historyOpen = false;
+          state.openControl = null;
+          renderVehicle();
+        };
+
         renderVehicle();
         loadVehicleControls();
 
@@ -1142,7 +1161,12 @@
           }
 
           const action = event.target.closest("[data-no-products-action]");
-          if (!action) return;
+          if (!action) {
+            if (!isVehicleFloatingTarget(event.target)) {
+              closeVehicleFloatingLayers();
+            }
+            return;
+          }
           event.preventDefault();
           const id = action.dataset.id;
 
@@ -1183,9 +1207,7 @@
         document.addEventListener("click", (event) => {
           if (vehicle.contains(event.target)) return;
           if (!state.historyOpen && !state.openControl) return;
-          state.historyOpen = false;
-          state.openControl = null;
-          renderVehicle();
+          closeVehicleFloatingLayers();
         });
 
         const updateSubmit = () => {

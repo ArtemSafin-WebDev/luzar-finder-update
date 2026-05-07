@@ -236,6 +236,10 @@
   cursor: not-allowed;
 }
 
+.pf-field[aria-disabled="true"] .pf-arrow {
+  color: #c9cbcf;
+}
+
 .pf-field.has-value {
   color: #303236;
 }
@@ -328,6 +332,7 @@
   min-width: 100%;
   max-width: 100%;
   max-height: 31.6rem;
+  border-right: 0.4rem solid #ffffff;
   overflow: hidden auto;
   border-radius: 0.8rem;
   background: #ffffff;
@@ -337,27 +342,18 @@
 }
 
 .pf-dropdown::-webkit-scrollbar {
-  width: 0.6rem;
+  width: 0.2rem;
 }
 
 .pf-dropdown::-webkit-scrollbar-track {
   margin-block: 1.6rem;
-  background: linear-gradient(
-    to right,
-    #e5e6e7 0 0.2rem,
-    transparent 0.2rem 100%
-  );
   border-radius: 999px;
+  background: #e5e6e7;
 }
 
 .pf-dropdown::-webkit-scrollbar-thumb {
-  margin-block: 1.6rem;
-  background: linear-gradient(
-    to right,
-    #c9cbcf 0 0.2rem,
-    transparent 0.2rem 100%
-  );
   border-radius: 999px;
+  background: #c9cbcf;
 }
 
 .pf-dropdown--groups {

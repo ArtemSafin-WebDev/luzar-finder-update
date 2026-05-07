@@ -135,7 +135,10 @@
       this.root.addEventListener("click", (event) => {
         if (event.target.matches("[data-search]")) return;
         const action = event.target.closest("[data-action]");
-        if (!action) return;
+        if (!action) {
+          this.closeFloatingLayersFromRootClick(event.target);
+          return;
+        }
 
         const actionName = action.dataset.action;
         const id = action.dataset.id;
@@ -402,6 +405,29 @@
           .querySelector(".pf-vin-request__car-icon")
           ?.classList.remove("is-open");
       }
+    }
+
+    closeFloatingLayersFromRootClick(target) {
+      if (!this.openControl && !this.historyOpen) return;
+      if (this.isFloatingLayerTarget(target)) return;
+      this.closeFloatingLayers();
+    }
+
+    isFloatingLayerTarget(target) {
+      if (!target) return false;
+      if (this.openControl) {
+        const control = this.root.querySelector(
+          `[data-control="${selectorEscape(this.openControl)}"]`,
+        );
+        if (control?.contains(target)) return true;
+      }
+      if (this.historyOpen) {
+        const placementClass =
+          this.historyOpen === "vinRequest" ? "vin-request" : this.historyOpen;
+        const history = this.root.querySelector(`.pf-history--${placementClass}`);
+        if (history?.contains(target)) return true;
+      }
+      return false;
     }
 
     updateHistoryButtons() {
