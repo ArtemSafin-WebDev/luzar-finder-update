@@ -7,11 +7,11 @@
   z-index: 20;
 }
 
-.page__content--vin-not-found {
+.page__content--parts-first {
   padding-top: 0;
 }
 
-.page__content--vin-not-found .parts-section {
+.page__content--parts-first .parts-section {
   margin-top: 0;
 }
 
