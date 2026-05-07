@@ -18,25 +18,31 @@
       this.handleCancel = this.handleCancel.bind(this);
       this.handleInput = this.handleInput.bind(this);
       this.closeTimer = null;
+      this.optionsRequestId = 0;
     }
 
     open(options = {}) {
       this.close({ immediate: true });
       this.state = {
         endpoint: options.endpoint || "/api/parts-finder/vin-request",
+        optionsEndpoint:
+          options.optionsEndpoint || "/api/parts-finder/vin-request/options",
+        loadOptions: options.loadOptions || null,
+        fetchOptions: options.fetchOptions || {},
         values: {
           ...EMPTY_VALUES,
           ...(options.values || {}),
         },
         vehicle: options.vehicle || {},
-        brandOptions: options.brandOptions || [],
-        modelOptions: options.modelOptions || [],
-        modelOptionsMap: options.modelOptionsMap || {},
+        controls: options.controls || [],
         history: options.history || null,
         historyOpen: false,
         openControl: null,
+        loadingOptions: false,
+        optionsError: false,
       };
       this.render();
+      this.loadVehicleControls({ updateRow: true });
     }
 
     close(options = {}) {
@@ -94,6 +100,72 @@
 
     updateVehicleControls(ids = ["brand", "model"]) {
       ids.forEach((id) => this.replaceControl(id));
+    }
+
+    async loadVehicleControls(options = {}) {
+      const { updateRow = false } = options;
+      if (!this.state) return;
+
+      const requestId = ++this.optionsRequestId;
+      const requestValues = cloneVehicleValues(this.state.values);
+      this.state.loadingOptions = true;
+      this.state.optionsError = false;
+      if (updateRow) this.updateVehicleControls();
+
+      try {
+        const payload = this.state.loadOptions
+          ? await this.state.loadOptions(requestValues)
+          : await this.fetchVehicleControls(requestValues);
+
+        if (!this.state || requestId !== this.optionsRequestId) return;
+
+        if (Array.isArray(payload?.controls)) {
+          this.state.controls = payload.controls;
+          this.syncVehicleValuesFromControls(payload.controls);
+        }
+      } catch (error) {
+        if (!this.state || requestId !== this.optionsRequestId) return;
+        this.state.optionsError = true;
+      } finally {
+        if (!this.state || requestId !== this.optionsRequestId) return;
+        this.state.loadingOptions = false;
+        if (updateRow) {
+          this.updateVehicleRow();
+        } else {
+          this.updateVehicleControls();
+        }
+      }
+    }
+
+    async fetchVehicleControls(values) {
+      const url = new URL(this.state.optionsEndpoint, window.location.origin);
+      const brand = values.brand;
+      const model = values.model;
+
+      if (brand?.id) url.searchParams.set("brand", brand.id);
+      if (model?.id) url.searchParams.set("model", model.id);
+
+      const response = await fetch(url, {
+        method: "GET",
+        ...this.state.fetchOptions,
+        headers: {
+          ...(this.state.fetchOptions.headers || {}),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Parts finder modal options request failed: ${response.status}`);
+      }
+
+      return response.json();
+    }
+
+    syncVehicleValuesFromControls(controls) {
+      controls.forEach((control) => {
+        if (control.id !== "brand" && control.id !== "model") return;
+        if (!Object.prototype.hasOwnProperty.call(control, "value")) return;
+        this.state.values[control.id] = control.value || null;
+      });
     }
 
     updateHistoryPopover() {
@@ -222,15 +294,20 @@
 
     getControl(id) {
       const isBrand = id === "brand";
+      const control = this.state.controls.find((item) => item.id === id);
 
       return {
+        ...(control || {}),
         id,
-        label: isBrand ? "Марка" : "Модель",
-        placeholder: isBrand ? "Марка" : "Модель",
-        queryKey: id,
-        disabled: !isBrand && !this.state.values.brand,
+        label: control?.label || (isBrand ? "Марка" : "Модель"),
+        placeholder: control?.placeholder || (isBrand ? "Марка" : "Модель"),
+        queryKey: control?.queryKey || id,
+        disabled:
+          this.state.loadingOptions ||
+          Boolean(control?.disabled) ||
+          (!isBrand && !this.state.values.brand),
         value: this.state.values[id],
-        options: isBrand ? this.state.brandOptions : this.state.modelOptions,
+        options: control?.options || [],
       };
     }
 
@@ -287,7 +364,7 @@
       `;
     }
 
-    selectHistory(id) {
+    async selectHistory(id) {
       const item = this.state.history?.items?.find((entry) => entry.id === id);
       if (!item) return;
       this.state.values = {
@@ -299,11 +376,9 @@
       };
       this.state.historyOpen = false;
       this.updateHistoryPopover();
-      if (item.brand?.id) {
-        this.state.modelOptions = this.state.modelOptionsMap[item.brand.id] || this.state.modelOptions;
-      }
       this.updateVehicleControls();
       this.updateVehicleFields();
+      await this.loadVehicleControls();
     }
 
     inputTemplate(id, placeholder, value, type = "text", required = false, className = "") {
@@ -389,17 +464,17 @@
       this.replaceControl(id);
     }
 
-    clearControl(id) {
+    async clearControl(id) {
       this.state.values[id] = null;
       if (id === "brand") {
         this.state.values.model = null;
-        this.state.modelOptions = [];
       }
       this.state.openControl = null;
       this.updateVehicleControls(id === "brand" ? ["brand", "model"] : [id]);
+      await this.loadVehicleControls();
     }
 
-    selectOption(id, optionId) {
+    async selectOption(id, optionId) {
       const control = this.getControl(id);
       const option = control.options.find((item) => item.id === optionId);
       if (!option) return;
@@ -407,10 +482,10 @@
       this.state.values[id] = option;
       if (id === "brand") {
         this.state.values.model = null;
-        this.state.modelOptions = this.state.modelOptionsMap[option.id] || [];
       }
       this.state.openControl = null;
       this.updateVehicleControls(id === "brand" ? ["brand", "model"] : [id]);
+      await this.loadVehicleControls();
     }
 
     handleCancel(event) {
@@ -437,6 +512,13 @@
           values.agreement,
       );
     }
+  }
+
+  function cloneVehicleValues(values) {
+    return {
+      brand: values.brand || null,
+      model: values.model || null,
+    };
   }
 
   function escapeHtml(value) {

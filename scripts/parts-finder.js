@@ -1660,6 +1660,12 @@
           this.response?.vinRequest?.endpoint ||
           this.response?.vinRequest?.action ||
           this.endpoints.vinRequest,
+        optionsEndpoint:
+          this.response?.vinRequest?.optionsEndpoint ||
+          this.endpoints.vinRequestOptions,
+        controls: this.getVinRequestControls(),
+        loadOptions: (values) =>
+          this.api.getVinRequestOptions({ vinRequest: values }),
         vehicle,
         values: {
           ...this.vinRequest,
@@ -1668,9 +1674,6 @@
           vin: this.vinSearch.value || this.vinRequest.vin,
           plate: this.vinRequest.plate,
         },
-        brandOptions: this.getVinBrandOptions(),
-        modelOptions: this.getVinModelOptions(vehicle.brand || this.vinRequest.brand),
-        modelOptionsMap: this.response?.vinRequest?.modelOptions || {},
         history: this.response?.history,
       });
     }

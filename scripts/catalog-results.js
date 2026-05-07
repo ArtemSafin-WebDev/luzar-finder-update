@@ -11,10 +11,6 @@
   const mobileSortQuery = "(max-width: 699.98px)";
   const sortAnimationDuration = 260;
 
-  const initialHeaderCartCount = Number(
-    document.querySelector(".luzar-header__cart-count")?.textContent || 0,
-  );
-
   const state = {
     selected: {},
     discount: false,
@@ -26,8 +22,6 @@
     sortDraft: "popular",
     sortOpen: false,
     query: "",
-    cart: {},
-    favorites: new Set(),
     draggingPrice: "",
   };
 
@@ -299,23 +293,6 @@
     syncActiveFilters();
   }
 
-  function syncCartControls(id) {
-    const controls = root.querySelector(`[data-cart-controls="${id}"]`);
-    if (!controls) return;
-
-    const count = state.cart[id] || 0;
-    const addButton = controls.querySelector("[data-add-cart]");
-    const counter = controls.querySelector(".card-catalog__counter");
-    const input = controls.querySelector("[data-cart-input]");
-
-    if (addButton) {
-      addButton.hidden = Boolean(count);
-      addButton.disabled = false;
-    }
-    if (counter) counter.hidden = !count;
-    if (input) input.value = count || 1;
-  }
-
   function updatePriceTrack() {
     const price = root.querySelector("[data-price]");
     if (!price) return;
@@ -426,15 +403,6 @@
     }
   }
 
-  function updateHeaderCartCount() {
-    const headerCount = document.querySelector(".luzar-header__cart-count");
-    if (!headerCount) return;
-
-    const count =
-      initialHeaderCartCount + Object.values(state.cart).reduce((sum, value) => sum + value, 0);
-    headerCount.textContent = String(count);
-  }
-
   async function copyCode(button) {
     const code = button.getAttribute("data-code") || "";
 
@@ -472,24 +440,11 @@
 
   root.addEventListener("submit", (event) => {
     const search = event.target.closest("[data-catalog-search]");
-    const favoriteForm = event.target.closest("[data-favorite-form]");
 
     if (search) {
       event.preventDefault();
       const input = search.querySelector("[name='q']");
       state.query = input ? input.value : "";
-    }
-
-    if (favoriteForm) {
-      event.preventDefault();
-      const id = favoriteForm.querySelector("[name='id']").value;
-      const button = favoriteForm.querySelector("button");
-      if (state.favorites.has(id)) {
-        state.favorites.delete(id);
-      } else {
-        state.favorites.add(id);
-      }
-      button?.classList.toggle("is-active", state.favorites.has(id));
     }
   });
 
@@ -500,7 +455,6 @@
     const priceInput = event.target.closest("[data-price-input]");
     const priceRange = event.target.closest("[data-price-range]");
     const searchInput = event.target.closest("#catalog-search-input");
-    const cartInput = event.target.closest("[data-cart-input]");
 
     if (filterInput) {
       const filterId = filterInput.getAttribute("data-filter-input");
@@ -544,12 +498,6 @@
 
     if (searchInput) {
       state.query = searchInput.value;
-    }
-
-    if (cartInput) {
-      const id = cartInput.getAttribute("data-cart-input");
-      state.cart[id] = Math.max(1, Math.min(99, Number(cartInput.value) || 1));
-      updateHeaderCartCount();
     }
   });
 
@@ -610,9 +558,6 @@
     const reset = event.target.closest("[data-reset-filters]");
     const clearTag = event.target.closest("[data-clear-filter]");
     const copy = event.target.closest(".icon-copy-code");
-    const addCart = event.target.closest("[data-add-cart]");
-    const cartPlus = event.target.closest("[data-cart-plus]");
-    const cartMinus = event.target.closest("[data-cart-minus]");
     const gallery = event.target.closest("[data-gallery]");
     const requestButton = event.target.closest('[data-action="open-vin-request-modal"]');
 
@@ -699,34 +644,6 @@
       copyCode(copy);
     }
 
-    if (addCart) {
-      const id = addCart.getAttribute("data-add-cart");
-      addCart.disabled = true;
-      window.setTimeout(() => {
-        state.cart[id] = 1;
-        updateHeaderCartCount();
-        syncCartControls(id);
-      }, 180);
-    }
-
-    if (cartPlus) {
-      const id = cartPlus.getAttribute("data-cart-plus");
-      state.cart[id] = Math.min(99, (state.cart[id] || 1) + 1);
-      updateHeaderCartCount();
-      syncCartControls(id);
-    }
-
-    if (cartMinus) {
-      const id = cartMinus.getAttribute("data-cart-minus");
-      const next = (state.cart[id] || 1) - 1;
-      if (next <= 0) {
-        delete state.cart[id];
-      } else {
-        state.cart[id] = next;
-      }
-      updateHeaderCartCount();
-      syncCartControls(id);
-    }
   });
 
   root.addEventListener("pointermove", (event) => {

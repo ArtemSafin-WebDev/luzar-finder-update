@@ -997,6 +997,7 @@ body.catalog-sort-modal-open {
 }
 
 .card-catalog__cart {
+  margin: 0;
   min-width: 9.2rem;
 }
 

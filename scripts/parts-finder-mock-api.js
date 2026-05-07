@@ -507,7 +507,7 @@
     }
 
     buildVinRequestOptionsPayload(vinRequest) {
-      const requestOptions = this.getVinRequestOptions(vinRequest);
+      const requestOptions = this.getVinRequestOptionLists(vinRequest);
 
       return {
         controls: [
@@ -579,7 +579,7 @@
       };
     }
 
-    getVinRequestOptions(vinRequest) {
+    getVinRequestOptionLists(vinRequest) {
       const brand = this.data.vehicles.find(
         (item) => item.id === vinRequest.brand?.id,
       );
