@@ -204,6 +204,7 @@
       const host = document.createElement("dialog");
       host.className = "pf-modal";
       host.setAttribute("aria-labelledby", "pf-modal-title");
+      host.setAttribute("tabindex", "-1");
       host.innerHTML = this.template();
       host.addEventListener("click", this.handleClick);
       host.addEventListener("cancel", this.handleCancel);
@@ -212,8 +213,7 @@
       document.body.append(host);
       window.LuzarPhoneMask?.init(host);
       host.showModal();
-      const firstInput = host.querySelector("input, select, textarea");
-      firstInput?.focus();
+      host.focus({ preventScroll: true });
     }
 
     template() {
@@ -224,7 +224,7 @@
         <section class="pf-modal__dialog">
           <button class="pf-modal__close" type="button" aria-label="Закрыть" data-modal-close>${iconCross()}</button>
           <div class="pf-modal__art">
-            <h2 id="pf-modal-title">Оставьте заявку на индивидуальный подбор деталей</h2>
+            <h2 id="pf-modal-title">Оставьте заявку на подбор деталей</h2>
           </div>
           <form class="pf-modal__form" action="${escapeAttr(this.state.endpoint)}" method="post">
             <input type="hidden" name="mode" value="vin-request">

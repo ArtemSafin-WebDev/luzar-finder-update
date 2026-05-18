@@ -97,9 +97,11 @@
       value instanceof Set ? value.size > 0 : Boolean(value),
     );
 
+    return hasSelected || state.discount || hasActivePriceFilter();
+  }
+
+  function hasActivePriceFilter() {
     return (
-      hasSelected ||
-      state.discount ||
       state.price.currentMin !== state.price.min ||
       state.price.currentMax !== state.price.max
     );
@@ -368,6 +370,7 @@
 
     price.style.setProperty("--range-min", `${minPercent}%`);
     price.style.setProperty("--range-max", `${maxPercent}%`);
+    price.classList.toggle("is-price-active", hasActivePriceFilter());
   }
 
   function updatePriceControls() {

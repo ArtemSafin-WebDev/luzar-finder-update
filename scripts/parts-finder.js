@@ -1700,10 +1700,10 @@
         vehicle,
         values: {
           ...this.vinRequest,
-          brand: vehicle.brand || this.vinRequest.brand,
-          model: vehicle.model || this.vinRequest.model,
-          vin: this.vinSearch.value || this.vinRequest.vin,
-          plate: this.vinRequest.plate,
+          brand: null,
+          model: null,
+          vin: "",
+          plate: vehicle.plate || this.vinSearch.value || this.vinRequest.plate,
         },
         history: this.response?.history,
       });

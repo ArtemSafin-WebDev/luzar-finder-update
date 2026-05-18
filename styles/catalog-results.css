@@ -608,6 +608,13 @@ body.catalog-sort-modal-open {
   display: grid;
   gap: 1.2rem;
   padding: 0 1.6rem;
+  --price-range-active-color: #00205c;
+  --price-range-shadow-color: rgba(0, 32, 92, 0.12);
+}
+
+.catalog-price.is-price-active {
+  --price-range-active-color: #3A8DDE;
+  --price-range-shadow-color: rgba(58, 141, 222, 0.2);
 }
 
 .catalog-price__inputs {
@@ -652,8 +659,8 @@ body.catalog-sort-modal-open {
     to right,
     #c9cbcf 0,
     #c9cbcf var(--range-min, 0%),
-    #00205c var(--range-min, 0%),
-    #00205c var(--range-max, 100%),
+    var(--price-range-active-color) var(--range-min, 0%),
+    var(--price-range-active-color) var(--range-max, 100%),
     #c9cbcf var(--range-max, 100%),
     #c9cbcf 100%
   );
@@ -682,16 +689,18 @@ body.catalog-sort-modal-open {
   width: 1.2rem;
   height: 1.2rem;
   border-radius: 50%;
-  background: #00205c;
+  background: var(--price-range-active-color);
   box-shadow: 0 0 0 0.4rem rgba(0, 32, 92, 0);
   transform: translate(-50%, -50%);
-  transition: box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .catalog-price__handle:hover::before,
 .catalog-price__handle:focus-visible::before,
 .catalog-price__handle.is-dragging::before {
-  box-shadow: 0 0 0 0.4rem rgba(0, 32, 92, 0.12);
+  box-shadow: 0 0 0 0.4rem var(--price-range-shadow-color);
 }
 
 .catalog-price__handle:active {
@@ -1172,6 +1181,12 @@ body.catalog-sort-modal-open {
   padding-bottom: 8rem;
 }
 
+.no-products-found-mobile,
+.no-products-heading__title-mobile,
+.mobile-bottom-nav {
+  display: none;
+}
+
 .no-products-heading {
   margin-top: 1.6rem;
 }
@@ -1409,6 +1424,134 @@ body.catalog-sort-modal-open {
 }
 
 @media (max-width: 699.98px) {
+  .page__content--no-products {
+    padding-top: 1.6rem;
+    padding-bottom: 9.6rem;
+  }
+
+  .page__content--no-products .page__center {
+    width: min(100% - 4rem, var(--container-width));
+  }
+
+  .page__content--no-products .parts-section {
+    display: none;
+  }
+
+  .no-products-found-mobile {
+    display: block;
+  }
+
+  .no-products-mobile-page-header {
+    display: flex;
+    width: 100%;
+    height: 2.4rem;
+    align-items: center;
+    gap: 0.8rem;
+    color: #797d86;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+  }
+
+  .no-products-mobile-page-header__back {
+    display: inline-flex;
+    width: 2.4rem;
+    height: 2.4rem;
+    flex: 0 0 2.4rem;
+    align-items: center;
+    justify-content: center;
+    color: #303236;
+  }
+
+  .no-products-mobile-page-header__back svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: currentColor;
+  }
+
+  .no-products-found-mobile__body {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+  }
+
+  .no-products-found-mobile__card {
+    position: relative;
+    display: flex;
+    height: 8rem;
+    align-items: center;
+    gap: 0.8rem;
+    overflow: hidden;
+    border-radius: 0.8rem;
+    padding: 1rem 0.8rem;
+    background:
+      #c4c9d4 url("../images/parts-finder/found-car-bg.png") center / 100%
+      100% no-repeat;
+  }
+
+  .no-products-found-mobile__icon {
+    display: inline-flex;
+    width: 6rem;
+    height: 6rem;
+    flex: 0 0 6rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-products-found-mobile__icon img {
+    width: 5.4rem;
+    height: 4.4rem;
+    object-fit: contain;
+  }
+
+  .no-products-found-mobile__card p {
+    min-width: 0;
+    color: #303236;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+  }
+
+  .no-products-found-mobile__reject {
+    display: inline-flex;
+    min-height: 4rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    border: 0;
+    border-radius: 0.8rem;
+    padding: 1.2rem;
+    background: #ffffff;
+    color: #3a8dde;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+  }
+
+  .no-products-found-mobile__reject svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    fill: currentColor;
+  }
+
+  .no-products-heading {
+    margin-top: 3.2rem;
+  }
+
+  .no-products-heading__crumb {
+    color: #797d86;
+    font-size: 1.4rem;
+  }
+
+  .no-products-heading__title-desktop {
+    display: none;
+  }
+
+  .no-products-heading__title-mobile {
+    display: inline;
+  }
+
   .catalog-sort {
     position: static;
   }
@@ -1608,27 +1751,64 @@ body.catalog-sort-modal-open {
   }
 
   .no-products-heading__title {
+    margin-top: 0.4rem;
     font-size: 2rem;
   }
 
+  .no-products-request-section {
+    margin-top: 2.4rem;
+  }
+
   .no-products-request {
+    gap: 3.2rem;
+    border-radius: 0.6rem;
     padding: 1.6rem;
   }
 
   .no-products-request__intro {
+    gap: 0.8rem;
     padding: 0;
+    text-align: left;
+  }
+
+  .no-products-request__intro h2 {
+    font-size: 1.8rem;
+    line-height: 1.15;
+  }
+
+  .no-products-request__intro p {
+    font-size: 1.4rem;
   }
 
   .no-products-request__form-grid,
   .no-products-request__bottom,
   .no-products-request__row,
-  .no-products-request__row:first-child,
-  .no-products-request__vehicle {
+  .no-products-request__row:first-child {
     grid-template-columns: 1fr;
+  }
+
+  .no-products-request__vehicle {
+    grid-template-columns: 4rem minmax(0, 1fr);
+  }
+
+  .no-products-request__form-grid,
+  .no-products-request__main,
+  .no-products-request__row,
+  .no-products-request__vehicle {
+    gap: 0.8rem;
+  }
+
+  .no-products-request__vehicle [data-no-products-control="model"] {
+    grid-column: 1 / -1;
+  }
+
+  .no-products-request__field--vin {
+    order: -1;
   }
 
   .no-products-request__bottom {
     display: grid;
+    gap: 1.6rem;
   }
 
   .no-products-request__field textarea {
@@ -1641,6 +1821,53 @@ body.catalog-sort-modal-open {
 
   .catalog-results--recommendations .catalog-grid-results {
     grid-template-columns: 1fr;
+  }
+
+  .catalog-results-section--recommendations {
+    margin-top: 3.2rem;
+  }
+
+  .catalog-results--recommendations .catalog-results__recommendations-title {
+    margin-bottom: 1.6rem;
+    font-size: 1.8rem;
+  }
+
+  .mobile-bottom-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem max(1.2rem, env(safe-area-inset-bottom));
+    background: #ffffff;
+    box-shadow: 0 -0.5rem 0.75rem rgba(4, 21, 51, 0.05);
+  }
+
+  .mobile-bottom-nav__item {
+    display: flex;
+    width: 5.8rem;
+    flex: 0 0 5.8rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: #a2b6ce;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.4rem;
+    text-align: center;
+  }
+
+  .mobile-bottom-nav__item.is-active {
+    color: #00205c;
+  }
+
+  .mobile-bottom-nav__item svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: currentColor;
   }
 
   .catalog-request {

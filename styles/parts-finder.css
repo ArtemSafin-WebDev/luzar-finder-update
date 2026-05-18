@@ -1292,6 +1292,7 @@ button.pf-vin-request__car-icon.is-open {
 
 .pf-modal__close {
   position: absolute;
+  z-index: 2;
   right: -4rem;
   top: 0;
   display: inline-flex;
@@ -2290,40 +2291,101 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .pf-modal {
-    align-items: flex-start;
-    padding: 1.6rem;
-    overflow: auto;
+    padding: 0;
+    overflow: hidden auto;
+    background: #f6f6f6;
+  }
+
+  .pf-modal[open] {
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .pf-modal::backdrop {
+    background: #afb2b7;
   }
 
   .pf-modal__dialog {
-    grid-template-columns: 1fr;
-    padding-right: 0;
-    background-size: auto 100%;
-    background-position: left top;
+    display: flex;
+    width: 100%;
+    min-height: 100dvh;
+    flex-direction: column;
+    gap: 2.4rem;
+    border-radius: 0;
+    padding: 1.6rem;
+    background: #f6f6f6;
+    overflow: visible;
   }
 
   .pf-modal__art {
-    border-radius: 1.6rem 1.6rem 0 0;
-    padding-bottom: 10rem;
+    border-radius: 0;
+    padding: 0 3.2rem 0 0;
+    overflow: visible;
+  }
+
+  .pf-modal__art h2 {
+    max-width: none;
+    color: #303236;
+    font-size: 1.6rem;
+    line-height: 1.2;
   }
 
   .pf-modal__form {
+    align-self: stretch;
+    display: grid;
+    gap: 2.4rem;
     margin: 0;
-    border-radius: 0 0 1.2rem 1.2rem;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
   }
 
   .pf-modal__close {
-    right: 0.8rem;
-    top: 0.8rem;
+    right: 1.6rem;
+    top: 1.6rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0;
+    padding: 0.4rem;
+    background: transparent;
+    color: #8b8d8e;
   }
 
   .pf-modal__grid {
     grid-template-columns: 1fr;
+    gap: 1.6rem;
+    border-radius: 0.6rem;
+    padding: 1.6rem;
+    background: #ffffff;
   }
 
-  .pf-modal__vehicle-row,
   .pf-modal__vehicle-row.has-history {
+    grid-template-columns: 4rem minmax(0, 1fr);
+  }
+
+  .pf-modal__vehicle-row {
     grid-template-columns: 1fr;
+  }
+
+  .pf-modal__vehicle-row [data-modal-control="model"] {
+    grid-column: 1 / -1;
+  }
+
+  .pf-modal-field input,
+  .pf-modal-field select {
+    height: 4rem;
+  }
+
+  .pf-modal-field textarea {
+    height: 12rem;
+  }
+
+  .pf-modal__actions {
+    gap: 1.6rem;
+  }
+
+  .pf-modal__submit svg {
+    display: none;
   }
 
   .pf-modal-history__list {
