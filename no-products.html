@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles/luzar-base.css">
     <link rel="stylesheet" href="styles/luzar-header.css">
     <link rel="stylesheet" href="styles/parts-finder.css?v=no-products-modal">
-    <link rel="stylesheet" href="styles/catalog-results.css?v=no-products-mobile">
+    <link rel="stylesheet" href="styles/catalog-results.css?v=selection-result-mobile">
   </head>
   <body>
     <div class="page">
@@ -109,17 +109,17 @@
         </div>
       </header>
 
-      <main class="page__content page__content--parts-first page__content--no-products">
+      <main class="page__content page__content--parts-first page__content--selection-results page__content--no-products">
         <section class="parts-section" aria-labelledby="parts-finder-title">
           <div class="page__center page__center--wide">
             <div id="parts-finder" class="parts-finder-shell"></div>
           </div>
         </section>
 
-        <section class="no-products-found-mobile" aria-label="Найденный автомобиль">
+        <section class="selection-result-mobile" aria-label="Найденный автомобиль">
           <div class="page__center page__center--wide">
-            <div class="no-products-mobile-page-header">
-              <a class="no-products-mobile-page-header__back" href="/catalogue/" aria-label="Вернуться в каталог">
+            <div class="mobile-results-header">
+              <a class="mobile-results-header__back" href="/catalogue/" aria-label="Вернуться в каталог">
                 <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9.59473 18.4785C9.32957 18.4785 9.07522 18.373 8.8877 18.1855L3.23047 12.5283C3.04309 12.3408 2.9375 12.0864 2.9375 11.8213C2.93755 11.5562 3.04302 11.3017 3.23047 11.1143L8.8877 5.45703C9.0752 5.26968 9.32965 5.16504 9.59473 5.16504C9.85981 5.16505 10.1143 5.26966 10.3018 5.45703C10.4893 5.64457 10.5947 5.89982 10.5947 6.16504C10.5946 6.4301 10.4892 6.68464 10.3018 6.87207L6.35156 10.8213L20.4229 10.8213C20.6849 10.8258 20.9354 10.9332 21.1191 11.1201C21.3029 11.3071 21.4062 11.5591 21.4063 11.8213C21.4063 12.0835 21.3029 12.3354 21.1191 12.5225C20.9354 12.7094 20.685 12.8167 20.4229 12.8213L6.35156 12.8213L10.3018 16.7715C10.4892 16.959 10.5947 17.2134 10.5947 17.4785C10.5947 17.7437 10.4892 17.9981 10.3018 18.1855C10.1142 18.373 9.85989 18.4785 9.59473 18.4785Z"/>
                 </svg>
@@ -127,15 +127,15 @@
               <span>Найдено 48 товаров</span>
             </div>
 
-            <div class="no-products-found-mobile__body">
-              <div class="no-products-found-mobile__card">
-                <span class="no-products-found-mobile__icon" aria-hidden="true">
+            <div class="selection-result-mobile__body">
+              <div class="selection-result-mobile__card">
+                <span class="selection-result-mobile__icon" aria-hidden="true">
                   <img src="images/parts-finder/found-car-icon.png" width="54" height="44" alt="">
                 </span>
                 <p>Audi A4 B8 (08-), 2015, 2.0 бензиновый, A4 2.0 TFSI quattro 190 л.с.</p>
               </div>
 
-              <button class="no-products-found-mobile__reject" type="button" data-action="open-vin-request-modal">
+              <button class="selection-result-mobile__reject" type="button" data-action="open-vin-request-modal">
                 <svg viewBox="0 0 16 16" aria-hidden="true">
                   <path d="M10.586 9.919c.177 0 .347.07.472.195l.942.944.942-.944a.667.667 0 0 1 .943.943L12.942 12l.943.942a.667.667 0 1 1-.943.943L12 12.942l-.942.943a.667.667 0 1 1-.943-.943l.943-.942-.943-.943a.667.667 0 0 1 .471-1.138ZM10.946 2c.479 0 .921.256 1.158.672l2.475 4.331a.667.667 0 0 1-1.158.661l-2.475-4.331H5.054L2.667 7.51v2.999L3.412 12h1.255v-.667c0-.368.298-.666.666-.666H8a.667.667 0 1 1 0 1.333H6a1.333 1.333 0 0 1-1.333 1.333H3.412a1.333 1.333 0 0 1-1.192-.736l-.746-1.492a1.333 1.333 0 0 1-.141-.596V7.51c0-.232.061-.46.176-.662l2.386-4.176C4.133 2.256 4.575 2 5.054 2h5.892Zm-.084 4.862a.667.667 0 0 1 .943.943c-.241.24-.685.443-1.255.59-.604.156-1.439.272-2.55.272-1.111 0-1.946-.116-2.55-.272-.498-.128-.901-.3-1.155-.502l-.1-.088a.667.667 0 0 1 .943-.943l.021.012c.06.035.243.132.624.23.475.123 1.195.229 2.217.229 1.022 0 1.742-.106 2.217-.229.508-.13.664-.26.645-.242Z"/>
                 </svg>
@@ -1035,23 +1035,6 @@
           return fetchVehicleControls;
         };
 
-        const openVinRequestModal = () => {
-          if (window.LuzarPartsFinder?.openVinRequestModal) {
-            window.LuzarPartsFinder.openVinRequestModal();
-            return;
-          }
-
-          const handledByPartsFinder = !document.dispatchEvent(
-            new CustomEvent("parts-finder:open-vin-request-modal", {
-              cancelable: true,
-            }),
-          );
-
-          if (!handledByPartsFinder && window.PartsFinderRequestModal) {
-            window.PartsFinderRequestModal.open();
-          }
-        };
-
         const loadOptions = createOptionsLoader();
 
         const loadVehicleControls = async () => {
@@ -1293,13 +1276,6 @@
         });
 
         document.addEventListener("click", (event) => {
-          const mobileRejectButton = event.target.closest(".no-products-found-mobile__reject");
-          if (mobileRejectButton) {
-            event.preventDefault();
-            openVinRequestModal();
-            return;
-          }
-
           if (vehicle.contains(event.target)) return;
           if (!state.historyOpen && !state.openControl) return;
           closeVehicleFloatingLayers();
@@ -1321,7 +1297,7 @@
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js?v=no-products-modal" defer></script>
     <script src="scripts/parts-finder.js?v=no-products-modal" defer></script>
-    <script src="scripts/catalog-results.js" defer></script>
+    <script src="scripts/catalog-results.js?v=mobile-reject-modal-capture" defer></script>
     <script src="scripts/catalog-cart.js" defer></script>
     <script src="scripts/luzar-header.js" defer></script>
   </body>

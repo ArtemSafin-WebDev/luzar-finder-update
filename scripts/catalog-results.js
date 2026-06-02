@@ -6,6 +6,14 @@
   const icons = {
     close:
       '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.4714 3.52856L8 7.05716L11.5286 3.52856L12.4714 4.47136L8.9428 7.99996L12.4714 11.5286L11.5286 12.4714L8 8.94276L4.4714 12.4714L3.5286 11.5286L7.0572 7.99996L3.5286 4.47136L4.4714 3.52856Z"/></svg>',
+    arrowLeft:
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.59473 18.4785C9.32957 18.4785 9.07522 18.373 8.8877 18.1855L3.23047 12.5283C3.04309 12.3408 2.9375 12.0864 2.9375 11.8213C2.93755 11.5562 3.04302 11.3017 3.23047 11.1143L8.8877 5.45703C9.0752 5.26968 9.32965 5.16504 9.59473 5.16504C9.85981 5.16505 10.1143 5.26966 10.3018 5.45703C10.4893 5.64457 10.5947 5.89982 10.5947 6.16504C10.5946 6.4301 10.4892 6.68464 10.3018 6.87207L6.35156 10.8213L20.4229 10.8213C20.6849 10.8258 20.9354 10.9332 21.1191 11.1201C21.3029 11.3071 21.4062 11.5591 21.4063 11.8213C21.4063 12.0835 21.3029 12.3354 21.1191 12.5225C20.9354 12.7094 20.685 12.8167 20.4229 12.8213L6.35156 12.8213L10.3018 16.7715C10.4892 16.959 10.5947 17.2134 10.5947 17.4785C10.5947 17.7437 10.4892 17.9981 10.3018 18.1855C10.1142 18.373 9.85989 18.4785 9.59473 18.4785Z"/></svg>',
+    check:
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg>',
+    filter:
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.667 10C11.5375 10.0001 12.279 10.5565 12.5537 11.333H13.333C13.5097 11.333 13.6797 11.4034 13.8047 11.5283C13.9297 11.6533 14 11.8232 14 12C14 12.1768 13.9297 12.3467 13.8047 12.4717C13.6797 12.5966 13.5097 12.667 13.333 12.667H12.5537C12.416 13.0572 12.16 13.3947 11.8223 13.6338C11.4844 13.8728 11.0808 14.0019 10.667 14.002C10.2531 14.002 9.84865 13.8729 9.51074 13.6338C9.17313 13.3948 8.91799 13.057 8.78027 12.667H2.66699C2.49026 12.667 2.32032 12.5966 2.19531 12.4717C2.07029 12.3467 2 12.1768 2 12C2 11.8232 2.07029 11.6533 2.19531 11.5283C2.32032 11.4034 2.49026 11.333 2.66699 11.333H8.78027C8.91831 10.9431 9.17394 10.6059 9.51172 10.3672C9.8496 10.1284 10.2533 9.99988 10.667 10ZM10.667 11.333C10.4903 11.333 10.3203 11.4034 10.1953 11.5283C10.0703 11.6533 10 11.8232 10 12C10 12.1768 10.0703 12.3467 10.1953 12.4717C10.3203 12.5966 10.4903 12.667 10.667 12.667C10.8435 12.6669 11.0128 12.5964 11.1377 12.4717C11.2627 12.3467 11.333 12.1768 11.333 12C11.333 11.8232 11.2627 11.6533 11.1377 11.5283C11.0128 11.4036 10.8435 11.3331 10.667 11.333ZM5.33301 6C5.72566 5.99995 6.11006 6.11533 6.4375 6.33203C6.76494 6.54874 7.02141 6.85729 7.1748 7.21875L7.21973 7.33301H13.333C13.5029 7.3332 13.6665 7.39898 13.79 7.51563C13.9135 7.63226 13.9881 7.79135 13.998 7.96094C14.008 8.13054 13.9528 8.29744 13.8438 8.42773C13.7347 8.55804 13.5799 8.64204 13.4111 8.66211L13.333 8.66699H7.21973C7.0853 9.04703 6.83919 9.37746 6.51367 9.61523C6.18812 9.85303 5.79847 9.98755 5.39551 10C4.99245 10.0124 4.59451 9.90196 4.25488 9.68457C3.91541 9.46718 3.64965 9.15234 3.49219 8.78125L3.44629 8.66699H2.66699C2.49707 8.6668 2.33352 8.60102 2.20996 8.48438C2.08646 8.36774 2.01191 8.20865 2.00195 8.03906C1.992 7.86946 2.04722 7.70256 2.15625 7.57227C2.26531 7.44196 2.42014 7.35796 2.58887 7.33789L2.66699 7.33301H3.44629C3.58425 6.94319 3.8401 6.60592 4.17773 6.36719C4.51553 6.12846 4.91938 5.99995 5.33301 6ZM5.33301 7.33301C5.15647 7.33309 4.98722 7.40358 4.8623 7.52832C4.73728 7.65334 4.66699 7.82319 4.66699 8C4.66699 8.17681 4.73728 8.34666 4.8623 8.47168C4.98722 8.59642 5.15647 8.66691 5.33301 8.66699C5.50974 8.66699 5.67968 8.5966 5.80469 8.47168C5.92971 8.34666 6 8.17681 6 8C6 7.82319 5.92971 7.65334 5.80469 7.52832C5.67968 7.4034 5.50974 7.33301 5.33301 7.33301ZM10.667 2C11.5375 2.00014 12.279 2.55653 12.5537 3.33301H13.333C13.5097 3.33301 13.6797 3.4034 13.8047 3.52832C13.9297 3.65334 14 3.82319 14 4C14 4.17681 13.9297 4.34666 13.8047 4.47168C13.6797 4.5966 13.5097 4.66699 13.333 4.66699H12.5537C12.416 5.05721 12.16 5.39473 11.8223 5.63379C11.4844 5.87282 11.0808 6.00189 10.667 6.00195C10.2531 6.00195 9.84865 5.87289 9.51074 5.63379C9.17313 5.39479 8.91799 5.05704 8.78027 4.66699H2.66699C2.49026 4.66699 2.32032 4.5966 2.19531 4.47168C2.07029 4.34666 2 4.17681 2 4C2 3.82319 2.07029 3.65334 2.19531 3.52832C2.32032 3.4034 2.49026 3.33301 2.66699 3.33301H8.78027C8.91831 2.94312 9.17394 2.6059 9.51172 2.36719C9.8496 2.12841 10.2533 1.99988 10.667 2ZM10.667 3.33301C10.4903 3.33301 10.3203 3.4034 10.1953 3.52832C10.0703 3.65334 10 3.82319 10 4C10 4.17681 10.0703 4.34666 10.1953 4.47168C10.3203 4.5966 10.4903 4.66699 10.667 4.66699C10.8435 4.66691 11.0128 4.59642 11.1377 4.47168C11.2627 4.34666 11.333 4.17681 11.333 4C11.333 3.82319 11.2627 3.65334 11.1377 3.52832C11.0128 3.40358 10.8435 3.33309 10.667 3.33301Z"/></svg>',
+    search:
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z"/></svg>',
   };
 
   const mobileSortQuery = "(max-width: 699.98px)";
@@ -21,6 +29,8 @@
     sort: "popular",
     sortDraft: "popular",
     sortOpen: false,
+    filterOpen: false,
+    mobileDetailFilter: "",
     query: "",
     draggingPrice: "",
   };
@@ -92,6 +102,10 @@
     return window.matchMedia(mobileSortQuery).matches;
   }
 
+  function isMobileFilters() {
+    return window.matchMedia(mobileSortQuery).matches;
+  }
+
   function hasActiveFilters() {
     const hasSelected = Object.values(state.selected).some((value) =>
       value instanceof Set ? value.size > 0 : Boolean(value),
@@ -107,11 +121,81 @@
     );
   }
 
+  function getActiveFilterTags() {
+    const tags = [];
+
+    Object.entries(state.selected).forEach(([filterId, selected]) => {
+      if (selected instanceof Set) {
+        selected.forEach((value) => {
+          tags.push({ filter: filterId, value, label: getFilterOptionLabel(filterId, value) });
+        });
+        return;
+      }
+
+      if (selected) {
+        tags.push({ filter: filterId, value: selected, label: getFilterOptionLabel(filterId, selected) });
+      }
+    });
+
+    if (state.discount) {
+      tags.push({ filter: "discount", value: "discount", label: "Товары со скидкой" });
+    }
+
+    if (hasActivePriceFilter()) {
+      tags.push({
+        filter: "price",
+        value: "price",
+        label: `Цена: ${formatPriceInput(state.price.currentMin)} - ${formatPriceInput(state.price.currentMax)} ₽`,
+      });
+    }
+
+    return tags.filter((tag) => tag.label);
+  }
+
+  function syncFilterBadge(count = getActiveFilterTags().length) {
+    const counter = root.querySelector("[data-filter-count]");
+    const filterToggle = root.querySelector("[data-filter-toggle]");
+
+    if (counter) {
+      counter.textContent = String(count);
+      counter.hidden = count === 0;
+    }
+
+    filterToggle?.classList.toggle("has-active-filters", count > 0);
+  }
+
+  function syncCatalogSearch(search = root.querySelector("[data-catalog-search]")) {
+    if (!search) return;
+
+    const input = search.querySelector("[name='q']");
+    const clear = search.querySelector("[data-catalog-search-clear]");
+    const hasValue = Boolean(input?.value);
+
+    search.classList.toggle("is-filled", hasValue);
+    if (clear) clear.hidden = !hasValue;
+  }
+
   function syncSortModalState() {
     document.body.classList.toggle(
       "catalog-sort-modal-open",
       state.sortOpen && isMobileSortModal(),
     );
+  }
+
+  function syncFilterModalState() {
+    const catalog = root.querySelector(".catalog-results");
+    const filterToggle = root.querySelector("[data-filter-toggle]");
+    const open = state.filterOpen && isMobileFilters();
+
+    catalog?.classList.toggle("is-filter-open", open);
+    document.body.classList.toggle("catalog-filter-modal-open", open);
+    filterToggle?.setAttribute("aria-expanded", String(open));
+
+    if (!open) {
+      state.mobileDetailFilter = "";
+    }
+
+    syncMobileFilterDetail();
   }
 
   function syncSortDraftOptions() {
@@ -139,6 +223,244 @@
     syncSortButton();
     syncSortDraftOptions();
     syncSortModalState();
+  }
+
+  function ensureMobileFilterControls() {
+    const heading = root.querySelector(".catalog-results__heading");
+    const search = root.querySelector(".catalog-search");
+    const sort = root.querySelector("[data-sort]");
+    const sidebar = root.querySelector(".catalog-sidebar");
+
+    if (!heading || !sidebar) return;
+
+    if (!root.querySelector("[data-filter-toggle]")) {
+      const button = document.createElement("button");
+      button.className = "catalog-mobile-filter-toggle";
+      button.type = "button";
+      button.setAttribute("aria-label", "Открыть фильтры");
+      button.setAttribute("aria-controls", "catalog-mobile-filters");
+      button.setAttribute("aria-expanded", "false");
+      button.setAttribute("data-filter-toggle", "");
+      button.innerHTML = `${icons.filter}<span class="catalog-mobile-filter-toggle__count" data-filter-count hidden>0</span>`;
+
+      if (sort) {
+        sort.before(button);
+      } else if (search) {
+        search.after(button);
+      } else {
+        heading.append(button);
+      }
+    }
+
+    if (!root.querySelector("[data-filter-backdrop]")) {
+      const backdrop = document.createElement("button");
+      backdrop.className = "catalog-filter-backdrop";
+      backdrop.type = "button";
+      backdrop.setAttribute("aria-label", "Закрыть фильтры");
+      backdrop.setAttribute("data-filter-close", "");
+      backdrop.setAttribute("data-filter-backdrop", "");
+      sidebar.before(backdrop);
+    }
+
+    sidebar.id = sidebar.id || "catalog-mobile-filters";
+
+    if (!sidebar.querySelector("[data-filter-mobile-header]")) {
+      const header = document.createElement("div");
+      header.className = "catalog-sidebar__mobile-header";
+      header.setAttribute("data-filter-mobile-header", "");
+      header.innerHTML = `
+        <button class="catalog-sidebar__mobile-close" type="button" aria-label="Закрыть фильтры" data-filter-close>${icons.arrowLeft}</button>
+        <h3 class="catalog-sidebar__mobile-title">Фильтры</h3>
+        <button class="catalog-sidebar__mobile-reset" type="button" data-reset-filters hidden>Сбросить</button>
+      `;
+      sidebar.prepend(header);
+    }
+
+    if (!sidebar.querySelector("[data-filter-detail]")) {
+      const detail = document.createElement("div");
+      detail.className = "catalog-filter-detail";
+      detail.setAttribute("data-filter-detail", "");
+      detail.hidden = true;
+      detail.innerHTML = `
+        <div class="catalog-filter-detail__header">
+          <button class="catalog-filter-detail__back" type="button" aria-label="Вернуться к фильтрам" data-filter-detail-close>${icons.arrowLeft}</button>
+          <h3 class="catalog-filter-detail__title" data-filter-detail-title></h3>
+        </div>
+        <label class="catalog-filter-detail__search">
+          <span class="visually-hidden" data-filter-detail-search-label>Поиск по фильтру</span>
+          <input class="catalog-filter-detail__search-input" type="search" placeholder="Начните ввод" autocomplete="off" data-filter-detail-search>
+          <span class="catalog-filter-detail__search-button" aria-hidden="true">${icons.search}</span>
+        </label>
+        <div class="catalog-filter-detail__tags" data-filter-detail-tags></div>
+        <div class="catalog-filter-detail__list" data-filter-detail-list></div>
+      `;
+      sidebar.append(detail);
+    }
+
+    if (!sidebar.querySelector("[data-filter-mobile-actions]")) {
+      const actions = document.createElement("div");
+      actions.className = "catalog-sidebar__mobile-actions";
+      actions.setAttribute("data-filter-mobile-actions", "");
+      actions.innerHTML = '<button class="catalog-sidebar__mobile-apply" type="button" data-filter-apply>Сохранить</button>';
+      sidebar.append(actions);
+    }
+  }
+
+  function getFilterTitle(filterId) {
+    return (
+      getFilterElement(filterId)?.querySelector(".catalog-filter__title")?.textContent.trim() ||
+      "Фильтр"
+    );
+  }
+
+  function getMobileDetailTitle(filterId) {
+    return filterId === "groups" ? "Группа товаров" : getFilterTitle(filterId);
+  }
+
+  function isFilterMulti(filterId) {
+    return getFilterInputs(filterId)[0]?.type === "checkbox";
+  }
+
+  function isFilterValueSelected(filterId, value) {
+    const selected = state.selected[filterId];
+
+    return selected instanceof Set ? selected.has(value) : selected === value;
+  }
+
+  function getSelectedFilterValues(filterId) {
+    const selected = state.selected[filterId];
+
+    if (selected instanceof Set) return Array.from(selected);
+    return selected ? [selected] : [];
+  }
+
+  function getFilterOptionData(filterId) {
+    const query = (state.filterSearch[filterId] || "").trim().toLowerCase();
+
+    return getFilterInputs(filterId)
+      .map((input) => {
+        const option = input.closest(".catalog-option, .catalog-chip");
+        const label = (
+          option?.querySelector(".catalog-option__label")?.textContent ||
+          option?.textContent ||
+          ""
+        ).trim();
+
+        return {
+          input,
+          label,
+          value: input.value,
+          selected: isFilterValueSelected(filterId, input.value),
+          visible: !query || label.toLowerCase().includes(query),
+        };
+      })
+      .filter((option) => option.label && option.visible);
+  }
+
+  function getMobileDetailTagsHtml(filterId) {
+    return getSelectedFilterValues(filterId)
+      .map((value) => {
+        const label = getFilterOptionLabel(filterId, value);
+
+        if (!label) return "";
+
+        return `
+          <button class="catalog-filter-detail__tag" type="button" data-filter-detail-clear="${filterId}" data-filter-detail-value="${escapeHtml(value)}">
+            <span>${escapeHtml(label)}</span>${icons.close}
+          </button>
+        `;
+      })
+      .join("");
+  }
+
+  function getMobileDetailOptionsHtml(filterId) {
+    const options = getFilterOptionData(filterId);
+
+    return `
+      <div class="catalog-filter-detail__group-title">Популярные</div>
+      ${options
+        .map(
+          (option) => `
+            <button class="catalog-filter-detail__row ${option.selected ? "is-active" : ""}" type="button" data-filter-detail-option="${filterId}" data-filter-detail-value="${escapeHtml(option.value)}" aria-pressed="${option.selected}">
+              <span>${escapeHtml(option.label)}</span>
+              ${option.selected ? icons.check : ""}
+            </button>
+          `,
+        )
+        .join("")}
+    `;
+  }
+
+  function syncMobileFilterDetail() {
+    const sidebar = root.querySelector(".catalog-sidebar");
+    const detail = root.querySelector("[data-filter-detail]");
+    const filterId = state.mobileDetailFilter;
+    const active = Boolean(state.filterOpen && isMobileFilters() && filterId && getFilterElement(filterId));
+
+    sidebar?.classList.toggle("is-detail-open", active);
+    if (!detail) return;
+
+    detail.hidden = !active;
+    if (!active) return;
+
+    const title = getMobileDetailTitle(filterId);
+    const titleElement = detail.querySelector("[data-filter-detail-title]");
+    const searchLabel = detail.querySelector("[data-filter-detail-search-label]");
+    const searchInput = detail.querySelector("[data-filter-detail-search]");
+    const tags = detail.querySelector("[data-filter-detail-tags]");
+    const list = detail.querySelector("[data-filter-detail-list]");
+
+    if (titleElement) titleElement.textContent = title;
+    if (searchLabel) searchLabel.textContent = `Поиск по фильтру ${getFilterTitle(filterId)}`;
+    if (searchInput) searchInput.value = state.filterSearch[filterId] || "";
+    if (tags) tags.innerHTML = getMobileDetailTagsHtml(filterId);
+    if (list) list.innerHTML = getMobileDetailOptionsHtml(filterId);
+  }
+
+  function openMobileFilterDetail(filterId) {
+    if (!filterId || !getFilterElement(filterId)) return;
+
+    state.mobileDetailFilter = filterId;
+    syncMobileFilterDetail();
+  }
+
+  function closeMobileFilterDetail() {
+    state.mobileDetailFilter = "";
+    syncMobileFilterDetail();
+  }
+
+  function setFilterValueFromDetail(filterId, value) {
+    if (isFilterMulti(filterId)) {
+      if (!(state.selected[filterId] instanceof Set)) {
+        state.selected[filterId] = new Set();
+      }
+
+      if (state.selected[filterId].has(value)) {
+        state.selected[filterId].delete(value);
+      } else {
+        state.selected[filterId].add(value);
+      }
+    } else {
+      state.selected[filterId] = value;
+    }
+
+    syncFilterInputs(filterId);
+    updateFilterOptions(filterId);
+    syncActiveFilters();
+    syncMobileFilterDetail();
+  }
+
+  function clearFilterValueFromDetail(filterId, value) {
+    if (state.selected[filterId] instanceof Set) {
+      state.selected[filterId].delete(value);
+    } else if (state.selected[filterId] === value) {
+      state.selected[filterId] = "";
+    }
+
+    syncFilterInputs(filterId);
+    updateFilterOptions(filterId);
+    syncActiveFilters();
+    syncMobileFilterDetail();
   }
 
   function getGalleryImages(gallery) {
@@ -270,24 +592,7 @@
   }
 
   function getActiveTagsHtml() {
-    const tags = [];
-
-    Object.entries(state.selected).forEach(([filterId, selected]) => {
-      if (selected instanceof Set) {
-        selected.forEach((value) => {
-          tags.push({ filter: filterId, value, label: getFilterOptionLabel(filterId, value) });
-        });
-        return;
-      }
-
-      if (selected) {
-        tags.push({ filter: filterId, value: selected, label: getFilterOptionLabel(filterId, selected) });
-      }
-    });
-
-    if (state.discount) {
-      tags.push({ filter: "discount", value: "discount", label: "Товары со скидкой" });
-    }
+    const tags = getActiveFilterTags();
 
     if (!tags.length) return "";
 
@@ -311,7 +616,8 @@
 
   function syncActiveFilters() {
     let activeFilters = root.querySelector("[data-active-filters]");
-    const reset = root.querySelector("[data-reset-filters]");
+    const tags = getActiveFilterTags();
+    const resetButtons = root.querySelectorAll("[data-reset-filters]");
 
     if (!activeFilters) {
       const active = root.querySelector(".catalog-active");
@@ -328,7 +634,11 @@
     }
 
     if (activeFilters) activeFilters.innerHTML = getActiveTagsHtml();
-    if (reset) reset.disabled = !hasActiveFilters();
+    resetButtons.forEach((reset) => {
+      reset.disabled = !hasActiveFilters();
+      reset.hidden = !hasActiveFilters() && reset.classList.contains("catalog-sidebar__mobile-reset");
+    });
+    syncFilterBadge(tags.length);
   }
 
   function syncFilterInputs(filterId) {
@@ -464,6 +774,8 @@
     if (minInput) state.price.currentMin = parsePriceInput(minInput.value);
     if (maxInput) state.price.currentMax = parsePriceInput(maxInput.value);
 
+    state.query = root.querySelector("[data-catalog-search] [name='q']")?.value || "";
+
     const activeSort = root.querySelector("[data-sort-value].is-active")?.getAttribute("data-sort-value");
     if (activeSort) {
       state.sort = activeSort;
@@ -513,12 +825,14 @@
       event.preventDefault();
       const input = search.querySelector("[name='q']");
       state.query = input ? input.value : "";
+      syncCatalogSearch(search);
     }
   });
 
   root.addEventListener("input", (event) => {
     const filterInput = event.target.closest("[data-filter-input]");
     const filterSearch = event.target.closest("[data-filter-search]");
+    const filterDetailSearch = event.target.closest("[data-filter-detail-search]");
     const discount = event.target.closest("[data-discount-toggle]");
     const priceInput = event.target.closest("[data-price-input]");
     const priceRange = event.target.closest("[data-price-range]");
@@ -552,6 +866,12 @@
       updateFilterOptions(filterId);
     }
 
+    if (filterDetailSearch && state.mobileDetailFilter) {
+      state.filterSearch[state.mobileDetailFilter] = filterDetailSearch.value;
+      updateFilterOptions(state.mobileDetailFilter);
+      syncMobileFilterDetail();
+    }
+
     if (discount) {
       state.discount = discount.checked;
       syncActiveFilters();
@@ -566,6 +886,7 @@
 
     if (searchInput) {
       state.query = searchInput.value;
+      syncCatalogSearch(searchInput.closest("[data-catalog-search]"));
     }
   });
 
@@ -595,6 +916,17 @@
       return;
     }
 
+    if (event.key === "Escape" && state.filterOpen) {
+      event.preventDefault();
+      if (state.mobileDetailFilter) {
+        closeMobileFilterDetail();
+        return;
+      }
+      state.filterOpen = false;
+      syncFilterModalState();
+      return;
+    }
+
     const handle = event.target.closest("[data-price-handle]");
     if (!handle) return;
 
@@ -621,10 +953,17 @@
     const sortValue = event.target.closest("[data-sort-value]");
     const sortClose = event.target.closest("[data-sort-close]");
     const sortApply = event.target.closest("[data-sort-apply]");
+    const filterToggle = event.target.closest("[data-filter-toggle]");
+    const filterClose = event.target.closest("[data-filter-close]");
+    const filterApply = event.target.closest("[data-filter-apply]");
+    const filterDetailClose = event.target.closest("[data-filter-detail-close]");
+    const filterDetailOption = event.target.closest("[data-filter-detail-option]");
+    const filterDetailClear = event.target.closest("[data-filter-detail-clear]");
     const expand = event.target.closest("[data-filter-expand]");
     const collapse = event.target.closest("[data-filter-collapse]");
     const reset = event.target.closest("[data-reset-filters]");
     const clearTag = event.target.closest("[data-clear-filter]");
+    const searchClear = event.target.closest("[data-catalog-search-clear]");
     const copy = event.target.closest(".icon-copy-code");
     const gallery = event.target.closest("[data-gallery]");
     const requestButton = event.target.closest('[data-action="open-vin-request-modal"]');
@@ -638,12 +977,79 @@
       openVinRequestModal();
     }
 
+    if (searchClear) {
+      event.preventDefault();
+      const search = searchClear.closest("[data-catalog-search]");
+      const input = search?.querySelector("[name='q']");
+
+      if (input) {
+        input.value = "";
+        state.query = "";
+        syncCatalogSearch(search);
+        input.focus();
+      }
+    }
+
+    if (filterToggle) {
+      event.stopPropagation();
+      closeSort();
+      state.filterOpen = !state.filterOpen;
+      syncFilterModalState();
+    }
+
+    if (filterApply) {
+      event.stopPropagation();
+
+      if (state.mobileDetailFilter) {
+        closeMobileFilterDetail();
+        return;
+      }
+
+      state.filterOpen = false;
+      syncFilterModalState();
+      return;
+    }
+
+    if (filterClose) {
+      event.stopPropagation();
+      state.mobileDetailFilter = "";
+      state.filterOpen = false;
+      syncFilterModalState();
+      return;
+    }
+
+    if (filterDetailClose) {
+      event.stopPropagation();
+      closeMobileFilterDetail();
+      return;
+    }
+
+    if (filterDetailOption) {
+      event.preventDefault();
+      event.stopPropagation();
+      setFilterValueFromDetail(
+        filterDetailOption.getAttribute("data-filter-detail-option"),
+        filterDetailOption.getAttribute("data-filter-detail-value"),
+      );
+    }
+
+    if (filterDetailClear) {
+      event.preventDefault();
+      event.stopPropagation();
+      clearFilterValueFromDetail(
+        filterDetailClear.getAttribute("data-filter-detail-clear"),
+        filterDetailClear.getAttribute("data-filter-detail-value"),
+      );
+    }
+
     if (sortToggle) {
       event.stopPropagation();
       if (sortCloseTimer) {
         window.clearTimeout(sortCloseTimer);
         sortCloseTimer = 0;
       }
+      state.filterOpen = false;
+      syncFilterModalState();
       state.sortDraft = state.sort;
       state.sortOpen = !state.sortOpen;
       syncSortState();
@@ -674,6 +1080,11 @@
 
     if (expand) {
       const filterId = expand.getAttribute("data-filter-expand");
+      if (isMobileFilters()) {
+        event.preventDefault();
+        openMobileFilterDetail(filterId);
+        return;
+      }
       state.expanded[filterId] = true;
       syncFilterExpanded(filterId);
     }
@@ -688,6 +1099,7 @@
     if (reset) {
       resetFilters();
       syncAllFilterControls();
+      syncMobileFilterDetail();
     }
 
     if (clearTag) {
@@ -697,6 +1109,10 @@
       if (filterId === "discount") {
         state.discount = false;
         syncDiscountInput();
+      } else if (filterId === "price") {
+        state.price.currentMin = state.price.min;
+        state.price.currentMax = state.price.max;
+        updatePriceControls();
       } else if (state.selected[filterId] instanceof Set) {
         state.selected[filterId].delete(value);
         syncFilterInputs(filterId);
@@ -706,6 +1122,7 @@
       }
 
       syncActiveFilters();
+      syncMobileFilterDetail();
     }
 
     if (copy) {
@@ -802,13 +1219,24 @@
   });
 
   document.addEventListener("click", (event) => {
+    const requestButton = event.target.closest?.('[data-action="open-vin-request-modal"]');
+
+    if (requestButton && !root.contains(requestButton) && !event.defaultPrevented) {
+      event.preventDefault();
+      openVinRequestModal();
+      return;
+    }
+
     if (root.contains(event.target) || event.composedPath().includes(root)) return;
     if (!state.sortOpen) return;
 
     closeSort();
-  });
+  }, true);
 
-  window.addEventListener("resize", syncSortModalState);
+  window.addEventListener("resize", () => {
+    syncSortModalState();
+    syncFilterModalState();
+  });
 
   document.addEventListener("pointermove", (event) => {
     if (!state.draggingPrice) return;
@@ -827,6 +1255,10 @@
   });
 
   hydrateCatalogState();
+  syncCatalogSearch();
+  ensureMobileFilterControls();
   updatePriceTrack();
+  syncActiveFilters();
   syncSortModalState();
+  syncFilterModalState();
 })();

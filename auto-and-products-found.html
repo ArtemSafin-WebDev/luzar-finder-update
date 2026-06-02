@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles/luzar-base.css">
     <link rel="stylesheet" href="styles/luzar-header.css">
     <link rel="stylesheet" href="styles/parts-finder.css">
-    <link rel="stylesheet" href="styles/catalog-results.css">
+    <link rel="stylesheet" href="styles/catalog-results.css?v=mobile-found-results">
   </head>
   <body>
     <div class="page">
@@ -109,10 +109,39 @@
         </div>
       </header>
 
-      <main class="page__content page__content--parts-first">
+      <main class="page__content page__content--parts-first page__content--selection-results">
         <section class="parts-section" aria-labelledby="parts-finder-title">
           <div class="page__center page__center--wide">
             <div id="parts-finder" class="parts-finder-shell"></div>
+          </div>
+        </section>
+
+        <section class="selection-result-mobile" aria-label="Найденный автомобиль">
+          <div class="page__center page__center--wide">
+            <div class="mobile-results-header">
+              <a class="mobile-results-header__back" href="/catalogue/" aria-label="Вернуться в каталог">
+                <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.59473 18.4785C9.32957 18.4785 9.07522 18.373 8.8877 18.1855L3.23047 12.5283C3.04309 12.3408 2.9375 12.0864 2.9375 11.8213C2.93755 11.5562 3.04302 11.3017 3.23047 11.1143L8.8877 5.45703C9.0752 5.26968 9.32965 5.16504 9.59473 5.16504C9.85981 5.16505 10.1143 5.26966 10.3018 5.45703C10.4893 5.64457 10.5947 5.89982 10.5947 6.16504C10.5946 6.4301 10.4892 6.68464 10.3018 6.87207L6.35156 10.8213L20.4229 10.8213C20.6849 10.8258 20.9354 10.9332 21.1191 11.1201C21.3029 11.3071 21.4062 11.5591 21.4063 11.8213C21.4063 12.0835 21.3029 12.3354 21.1191 12.5225C20.9354 12.7094 20.685 12.8167 20.4229 12.8213L6.35156 12.8213L10.3018 16.7715C10.4892 16.959 10.5947 17.2134 10.5947 17.4785C10.5947 17.7437 10.4892 17.9981 10.3018 18.1855C10.1142 18.373 9.85989 18.4785 9.59473 18.4785Z"/>
+                </svg>
+              </a>
+              <span>Найдено 48 товаров</span>
+            </div>
+
+            <div class="selection-result-mobile__body">
+              <div class="selection-result-mobile__card">
+                <span class="selection-result-mobile__icon" aria-hidden="true">
+                  <img src="images/parts-finder/found-car-icon.png" width="54" height="44" alt="">
+                </span>
+                <p>Audi A4 B8 (08-), 2015, 2.0 бензиновый, A4 2.0 TFSI quattro 190 л.с.</p>
+              </div>
+
+              <button class="selection-result-mobile__reject" type="button" data-action="open-vin-request-modal">
+                <svg viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M10.586 9.919c.177 0 .347.07.472.195l.942.944.942-.944a.667.667 0 0 1 .943.943L12.942 12l.943.942a.667.667 0 1 1-.943.943L12 12.942l-.942.943a.667.667 0 1 1-.943-.943l.943-.942-.943-.943a.667.667 0 0 1 .471-1.138ZM10.946 2c.479 0 .921.256 1.158.672l2.475 4.331a.667.667 0 0 1-1.158.661l-2.475-4.331H5.054L2.667 7.51v2.999L3.412 12h1.255v-.667c0-.368.298-.666.666-.666H8a.667.667 0 1 1 0 1.333H6a1.333 1.333 0 0 1-1.333 1.333H3.412a1.333 1.333 0 0 1-1.192-.736l-.746-1.492a1.333 1.333 0 0 1-.141-.596V7.51c0-.232.061-.46.176-.662l2.386-4.176C4.133 2.256 4.575 2 5.054 2h5.892Zm-.084 4.862a.667.667 0 0 1 .943.943c-.241.24-.685.443-1.255.59-.604.156-1.439.272-2.55.272-1.111 0-1.946-.116-2.55-.272-.498-.128-.901-.3-1.155-.502l-.1-.088a.667.667 0 0 1 .943-.943l.021.012c.06.035.243.132.624.23.475.123 1.195.229 2.217.229 1.022 0 1.742-.106 2.217-.229.508-.13.664-.26.645-.242Z"/>
+                </svg>
+                <span>Не моё авто</span>
+              </button>
+            </div>
           </div>
         </section>
 
@@ -125,11 +154,12 @@
             <p class="catalog-results__eyebrow">Результаты подбора по VIN</p>
             <h2 class="catalog-results__title" id="catalog-results-title">Y6DTF69YO8O144158</h2>
           </div>
-          <form class="catalog-search" data-catalog-search>
-            <label class="visually-hidden" for="catalog-search-input">Найти товар для вашего авто</label>
-            <input class="catalog-search__input" id="catalog-search-input" type="search" name="q" value="" placeholder="Найти товары для вашего авто" autocomplete="off">
-            <button class="catalog-search__submit" type="submit" aria-label="Найти"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></button>
-          </form>
+            <form class="catalog-search" data-catalog-search>
+              <label class="visually-hidden" for="catalog-search-input">Найти товар для вашего авто</label>
+              <input class="catalog-search__input" id="catalog-search-input" type="search" name="q" value="" placeholder="Найти товары для вашего авто" autocomplete="off">
+              <button class="catalog-search__clear" type="button" aria-label="Очистить поиск" data-catalog-search-clear hidden><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z" /></svg></button>
+              <button class="catalog-search__submit" type="submit" aria-label="Найти"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z" /></svg></button>
+            </form>
           
       <div class="catalog-sort" data-sort>
         <button class="catalog-sort__button" type="button" aria-haspopup="listbox" aria-expanded="false" data-sort-toggle>
@@ -1103,6 +1133,29 @@
           </div>
         </section>
       </main>
+
+      <nav class="mobile-bottom-nav" aria-label="Основная мобильная навигация">
+        <a class="mobile-bottom-nav__item" href="/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5v-5.5H9V20H4v-9.5Zm1.5.7v7.3h2v-5.5h9v5.5h2v-7.3L12 5.9l-6.5 5.3Z"/></svg>
+          <span>Главная</span>
+        </a>
+        <a class="mobile-bottom-nav__item" href="/catalogue/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h12v1.5H4V5Zm0 4h8v1.5H4V9Zm0 4h8v1.5H4V13Zm0 4h12v1.5H4V17Zm13.5-7a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm0 1.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm2.5 4.8 2.2 2.2-1.1 1.1-2.2-2.2 1.1-1.1Z"/></svg>
+          <span>Каталог</span>
+        </a>
+        <a class="mobile-bottom-nav__item is-active" href="#parts-finder" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5a2.5 2.5 0 0 1 4.9-.75H20v1.5h-7.1A2.5 2.5 0 0 1 8 5Zm1.5 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0ZM4 4.25h3v1.5H4v-1.5Zm9 7.75a2.5 2.5 0 0 1 4.9-.75H20v1.5h-2.1A2.5 2.5 0 0 1 13 12Zm1.5 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0ZM4 11.25h8v1.5H4v-1.5ZM7 19a2.5 2.5 0 0 1 4.9-.75H20v1.5h-8.1A2.5 2.5 0 0 1 7 19Zm1.5 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0ZM4 18.25h2v1.5H4v-1.5Z"/></svg>
+          <span>Подбор</span>
+        </a>
+        <a class="mobile-bottom-nav__item" href="/favorites/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4.4 2.1 5.1 5.5.5-4.2 3.7 1.3 5.4-4.7-2.9-4.7 2.9 1.3-5.4L4.4 10l5.5-.5L12 4.4Zm0 3.9-1 2.5-2.7.2 2 1.8-.6 2.6 2.3-1.4 2.3 1.4-.6-2.6 2-1.8-2.7-.2-1-2.5Z"/></svg>
+          <span>Избранное</span>
+        </a>
+        <a class="mobile-bottom-nav__item" href="/cart/">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 4H3V2.5h3.4l.7 3H21l-2.1 8H8.7l.3 1.5h10V16.5H7.8L5.2 4Zm2.2 3 .9 5h9.4L19 7H7.4ZM9 18a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm8 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"/></svg>
+          <span>Корзина</span>
+        </a>
+      </nav>
     </div>
 
     <script>
@@ -1117,7 +1170,7 @@
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js" defer></script>
     <script src="scripts/parts-finder.js" defer></script>
-    <script src="scripts/catalog-results.js" defer></script>
+    <script src="scripts/catalog-results.js?v=mobile-reject-modal-capture" defer></script>
     <script src="scripts/catalog-cart.js" defer></script>
     <script src="scripts/luzar-header.js" defer></script>
   </body>

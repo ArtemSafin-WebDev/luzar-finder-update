@@ -1620,8 +1620,7 @@ button.pf-vin-request__car-icon.is-open {
     flex: 1 1 auto;
     flex-direction: column;
     gap: 1.2rem;
-    width: min(100%, 39rem);
-    margin: 0 auto;
+    width: 100%;
     padding: 1.6rem 1.6rem 2.8rem;
   }
 
@@ -2291,28 +2290,31 @@ button.pf-vin-request__car-icon.is-open {
   }
 
   .pf-modal {
-    padding: 0;
+    padding: max(2.2rem, env(safe-area-inset-top)) 0 0;
     overflow: hidden auto;
-    background: #f6f6f6;
+    background: transparent;
   }
 
   .pf-modal[open] {
-    align-items: stretch;
+    align-items: flex-start;
     justify-content: stretch;
   }
 
   .pf-modal::backdrop {
-    background: #afb2b7;
+    background: rgba(23, 25, 28, 0.5);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
   }
 
   .pf-modal__dialog {
     display: flex;
     width: 100%;
-    min-height: 100dvh;
+    min-height: calc(100dvh - max(2.2rem, env(safe-area-inset-top)));
     flex-direction: column;
     gap: 2.4rem;
-    border-radius: 0;
-    padding: 1.6rem;
+    border-radius: 0.8rem 0.8rem 0 0;
+    padding: 1.6rem 1.6rem
+      max(5.4rem, calc(2.4rem + env(safe-area-inset-bottom)));
     background: #f6f6f6;
     overflow: visible;
   }
@@ -2326,7 +2328,7 @@ button.pf-vin-request__car-icon.is-open {
   .pf-modal__art h2 {
     max-width: none;
     color: #303236;
-    font-size: 1.6rem;
+    font-size: 2rem;
     line-height: 1.2;
   }
 
