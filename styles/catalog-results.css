@@ -873,6 +873,10 @@ body.catalog-filter-modal-open {
   fill: currentColor;
 }
 
+.catalog-active__reset {
+  display: none;
+}
+
 .catalog-grid-results {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2372,6 +2376,28 @@ body.catalog-filter-modal-open {
     color: #ffffff;
     font-size: 1.4rem;
     line-height: 1.6rem;
+  }
+
+  .catalog-active__reset {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.6rem;
+    border: 0;
+    padding: 0.8rem;
+    background: transparent;
+    color: #303236;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+  }
+
+  .catalog-active__reset svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    flex: 0 0 1.6rem;
+    fill: currentColor;
   }
 
   .catalog-grid-results {
