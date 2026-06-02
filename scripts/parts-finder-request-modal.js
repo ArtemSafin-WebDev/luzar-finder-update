@@ -545,7 +545,7 @@
   }
 
   function iconCross() {
-    return `<svg class="pf-cross-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>`;
+    return `<svg class="pf-cross-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5.46777L13.4678 12L20 18.5322L18.5322 20L12 13.4678L5.46777 20L4 18.5322L10.5322 12L4 5.46777L5.46777 4L12 10.5322L18.5322 4L20 5.46777Z"/></svg>`;
   }
 
   function iconArrow() {
