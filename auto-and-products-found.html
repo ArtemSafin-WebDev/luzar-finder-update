@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="styles/luzar-base.css">
     <link rel="stylesheet" href="styles/luzar-header.css">
     <link rel="stylesheet" href="styles/parts-finder.css">
-    <link rel="stylesheet" href="styles/catalog-results.css?v=mobile-found-results">
+    <link rel="stylesheet" href="styles/catalog-results.css?v=mobile-filter-detail-header-3">
   </head>
   <body>
     <div class="page">
@@ -243,10 +243,14 @@
         <span class="catalog-option__label">Насосы водяные</span>
       </label>
     
-      <label class="catalog-option">
+      <label class="catalog-option catalog-option--result-visible">
         <input type="checkbox" name="groups" value="cooling-fans" checked data-filter-input="groups">
         <span class="catalog-option__mark catalog-option__mark--checkbox"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.4714 4.19531L13.4142 5.13811L6.94281 11.6095H6.00001L2.58582 8.19531L3.52862 7.25251L6.47141 10.1953L12.4714 4.19531Z"/></svg></span>
         <span class="catalog-option__label">Электровентиляторы охлаждения</span>
+        <span class="catalog-filter-result" data-filter-result>
+          <span class="catalog-filter-result__text">Найдено товаров: 312</span>
+          <a class="catalog-filter-result__link" href="#catalog-products" data-filter-result-link>Показать</a>
+        </span>
       </label>
     
       <label class="catalog-option">
@@ -669,7 +673,7 @@
         </div>
       </div>
     
-            <div class="catalog-grid-results">
+            <div class="catalog-grid-results" id="catalog-products">
               
       <article class="card-catalog" data-card-id="lrac-1980">
         <a class="card-catalog__gallery js-img-slider-prew" href="#" aria-label="Радиатор кондиционера для автомобилей Приора (тип Halla)" data-gallery>
@@ -1177,7 +1181,7 @@
     <script src="scripts/parts-finder-mock-api.js" defer></script>
     <script src="scripts/parts-finder-request-modal.js" defer></script>
     <script src="scripts/parts-finder.js" defer></script>
-    <script src="scripts/catalog-results.js?v=mobile-reject-modal-capture" defer></script>
+    <script src="scripts/catalog-results.js?v=mobile-filter-detail-header-3" defer></script>
     <script src="scripts/catalog-cart.js" defer></script>
     <script src="scripts/luzar-header.js" defer></script>
   </body>

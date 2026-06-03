@@ -1,29 +1,81 @@
 # LUZAR parts finder
 
-Статичная демо-верстка подборщика запчастей по Figma. Подбор работает на обычном JavaScript: UI рендерится из JSON-ответа, а данные и `disabled`-состояния селектов приходят из API-слоя. В демо по умолчанию используется моковый API, для production можно подключить реальные endpoint'ы через конфиг.
+Статичная демо-верстка подборщика запчастей и страниц результатов по Figma. Проект работает без сборки: HTML-страницы подключают CSS и обычные JavaScript-модули через `defer`. Подборщик рендерится из JSON-ответа, а страницы результатов содержат серверно подготовленную разметку каталога, которую фронт оживляет локальными фильтрами, сортировкой, галереями и демо-корзиной.
+
+В демо по умолчанию используется моковый API, для production можно подключить реальные endpoint'ы через `window.PartsFinderConfig`.
 
 ## Файлы
 
-- `index.html` - страница с подключенным подборщиком.
-- `styles/luzar-base.css` - базовые стили проекта, без стилей подборщика.
-- `styles/parts-finder.css` - стили компонента подборщика.
-- `scripts/parts-finder.js` - логика UI, fetch-адаптер, рендеринг селектов и истории.
+- `index.html` - стартовая страница с подборщиком в обычном демо-состоянии.
+- `auto-not-found.html` - пример входа сразу во вкладку VIN/госномера с состоянием `not-found`.
+- `auto-and-products-found.html` - пример найденного авто и найденных товаров каталога.
+- `no-products.html` - пример найденного авто без подходящих товаров, формой заявки и рекомендациями.
+- `styles/luzar-base.css` - базовые стили проекта, сетка, шрифты и общие утилиты.
+- `styles/luzar-header.css` - стили шапки, мобильного меню и мобильного поиска.
+- `styles/parts-finder.css` - стили подборщика и модалки заявки.
+- `styles/catalog-results.css` - стили результатов каталога, фильтров, карточек, no-products и мобильной нижней навигации.
+- `scripts/parts-finder.js` - логика UI подборщика, fetch-адаптер, рендеринг селектов, VIN-сценария и истории.
 - `scripts/parts-finder-request-modal.js` - отдельный компонент модалки заявки на индивидуальный подбор.
 - `scripts/parts-finder-mock-api.js` - моковый API для демо-сайта.
+- `scripts/catalog-results.js` - клиентская логика результатов каталога: поиск, фильтры, сортировка, копирование кода, галереи карточек и открытие модалки заявки.
+- `scripts/catalog-cart.js` - демо-поведение счетчика количества в карточке товара без обращения к серверу.
+- `scripts/luzar-header.js` - мобильное меню, мобильный поиск и скролл к подборщику из шапки.
+- `scripts/phone-mask.js` - маска и валидация российского телефона для всех `input[type="tel"]` и `input[data-phone-mask]`.
+- `scripts/vendor/imask.min.js` - vendor-зависимость для телефонной маски.
 - `mock/parts-finder-response.json` - пример JSON-контракта для бэкенда.
-- `images/parts-finder/modal-bg.png` - фон модалки заявки.
+- `images/parts-finder/*` и `images/catalog/*` - статические изображения для подборщика, no-products и карточек каталога.
+
+## Как все склеено
+
+Каждая HTML-страница уже содержит нужную серверную разметку. JavaScript-компоненты инициализируются только если на странице есть их корневые элементы:
+
+- `#parts-finder` запускает `PartsFinder` из `scripts/parts-finder.js`.
+- `[data-catalog-results]` запускает `scripts/catalog-results.js`.
+- `[data-luzar-header]` запускает `scripts/luzar-header.js`.
+- `input[type="tel"]` и `input[data-phone-mask]` обрабатываются `window.LuzarPhoneMask`.
+
+Конфиг подборщика задается до подключения скриптов через `window.PartsFinderConfig`. Если конфига нет, используется моковый режим. На страницах результатов конфиг используется для стартового VIN-состояния, например `initialMode`, `initialVin` и `initialVinResult`.
+
+Рекомендуемый порядок подключения:
+
+```html
+<script>
+  window.PartsFinderConfig = {
+    initialMode: "vin",
+    initialVin: "XW8ZZZ5NZJG000001",
+    initialVinResult: "found"
+  };
+</script>
+<script src="scripts/vendor/imask.min.js" defer></script>
+<script src="scripts/phone-mask.js" defer></script>
+<script src="scripts/parts-finder-mock-api.js" defer></script>
+<script src="scripts/parts-finder-request-modal.js" defer></script>
+<script src="scripts/parts-finder.js" defer></script>
+<script src="scripts/catalog-results.js" defer></script>
+<script src="scripts/catalog-cart.js" defer></script>
+<script src="scripts/luzar-header.js" defer></script>
+```
+
+`catalog-results.js` умеет открыть заявку через `window.LuzarPartsFinder.openVinRequestModal()`, событие `parts-finder:open-vin-request-modal` или напрямую через `window.PartsFinderRequestModal`. Поэтому кнопки с `data-action="open-vin-request-modal"` работают и внутри каталога, и вне блока подборщика.
 
 ## Как запустить
 
-Можно открыть `index.html` напрямую в браузере. Для проверки через локальный сервер:
+Можно открыть HTML-файлы напрямую в браузере. Для проверки через локальный сервер:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Затем открыть `http://localhost:8080`.
+Затем открыть:
 
-## Поведение
+- `http://localhost:8080/` - стартовый подборщик.
+- `http://localhost:8080/auto-not-found.html` - авто/VIN не найден.
+- `http://localhost:8080/auto-and-products-found.html` - авто и товары найдены.
+- `http://localhost:8080/no-products.html` - авто найдено, товары не найдены.
+
+Для production-режима с `api: "fetch"` локальный сервер удобнее, чем открытие через `file://`, потому что API-адреса строятся относительно `window.location.origin`.
+
+## Подборщик
 
 Изначально активен режим `Подобрать по авто`. Вкладку `Подобрать по VIN и госномеру` можно сделать активной сразу через JSON-ответ (`mode: "vin"` и `tabs[].active`) или через конфиг `initialMode: "vin"`.
 
@@ -43,6 +95,38 @@ python3 -m http.server 8080
 `Мои авто` приходит отдельным мини-контрактом `history`. Фронт не сохраняет историю в `localStorage` и сам не добавляет авто в список: UI просто рендерит историю из backend. Кнопка `Выбрать` заполняет нужные поля точечно, кнопка удаления отправляет запрос на удаление авто и обновляет только кнопки/панель истории.
 
 Во вкладке `Подобрать по VIN и госномеру` верхнее поле отправляется обычной формой (`POST`) без AJAX. Если сервер вернул `vinSearch.state: "found"`, под формой показывается найденное авто и кнопка `Не мое авто`, которая открывает отдельную модалку заявки. Если сервер вернул `vinSearch.state: "not-found"`, во вкладке показывается форма заявки: `Марка` и `Модель` работают как селекты из JSON, `Мои авто` заполняют бренд, модель, VIN и госномер, а кнопка `Отправить запрос` становится активной после заполнения обязательных полей.
+
+Стартовое VIN-состояние можно передать не только через конфиг, но и через query params: `pf_mode` или `mode`, `vin`, `plate` или `number`, `vinResult` или `vin_result`.
+
+## Страницы результатов
+
+`auto-and-products-found.html` и `no-products.html` показывают один и тот же верхний сценарий: подборщик открыт во вкладке VIN, авто уже найдено, а под ним отображается мобильная карточка найденного автомобиля. На desktop основная информация о найденном авто находится в самом подборщике.
+
+`auto-and-products-found.html` содержит полноценную разметку результатов каталога. Фронт не загружает товары заново: карточки, фильтры, счетчики и баннеры уже находятся в HTML. `catalog-results.js` только синхронизирует интерактивное состояние:
+
+- поиск внутри блока каталога очищает/помечает поле и не отправляет AJAX;
+- сортировка хранится в локальном состоянии, на desktop применяется сразу, на mobile подтверждается кнопкой;
+- фильтры, активные теги, скидка и price range управляются на клиенте без пересчета выдачи;
+- на mobile скрипт добавляет кнопку фильтров, backdrop, заголовок, экран детализации фильтра и кнопку применения;
+- галерея карточки переключает изображения по hover на desktop и свайпом на touch-устройствах;
+- кнопки с `data-code` копируют артикул в буфер обмена.
+
+`no-products.html` содержит отдельную форму заявки прямо на странице. Она отправляется обычным `POST` на `/api/parts-finder/vin-request`; кнопка активируется через `form.checkValidity()`. Блок выбора `Марка`/`Модель` внутри этой формы живет в inline-скрипте страницы: он берет начальное авто из `window.PartsFinderConfig.initialFoundVehicle`, опции из `noProductsRequest.controls`, мокового API или `vinRequestOptions`, а историю из `noProductsRequest.history`.
+
+В рекомендациях на `no-products.html` используется тот же `data-catalog-results`, но без sidebar-фильтров. Это только витрина рекомендованных карточек с галереями, копированием кода и демо-корзиной.
+
+## Формы и отправка
+
+В проекте специально разделены обычные формы и AJAX-обновления:
+
+- `Подобрать` по авто отправляет обычный `POST` на `submit`.
+- Поиск по VIN/госномеру отправляет обычный `POST` на `vinSubmit`.
+- Заявки на индивидуальный подбор отправляются обычным `POST` на `vinRequest`.
+- Фильтры и поиск каталога в демо не отправляют запросы и не меняют список товаров.
+- `catalog-cart.js` перехватывает формы корзины только для демонстрации счетчика. В production это поведение можно убрать или заменить реальной отправкой.
+- Избранное в карточках каталога остается обычной формой на `/favorites/`.
+
+AJAX используется только там, где нужно частично обновить состояние подборщика: селекты авто, история, опции формы заявки и удаление авто из истории.
 
 ## Endpoint
 
@@ -247,6 +331,18 @@ POST /api/parts-finder/vin-request
 ```
 
 `api: "mock"` можно не указывать: это режим по умолчанию для демо-сайта. Для него нужно подключить `scripts/parts-finder-mock-api.js` перед `scripts/parts-finder.js`, как в `index.html`. В production моковый файл можно не подключать; используйте `api: "fetch"` или `api: "production"`.
+
+Полезные поля `window.PartsFinderConfig`:
+
+- `api` или `mode` - `"mock"`, `"fetch"`, `"production"` или объект своего транспорта.
+- `endpoints` - переопределение адресов из `DEFAULT_ENDPOINTS`.
+- `initialMode` - стартовая вкладка: `"vehicle"` или `"vin"`.
+- `initialVin` - стартовое значение поля VIN/госномера.
+- `initialVinResult` - стартовый результат VIN-сценария: `"found"` или `"not-found"`.
+- `initialVinRequest` - начальные значения формы заявки во вкладке VIN, например `vin` и `plate`.
+- `initialFoundVehicle` - найденное авто для страниц результатов; сейчас используется inline-логикой `no-products.html`.
+- `noProductsRequest` - настройки встроенной формы заявки на `no-products.html`: `optionsEndpoint`, `controls`, `history` или `loadOptions(values)`.
+- `fetchOptions` - общие настройки для AJAX-запросов подборщика и модалки.
 
 Назначение endpoint'ов:
 

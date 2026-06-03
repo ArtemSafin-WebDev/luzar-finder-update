@@ -14,6 +14,8 @@
       '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.667 10C11.5375 10.0001 12.279 10.5565 12.5537 11.333H13.333C13.5097 11.333 13.6797 11.4034 13.8047 11.5283C13.9297 11.6533 14 11.8232 14 12C14 12.1768 13.9297 12.3467 13.8047 12.4717C13.6797 12.5966 13.5097 12.667 13.333 12.667H12.5537C12.416 13.0572 12.16 13.3947 11.8223 13.6338C11.4844 13.8728 11.0808 14.0019 10.667 14.002C10.2531 14.002 9.84865 13.8729 9.51074 13.6338C9.17313 13.3948 8.91799 13.057 8.78027 12.667H2.66699C2.49026 12.667 2.32032 12.5966 2.19531 12.4717C2.07029 12.3467 2 12.1768 2 12C2 11.8232 2.07029 11.6533 2.19531 11.5283C2.32032 11.4034 2.49026 11.333 2.66699 11.333H8.78027C8.91831 10.9431 9.17394 10.6059 9.51172 10.3672C9.8496 10.1284 10.2533 9.99988 10.667 10ZM10.667 11.333C10.4903 11.333 10.3203 11.4034 10.1953 11.5283C10.0703 11.6533 10 11.8232 10 12C10 12.1768 10.0703 12.3467 10.1953 12.4717C10.3203 12.5966 10.4903 12.667 10.667 12.667C10.8435 12.6669 11.0128 12.5964 11.1377 12.4717C11.2627 12.3467 11.333 12.1768 11.333 12C11.333 11.8232 11.2627 11.6533 11.1377 11.5283C11.0128 11.4036 10.8435 11.3331 10.667 11.333ZM5.33301 6C5.72566 5.99995 6.11006 6.11533 6.4375 6.33203C6.76494 6.54874 7.02141 6.85729 7.1748 7.21875L7.21973 7.33301H13.333C13.5029 7.3332 13.6665 7.39898 13.79 7.51563C13.9135 7.63226 13.9881 7.79135 13.998 7.96094C14.008 8.13054 13.9528 8.29744 13.8438 8.42773C13.7347 8.55804 13.5799 8.64204 13.4111 8.66211L13.333 8.66699H7.21973C7.0853 9.04703 6.83919 9.37746 6.51367 9.61523C6.18812 9.85303 5.79847 9.98755 5.39551 10C4.99245 10.0124 4.59451 9.90196 4.25488 9.68457C3.91541 9.46718 3.64965 9.15234 3.49219 8.78125L3.44629 8.66699H2.66699C2.49707 8.6668 2.33352 8.60102 2.20996 8.48438C2.08646 8.36774 2.01191 8.20865 2.00195 8.03906C1.992 7.86946 2.04722 7.70256 2.15625 7.57227C2.26531 7.44196 2.42014 7.35796 2.58887 7.33789L2.66699 7.33301H3.44629C3.58425 6.94319 3.8401 6.60592 4.17773 6.36719C4.51553 6.12846 4.91938 5.99995 5.33301 6ZM5.33301 7.33301C5.15647 7.33309 4.98722 7.40358 4.8623 7.52832C4.73728 7.65334 4.66699 7.82319 4.66699 8C4.66699 8.17681 4.73728 8.34666 4.8623 8.47168C4.98722 8.59642 5.15647 8.66691 5.33301 8.66699C5.50974 8.66699 5.67968 8.5966 5.80469 8.47168C5.92971 8.34666 6 8.17681 6 8C6 7.82319 5.92971 7.65334 5.80469 7.52832C5.67968 7.4034 5.50974 7.33301 5.33301 7.33301ZM10.667 2C11.5375 2.00014 12.279 2.55653 12.5537 3.33301H13.333C13.5097 3.33301 13.6797 3.4034 13.8047 3.52832C13.9297 3.65334 14 3.82319 14 4C14 4.17681 13.9297 4.34666 13.8047 4.47168C13.6797 4.5966 13.5097 4.66699 13.333 4.66699H12.5537C12.416 5.05721 12.16 5.39473 11.8223 5.63379C11.4844 5.87282 11.0808 6.00189 10.667 6.00195C10.2531 6.00195 9.84865 5.87289 9.51074 5.63379C9.17313 5.39479 8.91799 5.05704 8.78027 4.66699H2.66699C2.49026 4.66699 2.32032 4.5966 2.19531 4.47168C2.07029 4.34666 2 4.17681 2 4C2 3.82319 2.07029 3.65334 2.19531 3.52832C2.32032 3.4034 2.49026 3.33301 2.66699 3.33301H8.78027C8.91831 2.94312 9.17394 2.6059 9.51172 2.36719C9.8496 2.12841 10.2533 1.99988 10.667 2ZM10.667 3.33301C10.4903 3.33301 10.3203 3.4034 10.1953 3.52832C10.0703 3.65334 10 3.82319 10 4C10 4.17681 10.0703 4.34666 10.1953 4.47168C10.3203 4.5966 10.4903 4.66699 10.667 4.66699C10.8435 4.66691 11.0128 4.59642 11.1377 4.47168C11.2627 4.34666 11.333 4.17681 11.333 4C11.333 3.82319 11.2627 3.65334 11.1377 3.52832C11.0128 3.40358 10.8435 3.33309 10.667 3.33301Z"/></svg>',
     search:
       '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M7.33325 1.33337C10.647 1.33337 13.3333 4.01967 13.3333 7.33337C13.3333 8.75002 12.8408 10.0511 12.0198 11.0775L15.1379 14.1957L14.1956 15.1381L11.0774 12.0199C10.051 12.8409 8.7499 13.3334 7.33325 13.3334C4.01954 13.3334 1.33325 10.6471 1.33325 7.33337C1.33325 4.01967 4.01954 1.33337 7.33325 1.33337ZM7.33325 2.66638C4.75592 2.66638 2.66626 4.75605 2.66626 7.33337C2.66626 9.9107 4.75592 12.0004 7.33325 12.0004C9.91058 12.0004 12.0002 9.9107 12.0002 7.33337C12.0002 4.75605 9.91058 2.66638 7.33325 2.66638Z"/></svg>',
+    filterSearchClear:
+      '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.333 3.64551L8.97852 8L13.333 12.3545L12.3545 13.333L8 8.97852L3.64551 13.333L2.66699 12.3545L7.02148 8L2.66699 3.64551L3.64551 2.66699L8 7.02148L12.3545 2.66699L13.333 3.64551Z"/></svg>',
     reset:
       '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.27344 1.56049C7.69092 1.18072 9.195 1.27821 10.5508 1.83979C11.3442 2.16848 12.0607 2.64657 12.666 3.24018V1.66596H13.999L13.998 4.99994L13.332 5.66596H9.99902V4.33295H11.8701C11.3582 3.79251 10.7363 3.36064 10.04 3.07221C8.95558 2.62305 7.75296 2.54393 6.61914 2.8476C5.48514 3.15145 4.48229 3.8215 3.76758 4.75287C3.05295 5.68426 2.66604 6.82599 2.66602 7.99994C2.66608 9.1737 3.05313 10.3148 3.76758 11.246C4.48229 12.1774 5.48513 12.8474 6.61914 13.1513C7.75305 13.455 8.95551 13.3759 10.04 12.9267C11.1246 12.4774 12.0302 11.6826 12.6172 10.666L13.7725 11.3329C13.0387 12.6038 11.9065 13.5975 10.5508 14.1591C9.19499 14.7207 7.69094 14.8192 6.27344 14.4394C4.8561 14.0596 3.60329 13.2226 2.70996 12.0585C1.81666 10.8943 1.3321 9.46737 1.33203 7.99994C1.33205 6.53249 1.81668 5.10558 2.70996 3.94135C3.60327 2.77724 4.8561 1.94035 6.27344 1.56049Z" /></svg>',
   };
@@ -35,9 +37,15 @@
     mobileDetailFilter: "",
     query: "",
     draggingPrice: "",
+    stickyPanelVisible: false,
+    stickySearchOpen: false,
   };
 
   let sortCloseTimer = 0;
+  let stickyScrollTicking = false;
+  let lastStickyScrollY = window.scrollY || 0;
+  let filterResultTicking = false;
+  const stickyScrollDirectionThreshold = 6;
   const gallerySwipeThreshold = 34;
   const gallerySwipeIntentThreshold = 8;
   const gallerySwipe = {
@@ -81,6 +89,20 @@
     );
   }
 
+  function getFilterSearchClearButtons(filterId) {
+    return Array.from(root.querySelectorAll("[data-filter-search-clear]")).filter(
+      (button) => button.getAttribute("data-filter-search-clear") === filterId,
+    );
+  }
+
+  function syncFilterSearchClear(filterId) {
+    const hasValue = Boolean(state.filterSearch[filterId]);
+
+    getFilterSearchClearButtons(filterId).forEach((button) => {
+      button.hidden = !hasValue;
+    });
+  }
+
   function getFilterOptionLabel(filterId, value) {
     const input = getFilterInputs(filterId).find((item) => item.value === value);
     const option = input?.closest(".catalog-option, .catalog-chip");
@@ -106,6 +128,10 @@
 
   function isMobileFilters() {
     return window.matchMedia(mobileSortQuery).matches;
+  }
+
+  function isDesktopFilterResult() {
+    return window.matchMedia("(min-width: 1300px)").matches;
   }
 
   function hasActiveFilters() {
@@ -177,11 +203,202 @@
     if (clear) clear.hidden = !hasValue;
   }
 
+  function syncCatalogSearches(value = state.query) {
+    root.querySelectorAll("[data-catalog-search]").forEach((search) => {
+      const input = search.querySelector("[name='q']");
+
+      if (input && input.value !== value) {
+        input.value = value;
+      }
+
+      syncCatalogSearch(search);
+    });
+  }
+
+  function getMobileResultsBackLink() {
+    return document.querySelector(".mobile-results-header__back")?.getAttribute("href") || "/catalogue/";
+  }
+
+  function getStickyPanelHeading() {
+    return {
+      eyebrow:
+        root.querySelector(".catalog-results__eyebrow")?.textContent.trim() ||
+        "Результаты подбора по VIN",
+      title:
+        root.querySelector(".catalog-results__title")?.textContent.trim() ||
+        "",
+    };
+  }
+
+  function ensureMobileStickyPanel() {
+    const catalog = root.querySelector(".catalog-results");
+
+    if (!catalog || root.querySelector("[data-catalog-sticky-panel]")) return;
+
+    const panel = document.createElement("div");
+    const heading = getStickyPanelHeading();
+
+    panel.className = "catalog-sticky-panel";
+    panel.setAttribute("data-catalog-sticky-panel", "");
+    panel.setAttribute("aria-hidden", "true");
+    panel.innerHTML = `
+      <a class="catalog-sticky-panel__back" href="${escapeHtml(getMobileResultsBackLink())}" aria-label="Вернуться в каталог">${icons.arrowLeft}</a>
+      <div class="catalog-sticky-panel__text" data-catalog-sticky-text>
+        <span class="catalog-sticky-panel__eyebrow" data-catalog-sticky-eyebrow>${escapeHtml(heading.eyebrow)}</span>
+        <span class="catalog-sticky-panel__title" data-catalog-sticky-title>${escapeHtml(heading.title)}</span>
+      </div>
+      <button class="catalog-sticky-panel__search-toggle" type="button" aria-label="Открыть поиск" data-sticky-search-open>${icons.search}</button>
+      <form class="catalog-sticky-panel__search catalog-search" data-catalog-search data-catalog-sticky-search role="search">
+        <label class="visually-hidden" for="catalog-sticky-search-input">Найти товар для вашего авто</label>
+        <input class="catalog-search__input" id="catalog-sticky-search-input" type="search" name="q" value="${escapeHtml(state.query)}" placeholder="Найти товары для вашего авто" autocomplete="off">
+        <button class="catalog-search__clear" type="button" aria-label="Очистить поиск" data-catalog-search-clear hidden>${icons.filterSearchClear}</button>
+        <button class="catalog-search__submit" type="submit" aria-label="Найти">${icons.search}</button>
+      </form>
+    `;
+
+    catalog.prepend(panel);
+  }
+
+  function syncMobileStickyPanel() {
+    const panel = root.querySelector("[data-catalog-sticky-panel]");
+    const eyebrow = panel?.querySelector("[data-catalog-sticky-eyebrow]");
+    const title = panel?.querySelector("[data-catalog-sticky-title]");
+
+    if (!panel) return;
+
+    const visible =
+      state.stickyPanelVisible &&
+      isMobileFilters() &&
+      !state.filterOpen &&
+      !state.sortOpen;
+
+    if (!visible && state.stickySearchOpen) {
+      state.stickySearchOpen = false;
+      panel.querySelector("[name='q']")?.blur();
+    }
+
+    const heading = getStickyPanelHeading();
+    if (eyebrow) eyebrow.textContent = heading.eyebrow;
+    if (title) title.textContent = heading.title;
+    panel.classList.toggle("is-visible", visible);
+    panel.classList.toggle("is-search-open", state.stickySearchOpen);
+    panel.setAttribute("aria-hidden", String(!visible));
+    syncCatalogSearches();
+  }
+
+  function updateMobileStickyPanelVisibility() {
+    stickyScrollTicking = false;
+
+    const scrollY = window.scrollY || 0;
+    const scrollDelta = scrollY - lastStickyScrollY;
+    const scrollDirection =
+      Math.abs(scrollDelta) >= stickyScrollDirectionThreshold
+        ? scrollDelta > 0
+          ? "down"
+          : "up"
+        : "";
+
+    lastStickyScrollY = scrollY;
+
+    const heading = root.querySelector(".catalog-results__heading");
+    if (!heading || !isMobileFilters()) {
+      state.stickyPanelVisible = false;
+      syncMobileStickyPanel();
+      return;
+    }
+
+    const isPastHeading = heading.getBoundingClientRect().bottom <= 0;
+    const nextVisible =
+      isPastHeading &&
+      (scrollDirection === "up" || (scrollDirection === "" && state.stickyPanelVisible));
+
+    if (state.stickyPanelVisible === nextVisible) return;
+
+    state.stickyPanelVisible = nextVisible;
+    syncMobileStickyPanel();
+  }
+
+  function requestMobileStickyPanelUpdate() {
+    if (stickyScrollTicking) return;
+
+    stickyScrollTicking = true;
+    window.requestAnimationFrame(updateMobileStickyPanelVisibility);
+  }
+
+  function getVisibleFilterResultHosts() {
+    return Array.from(
+      root.querySelectorAll(".catalog-option--result-visible, .catalog-chip--result-visible"),
+    ).filter((host) => host.querySelector("[data-filter-result]"));
+  }
+
+  function isFilterResultHostVisible(host) {
+    if (!host.offsetWidth || !host.offsetHeight) return false;
+
+    const hostRect = host.getBoundingClientRect();
+    const clipContainers = [
+      host.closest(".catalog-sidebar"),
+      host.closest(".catalog-filter__options"),
+    ].filter(Boolean);
+
+    return clipContainers.every((container) => {
+      const containerRect = container.getBoundingClientRect();
+
+      return hostRect.bottom > containerRect.top && hostRect.top < containerRect.bottom;
+    });
+  }
+
+  function syncFilterResultPositions() {
+    filterResultTicking = false;
+
+    getVisibleFilterResultHosts().forEach((host) => {
+      const result = host.querySelector("[data-filter-result]");
+      const sidebar = host.closest(".catalog-sidebar");
+      const sidebarRect = sidebar?.getBoundingClientRect();
+      const hostRect = host.getBoundingClientRect();
+      const visible = isDesktopFilterResult() && isFilterResultHostVisible(host);
+
+      host.classList.toggle("is-filter-result-outside", !visible);
+      if (!result || !visible) return;
+
+      result.style.setProperty("--catalog-filter-result-top", `${hostRect.top + hostRect.height / 2}px`);
+      result.style.setProperty(
+        "--catalog-filter-result-left",
+        `${(sidebarRect?.right || hostRect.right) + 0.8}px`,
+      );
+    });
+  }
+
+  function requestFilterResultPositionUpdate() {
+    if (filterResultTicking) return;
+
+    filterResultTicking = true;
+    window.requestAnimationFrame(syncFilterResultPositions);
+  }
+
+  function initFilterResultPositioning() {
+    if (!("MutationObserver" in window)) {
+      requestFilterResultPositionUpdate();
+      return;
+    }
+
+    const observer = new MutationObserver(requestFilterResultPositionUpdate);
+
+    observer.observe(root, {
+      subtree: true,
+      attributes: true,
+      childList: true,
+      attributeFilter: ["class", "hidden", "style"],
+    });
+
+    requestFilterResultPositionUpdate();
+  }
+
   function syncSortModalState() {
     document.body.classList.toggle(
       "catalog-sort-modal-open",
       state.sortOpen && isMobileSortModal(),
     );
+    syncMobileStickyPanel();
   }
 
   function syncFilterModalState() {
@@ -198,6 +415,7 @@
     }
 
     syncMobileFilterDetail();
+    syncMobileStickyPanel();
   }
 
   function syncSortDraftOptions() {
@@ -308,6 +526,30 @@
     }
   }
 
+  function ensureFilterSearchClearControls() {
+    root.querySelectorAll("[data-filter-search]").forEach((input) => {
+      const filterId = input.getAttribute("data-filter-search");
+      const field = input.closest(".catalog-filter__search-field");
+
+      if (!filterId || !field || field.querySelector("[data-filter-search-clear]")) return;
+
+      const button = document.createElement("button");
+      button.className = "catalog-filter__search-clear";
+      button.type = "button";
+      button.hidden = true;
+      button.setAttribute("aria-label", "Очистить поиск по фильтру");
+      button.setAttribute("data-filter-search-clear", filterId);
+      button.innerHTML = icons.filterSearchClear;
+
+      const searchIcon = field.querySelector(".catalog-filter__search-icon");
+      if (searchIcon) {
+        searchIcon.before(button);
+      } else {
+        field.append(button);
+      }
+    });
+  }
+
   function getFilterTitle(filterId) {
     return (
       getFilterElement(filterId)?.querySelector(".catalog-filter__title")?.textContent.trim() ||
@@ -414,7 +656,10 @@
 
     if (titleElement) titleElement.textContent = title;
     if (searchLabel) searchLabel.textContent = `Поиск по фильтру ${getFilterTitle(filterId)}`;
-    if (searchInput) searchInput.value = state.filterSearch[filterId] || "";
+    if (searchInput) {
+      searchInput.value = state.filterSearch[filterId] || "";
+      searchInput.placeholder = title;
+    }
     if (tags) tags.innerHTML = getMobileDetailTagsHtml(filterId);
     if (list) list.innerHTML = getMobileDetailOptionsHtml(filterId);
   }
@@ -422,8 +667,10 @@
   function openMobileFilterDetail(filterId) {
     if (!filterId || !getFilterElement(filterId)) return;
 
+    state.filterOpen = true;
     state.mobileDetailFilter = filterId;
-    syncMobileFilterDetail();
+    syncFilterModalState();
+    root.querySelector(".catalog-sidebar")?.scrollTo({ top: 0 });
   }
 
   function closeMobileFilterDetail() {
@@ -590,6 +837,7 @@
 
     filterElement.classList.toggle("is-expanded", Boolean(state.expanded[filterId]));
     if (input) input.value = state.filterSearch[filterId] || "";
+    syncFilterSearchClear(filterId);
     updateFilterOptions(filterId);
   }
 
@@ -837,7 +1085,7 @@
       event.preventDefault();
       const input = search.querySelector("[name='q']");
       state.query = input ? input.value : "";
-      syncCatalogSearch(search);
+      syncCatalogSearches();
     }
   });
 
@@ -848,7 +1096,8 @@
     const discount = event.target.closest("[data-discount-toggle]");
     const priceInput = event.target.closest("[data-price-input]");
     const priceRange = event.target.closest("[data-price-range]");
-    const searchInput = event.target.closest("#catalog-search-input");
+    const search = event.target.closest("[data-catalog-search]");
+    const searchInput = search && event.target.matches("[name='q']") ? event.target : null;
 
     if (filterInput) {
       const filterId = filterInput.getAttribute("data-filter-input");
@@ -875,6 +1124,7 @@
       const filterId = filterSearch.getAttribute("data-filter-search");
 
       state.filterSearch[filterId] = filterSearch.value;
+      syncFilterSearchClear(filterId);
       updateFilterOptions(filterId);
     }
 
@@ -898,7 +1148,7 @@
 
     if (searchInput) {
       state.query = searchInput.value;
-      syncCatalogSearch(searchInput.closest("[data-catalog-search]"));
+      syncCatalogSearches();
     }
   });
 
@@ -976,9 +1226,17 @@
     const reset = event.target.closest("[data-reset-filters]");
     const clearTag = event.target.closest("[data-clear-filter]");
     const searchClear = event.target.closest("[data-catalog-search-clear]");
+    const stickySearchOpen = event.target.closest("[data-sticky-search-open]");
+    const filterSearchClear = event.target.closest("[data-filter-search-clear]");
+    const filterResultLink = event.target.closest("[data-filter-result-link]");
     const copy = event.target.closest(".icon-copy-code");
     const gallery = event.target.closest("[data-gallery]");
     const requestButton = event.target.closest('[data-action="open-vin-request-modal"]');
+
+    if (filterResultLink) {
+      event.stopPropagation();
+      return;
+    }
 
     if (gallery) {
       event.preventDefault();
@@ -995,11 +1253,29 @@
       const input = search?.querySelector("[name='q']");
 
       if (input) {
-        input.value = "";
         state.query = "";
-        syncCatalogSearch(search);
+        syncCatalogSearches();
         input.focus();
       }
+    }
+
+    if (stickySearchOpen) {
+      event.preventDefault();
+      state.stickySearchOpen = true;
+      syncMobileStickyPanel();
+      root.querySelector("[data-catalog-sticky-search] [name='q']")?.focus();
+    }
+
+    if (filterSearchClear) {
+      event.preventDefault();
+      const filterId = filterSearchClear.getAttribute("data-filter-search-clear");
+      const input = root.querySelector(`[data-filter-search="${filterId}"]`);
+
+      state.filterSearch[filterId] = "";
+      if (input) input.value = "";
+      syncFilterSearchClear(filterId);
+      updateFilterOptions(filterId);
+      input?.focus();
     }
 
     if (filterToggle) {
@@ -1248,6 +1524,15 @@
   window.addEventListener("resize", () => {
     syncSortModalState();
     syncFilterModalState();
+    requestMobileStickyPanelUpdate();
+    requestFilterResultPositionUpdate();
+  });
+
+  window.addEventListener("scroll", requestMobileStickyPanelUpdate, { passive: true });
+  window.addEventListener("scroll", requestFilterResultPositionUpdate, { passive: true });
+  root.addEventListener("scroll", requestFilterResultPositionUpdate, {
+    capture: true,
+    passive: true,
   });
 
   document.addEventListener("pointermove", (event) => {
@@ -1267,10 +1552,17 @@
   });
 
   hydrateCatalogState();
-  syncCatalogSearch();
+  ensureFilterSearchClearControls();
+  getFilterElements().forEach((filter) => {
+    syncFilterSearchClear(filter.getAttribute("data-filter"));
+  });
   ensureMobileFilterControls();
+  ensureMobileStickyPanel();
+  initFilterResultPositioning();
+  syncCatalogSearches();
   updatePriceTrack();
   syncActiveFilters();
   syncSortModalState();
   syncFilterModalState();
+  updateMobileStickyPanelVisibility();
 })();
