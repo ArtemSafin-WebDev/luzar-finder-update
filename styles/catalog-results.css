@@ -2800,11 +2800,16 @@ body.catalog-filter-modal-open {
     bottom: 0;
     left: 0;
     z-index: 100;
+    box-sizing: border-box;
     display: flex;
+    height: calc(8.6rem + env(safe-area-inset-bottom));
+    align-items: center;
     justify-content: space-between;
-    gap: 0;
-    padding: 1.2rem 1.5rem max(1.2rem, env(safe-area-inset-bottom));
+    gap: 1.2rem;
+    border: 0;
+    padding: 1.2rem 1.5rem calc(1.2rem + env(safe-area-inset-bottom));
     background: #ffffff;
+    background-clip: padding-box;
     box-shadow: 0 -0.5rem 0.75rem rgba(4, 21, 51, 0.05);
   }
 
