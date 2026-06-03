@@ -453,6 +453,7 @@
   width: 1.6rem;
   height: 1.6rem;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .pf-checkbox::before {
@@ -1078,7 +1079,7 @@ button.pf-vin-request__car-icon.is-open {
 .pf-vin-request__intro p {
   margin: 0;
   color: #797d86;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   line-height: 1.6rem;
 }
 
@@ -1165,6 +1166,7 @@ button.pf-vin-request__car-icon.is-open {
   gap: 0.8rem;
   min-width: 0;
   color: #797d86;
+  cursor: pointer;
   font-size: 1.2rem;
   line-height: 1.2;
 }
@@ -1522,8 +1524,8 @@ button.pf-vin-request__car-icon.is-open {
 }
 
 @media (max-width: 767.98px) {
-  .parts-section {
-    margin-top: 1.6rem;
+  .page__content--parts-first .parts-section {
+    margin-top: 1.2rem;
   }
 
   .parts-finder {

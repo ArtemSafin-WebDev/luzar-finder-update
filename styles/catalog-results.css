@@ -518,6 +518,7 @@ body.catalog-filter-modal-open {
 
 .catalog-option__mark--checkbox {
   border-radius: 0.4rem;
+  cursor: pointer;
 }
 
 .catalog-option__mark--radio {
@@ -644,6 +645,7 @@ body.catalog-filter-modal-open {
   border: 1px solid #c9cbcf;
   border-radius: 1.5rem;
   background: #ffffff;
+  cursor: pointer;
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease;

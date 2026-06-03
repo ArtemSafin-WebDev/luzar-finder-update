@@ -109,6 +109,10 @@ select {
   font: inherit;
 }
 
+input[type="checkbox"] {
+  cursor: pointer;
+}
+
 .page__center {
   width: min(100% - var(--side-padding) * 2, var(--container-width));
   margin: 0 auto;
