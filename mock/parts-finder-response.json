@@ -109,7 +109,7 @@
   "vinSearch": {
     "endpoint": "/api/parts-finder/vin",
     "queryKey": "vin",
-    "placeholder": "VIN или госномер",
+    "placeholder": "Введите VIN или госномер",
     "value": "Y6DTF69Y080144158",
     "state": "found",
     "vehicle": {

@@ -269,6 +269,10 @@ body.catalog-filter-modal-open {
   color: #3a8dde;
 }
 
+.catalog-sort__option:hover:not(.is-active) .catalog-sort__radio {
+  border-color: #3a8dde;
+}
+
 .catalog-sort__option.is-active {
   color: #55585e;
 }
@@ -463,6 +467,9 @@ body.catalog-filter-modal-open {
   cursor: pointer;
   font-size: 1.4rem;
   line-height: 1.6rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .catalog-option__label {
@@ -473,6 +480,11 @@ body.catalog-filter-modal-open {
 
 .catalog-option:hover {
   background: #f7f7f8;
+  color: #3a8dde;
+}
+
+.catalog-option:hover input:not(:checked) + .catalog-option__mark {
+  border-color: #3a8dde;
 }
 
 .catalog-option.is-hidden,
@@ -494,10 +506,14 @@ body.catalog-filter-modal-open {
   flex: 0 0 1.6rem;
   width: 1.6rem;
   height: 1.6rem;
-  margin-top: 0.1rem;
+
   border: 1px solid #55585e;
   background: #ffffff;
   color: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .catalog-option__mark--checkbox {
@@ -665,7 +681,7 @@ body.catalog-filter-modal-open {
 }
 
 .catalog-price.is-price-active {
-  --price-range-active-color: #3A8DDE;
+  --price-range-active-color: #3a8dde;
   --price-range-shadow-color: rgba(58, 141, 222, 0.2);
 }
 
@@ -1585,9 +1601,8 @@ body.catalog-filter-modal-open {
     overflow: hidden;
     border-radius: 0.8rem;
     padding: 1rem 0.8rem;
-    background:
-      #c4c9d4 url("../images/parts-finder/found-car-bg.png") center / 100%
-      100% no-repeat;
+    background: #c4c9d4 url("../images/parts-finder/found-car-bg.png") center /
+      100% 100% no-repeat;
   }
 
   .selection-result-mobile__icon {
@@ -2591,8 +2606,9 @@ body.catalog-filter-modal-open {
     display: block;
     min-height: 15.2rem;
     padding: 1.6rem 1.6rem 1.6rem 9.2rem;
-    background: #ccd7e5 url("../images/catalog/banner-request-choice-mobile.webp")
-      center / 100% 100% no-repeat;
+    background: #ccd7e5
+      url("../images/catalog/banner-request-choice-mobile.webp") center / 100%
+      100% no-repeat;
   }
 
   .catalog-request__text {

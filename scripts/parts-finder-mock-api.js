@@ -445,7 +445,7 @@
         vinSearch: {
           endpoint: this.endpoints.vinSubmit,
           queryKey: "vin",
-          placeholder: "VIN или госномер",
+          placeholder: "Введите VIN или госномер",
           value: vinSearch.value,
           state,
           vehicle: state === "found" ? foundVehicle : null,

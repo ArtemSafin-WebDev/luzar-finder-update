@@ -839,7 +839,7 @@
           <input type="hidden" name="mode" value="vin">
           <label class="pf-vin-search__field">
             <span class="visually-hidden">VIN или госномер</span>
-            <input class="pf-vin-search__input" type="text" name="${escapeAttr(queryKey)}" value="${escapeAttr(value)}" placeholder="${escapeAttr(search.placeholder || "VIN или госномер")}" data-vin-search autocomplete="off" required>
+            <input class="pf-vin-search__input" type="text" name="${escapeAttr(queryKey)}" value="${escapeAttr(value)}" placeholder="${escapeAttr(search.placeholder || "Введите VIN или госномер")}" data-vin-search autocomplete="off" required>
             ${
               value
                 ? `<button class="pf-vin-search__clear" type="button" aria-label="Очистить VIN или госномер" data-action="clear-vin-search">${iconCross()}</button>`
