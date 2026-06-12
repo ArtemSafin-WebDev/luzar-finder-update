@@ -26,7 +26,10 @@
   z-index: 0;
   padding: 3.2rem 1.6rem 1.6rem;
   border-radius: 1.2rem;
-  background: linear-gradient(90deg, #f4f8fb 0%, #e6ebf2 42%, #ccd7e5 100%);
+  background: url("../images/parts-finder/desktop-bg.png"), linear-gradient(90deg, #f4f8fb 0%, #e6ebf2 42%, #ccd7e5 100%);
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: contain;
   color: #303236;
   overflow: visible;
 }
