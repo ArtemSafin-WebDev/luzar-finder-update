@@ -841,9 +841,7 @@
     updateFilterOptions(filterId);
   }
 
-  function getActiveTagsHtml() {
-    const tags = getActiveFilterTags();
-
+  function getActiveTagsHtml(tags = getActiveFilterTags()) {
     if (!tags.length) return "";
 
     const mobileReset =
@@ -874,14 +872,31 @@
     `;
   }
 
+  function getDirectActiveFiltersElement(main) {
+    if (!main) return null;
+
+    return Array.from(main.children).find((child) => child.classList.contains("catalog-active")) || null;
+  }
+
   function syncActiveFilters() {
     let activeFilters = root.querySelector("[data-active-filters]");
     const tags = getActiveFilterTags();
     const resetButtons = root.querySelectorAll("[data-reset-filters]");
+    const main = root.querySelector(".catalog-results__main");
+
+    if (!tags.length) {
+      activeFilters?.remove();
+      getDirectActiveFiltersElement(main)?.remove();
+      resetButtons.forEach((reset) => {
+        reset.disabled = true;
+        reset.hidden = reset.classList.contains("catalog-sidebar__mobile-reset");
+      });
+      syncFilterBadge(0);
+      return;
+    }
 
     if (!activeFilters) {
-      const active = root.querySelector(".catalog-active");
-      const main = root.querySelector(".catalog-results__main");
+      const active = getDirectActiveFiltersElement(main);
 
       activeFilters = document.createElement("div");
       activeFilters.setAttribute("data-active-filters", "");
@@ -893,7 +908,7 @@
       }
     }
 
-    if (activeFilters) activeFilters.innerHTML = getActiveTagsHtml();
+    if (activeFilters) activeFilters.innerHTML = getActiveTagsHtml(tags);
     resetButtons.forEach((reset) => {
       reset.disabled = !hasActiveFilters();
       reset.hidden = !hasActiveFilters() && reset.classList.contains("catalog-sidebar__mobile-reset");
