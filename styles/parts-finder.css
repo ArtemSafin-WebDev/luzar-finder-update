@@ -198,6 +198,10 @@
   min-width: 0;
 }
 
+.pf-hidden-inputs {
+  display: none;
+}
+
 .pf-control {
   position: relative;
   flex: 0 0 var(--pf-control-width, 16rem);
