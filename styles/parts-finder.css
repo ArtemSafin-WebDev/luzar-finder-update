@@ -26,10 +26,10 @@
   z-index: 0;
   padding: 3.2rem 1.6rem 1.6rem;
   border-radius: 1.2rem;
-  background: url("../images/parts-finder/desktop-bg.png"), linear-gradient(90deg, #f4f8fb 0%, #e6ebf2 42%, #ccd7e5 100%);
+  background: url("../images/parts-finder/desktop-bg.png");
   background-position: top right;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   color: #303236;
   overflow: visible;
 }
@@ -75,6 +75,7 @@
 }
 
 .pf-tab {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -96,6 +97,53 @@
 .pf-tab[aria-selected="true"] {
   background: #ffffff;
   color: #303236;
+}
+
+.pf-tab[aria-selected="true"]::before {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: '';
+  display: inline-block;
+  left: -10px;
+  bottom: 0;
+  background: url(../images/rounding-white.svg) 0 0 no-repeat;
+  background-size: cover;
+}
+
+.pf-tab[aria-selected="true"]::after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: '';
+  display: inline-block;
+  right: -10px;
+  bottom: 0;
+  background: url(../images/rounding-white.svg) 0 0 no-repeat;
+  background-size: cover;
+  transform: rotate(90deg);
+}
+
+.pf-tab[aria-selected="true"]:first-child::before {
+  display: none;
+}
+
+.pf-tab:last-child::after {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  content: '';
+  display: inline-block;
+  right: -10px;
+  bottom: 0;
+  background: url(../images/rounding.svg) 0 0 no-repeat;
+  background-size: cover;
+  transform: rotate(90deg);
+}
+
+.pf-tab:last-child[aria-selected="true"]::after {
+  background: url(../images/rounding-white.svg) 0 0 no-repeat;
+  background-size: cover;
 }
 
 .pf-tab[disabled] {
